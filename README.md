@@ -9,6 +9,7 @@
 | ジャンル | 資料 | パス |
 | --- | --- | --- |
 | 歴史 | 日本史の流れ図 | `japanese-history/` |
+| 歴史 | 中世の日本史（詳説） | `japanese-history/medieval/` |
 
 ## 構成
 
@@ -16,6 +17,10 @@
 index.html              目次ページ
 japanese-history/       日本史の流れ図
   index.html
+  medieval/             中世の詳説
+    index.html
+tools/                  ふりがなを付けるスクリプトと辞書
+CLAUDE.md               資料作成のルール（文体・構成・ふりがな）
 ```
 
 ## 資料の追加方法

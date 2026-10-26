@@ -53,6 +53,7 @@ a{color:inherit}
 .ghead{display:flex;align-items:baseline;gap:12px;padding:8px 12px;background:var(--gbg);color:var(--c);margin-bottom:16px}
 .ghead h2{font-size:1.35rem}
 .ghead span{font-size:.85rem;color:var(--muted)}
+.ghead .more{margin-left:auto;font-size:.85rem;font-weight:700;white-space:nowrap}
 .era{display:grid;grid-template-columns:96px 1fr;gap:0 20px;scroll-margin-top:16px}
 .spine{border-right:2px solid var(--c);text-align:right;padding-right:14px;position:relative;font-variant-numeric:tabular-nums}
 .spine::after{content:"";position:absolute;right:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
@@ -77,14 +78,14 @@ a{color:inherit}
 <header>
   <div class="label">学び直しのための通史</div>
   <h1>日本史の流れ図</h1>
-  <p class="lead">旧石器時代から令和まで。各時代の要点、主な出来事、そして「なぜ次の時代に移ったのか」を一本の線でつないでいます。</p>
+  <p class="lead">旧石器時代から令和までの各時代について、要点と主な出来事、そして次の時代へ移った理由を、一本の時間軸でつないで示す。</p>
 </header>
 
 <section>
   <div class="label">大きな流れ：誰が国を動かしたか</div>
   <div class="flow" style="margin-top:10px">
     <div class="node g1"><span class="yr">〜12世紀</span><b>原始・古代</b><span class="who">ムラ → 王権 → 天皇と貴族の律令国家</span></div>
-    <div class="node g2"><span class="yr">1185〜1573</span><b>中世</b><span class="who">武士が政権を握り、分権化が進む</span></div>
+    <div class="node g2"><span class="yr">1185〜1573</span><b><a href="medieval/">中世</a></b><span class="who">武士が政権を握り、分権化が進む</span></div>
     <div class="node g3"><span class="yr">1573〜1868</span><b>近世</b><span class="who">天下統一と幕藩体制による安定</span></div>
     <div class="node g4"><span class="yr">1868〜1945</span><b>近代</b><span class="who">中央集権の近代国家と対外膨張</span></div>
     <div class="node g5"><span class="yr">1945〜</span><b>現代</b><span class="who">国民主権の民主国家と経済大国化</span></div>
@@ -143,7 +144,7 @@ a{color:inherit}
 
 <!-- 中世 -->
 <section class="group g2">
-  <div class="ghead"><h2>中世</h2><span>武士の政権と分権の時代</span></div>
+  <div class="ghead"><h2>中世</h2><span>武士の政権と分権の時代</span><a class="more" href="medieval/">詳しく読む →</a></div>
 
   <article class="era" id="kamakura"><div class="spine"><span class="from">1185<br>〜1333</span></div><div class="card">
     <h3>鎌倉<small>最初の武家政権</small></h3>
@@ -224,7 +225,7 @@ a{color:inherit}
   </div></article>
 </section>
 
-<p class="foot">年代は主な通説によります。時代の始まりと終わりには諸説あり（例：鎌倉幕府の成立は1185年説・1192年説など）、ここでは学校教育で広く使われる区切りを採っています。</p>
+<p class="foot">年代は主な通説に従う。時代の始まりと終わりには諸説あるが（例：鎌倉幕府の成立は1185年説・1192年説など）、ここでは学校教育で広く使われる区切りを採る。</p>
 </div>
 </body>
 </html>
