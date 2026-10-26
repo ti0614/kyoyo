@@ -3,17 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="鎌倉幕府の成立から室町幕府の滅亡まで。武士の政権が生まれ、力が分散していく中世を、政治と外交を軸に図解で読む。">
+<meta name="description" content="鎌倉幕府の成立から室町幕府の滅亡まで。武士の政権が生まれ、力が分散していく中世を、政治と外交の流れで読む。">
 <title>中世の日本史</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
-/* Layout: 1カラムの読み物。冒頭に実権の推移バー、以降は章ごとに「本文 → 図解 → 因果の流れ」。末尾に人物カードと次の時代への因果 */
+/* Layout: 本文は「前の章から → 本文 → 因果の流れ → 次の章へ」の一本道。
+   図・人物・年表は .note（details）にまとめ、広い画面では本文右の余白に浮かせ、狭い画面では本文中に折りたたむ */
 :root{
   --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
   --ai:#24476b;            /* 藍：リンク・補助 */
   --c:#7b3b3b; --cbg:#efdcd9; /* 中世の区分色（流れ図の g2 と同じ） */
   --c2:#a8645c; --c3:#c99891; --c4:#ddb9b3;
+  --side:340px; --gap:40px;
   --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
   --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
 }
@@ -25,7 +27,7 @@
   --c:#e3a29a; --cbg:#2f1f1e; --c2:#b9766e; --c3:#8a5650; --c4:#5e3c38; color-scheme:dark}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.85;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
-.wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+.wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
 h1{font-size:2.4rem;font-weight:800}
 h1 small{font-family:var(--body);font-size:1rem;color:var(--muted);font-weight:500;margin-left:10px}
@@ -37,7 +39,7 @@ b{color:var(--c)}
 .crumbs{margin:0;font-size:.85rem;display:flex;gap:16px;flex-wrap:wrap}
 
 /* 問い */
-.question{border-left:4px solid var(--c);background:var(--surface);padding:12px 16px;margin-top:20px}
+.question{border-left:4px solid var(--c);background:var(--surface);padding:12px 16px;margin-top:20px;max-width:46em}
 .question p{font-family:var(--display);font-size:1.15rem;font-weight:600}
 
 /* 実権の推移バー（幅は年数に比例） */
@@ -49,58 +51,108 @@ b{color:var(--c)}
 .band .thin b,.band .thin span{writing-mode:vertical-rl;letter-spacing:.05em}
 .s1{--bg:var(--c4)}.s2{--bg:var(--c3)}.s3{--bg:var(--c);--fg:var(--paper)}.s4{--bg:var(--c2);--fg:var(--paper)}.s5{--bg:var(--c3)}.s6{--bg:var(--c4)}
 .band-note{font-size:.8rem;color:var(--muted);margin-top:6px}
-@media (max-width:640px){.pc-only{display:none}}
 @media (max-width:640px){
   .band{flex-direction:column}
   .band div{flex:none;flex-direction:row;align-items:baseline;gap:10px;border-right:0;border-bottom:1px solid var(--paper)}
   .band .thin b,.band .thin span{writing-mode:horizontal-tb}
+  .pc-only{display:none}
 }
 
-/* 目次 */
-.toc{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
-.toc a{display:flex;gap:10px;align-items:baseline;text-decoration:none;padding:6px 10px;border:1px solid var(--line);background:var(--surface);font-size:.9rem}
-.toc a:hover,.toc a:focus-visible{border-color:var(--c);outline:none}
-.toc .n{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
-.toc .yr{margin-left:auto;font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-@media (max-width:560px){.toc{grid-template-columns:1fr}}
+/* 全体の流れ（目次を兼ねる） */
+.overview{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:0}
+.overview li{position:relative;padding-left:28px}
+.overview li::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--c)}
+.overview li:first-child::before{top:18px}.overview li:last-child::before{bottom:calc(100% - 18px)}
+.overview li::after{content:"";position:absolute;left:3px;top:12px;width:8px;height:8px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+.overview a{display:grid;grid-template-columns:1.4em 13em 1fr auto;gap:0 12px;align-items:baseline;text-decoration:none;padding:6px 10px;border-radius:2px}
+.overview a:hover,.overview a:focus-visible{background:var(--surface);outline:none}
+.overview .n{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+.overview .t{font-family:var(--display);font-weight:600;font-size:1.02rem}
+.overview .d{font-size:.88rem;color:var(--muted)}
+.overview .yr{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:640px){
+  .overview a{grid-template-columns:1.4em 1fr auto}
+  .overview .d{grid-column:2 / 4}
+}
 
 /* 章 */
-.chapter{display:flex;flex-direction:column;gap:16px;scroll-margin-top:16px}
-.chead{border-bottom:2px solid var(--c);padding-bottom:8px;display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:baseline}
+.chapter{display:flow-root;scroll-margin-top:16px}
+.chead{border-bottom:2px solid var(--c);padding-bottom:8px;margin-bottom:16px;display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:baseline}
 .chead .no{font-family:var(--display);font-size:2rem;color:var(--c);line-height:1;grid-row:span 2}
 .chead h2{font-size:1.5rem}
 .chead .meta{font-size:.8rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .tag{font-size:.7rem;font-weight:700;padding:0 6px;border:1px solid currentColor;border-radius:2px}
 .tag.pol{color:var(--c)}.tag.dip{color:var(--ai)}
-.body{display:flex;flex-direction:column;gap:12px}
-.ev{list-style:none;margin:0;padding:10px 14px;display:grid;gap:2px;background:var(--surface);border:1px solid var(--line);font-size:.9rem}
-.ev li{display:grid;grid-template-columns:5.2em 1fr;gap:10px}
+.chapter > p{margin-bottom:14px}
+.from,.next{font-size:.9rem;color:var(--muted)}
+.from{margin-bottom:14px}
+.from::before,.next::before{display:inline-block;margin-right:10px;vertical-align:.1em;line-height:1.6;font-size:.7rem;letter-spacing:.08em;font-weight:700;white-space:nowrap;color:var(--c);border:1px solid var(--c);padding:0 6px;border-radius:2px}
+.from::before{content:"前の章から"}
+.next::before{content:"次の章へ"}
+.next{margin-top:16px}
+.next a{color:var(--ink)}
+
+/* 因果の流れ */
+.chain{list-style:none;margin:20px 0 0;padding:0;display:flex;gap:22px}
+.chain li{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c);padding:8px 10px;font-size:.85rem;line-height:1.6;position:relative}
+.chain li+li::before{content:"▶";position:absolute;left:-17px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--c)}
+.chain li.end{background:var(--cbg)}
+@media (max-width:640px){
+  .chain{flex-direction:column;gap:18px}
+  .chain li+li::before{content:"▼";left:50%;top:-16px;transform:translateX(-50%)}
+}
+
+/* 補足（図・人物・年表）。狭い画面では本文中の折りたたみ */
+.note{margin:0 0 14px;background:var(--surface);border:1px solid var(--line)}
+.note summary{cursor:pointer;list-style:none;display:flex;gap:10px;align-items:baseline;padding:7px 12px;font-size:.85rem;font-weight:500}
+.note summary::-webkit-details-marker{display:none}
+.note summary::after{content:"▸";margin-left:auto;color:var(--muted);transition:transform .15s}
+.note[open] summary::after{transform:rotate(90deg)}
+.note summary:focus-visible{outline:2px solid var(--c);outline-offset:-2px}
+.kind{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--paper);background:var(--k,var(--c));padding:0 6px;border-radius:2px;white-space:nowrap}
+.note.person{--k:var(--ai)}.note.years{--k:var(--muted)}
+.nb{padding:4px 14px 14px;container-type:inline-size}
+.fig-note{font-size:.8rem;color:var(--muted);margin-top:10px;line-height:1.7}
+
+/* 広い画面：補足を本文の右の余白へ。置いた段落の横に並び、重なるときは下へ送る */
+@media (min-width:1180px){
+  .wrap{max-width:calc(780px + var(--side) + var(--gap))}
+  .chapter{padding-right:calc(var(--side) + var(--gap))}
+  .chapter > .chead{margin-right:calc(-1 * (var(--side) + var(--gap)))}
+  .note{float:right;clear:right;width:var(--side);margin:0 calc(-1 * (var(--side) + var(--gap))) 14px 0}
+  .why,.next-era{max-width:780px}
+}
+
+/* 年表 */
+.ev{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:.85rem;line-height:1.65}
+.ev li{display:grid;grid-template-columns:4.4em 1fr;gap:8px}
 .ev .y{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
 
-/* 図の枠 */
-figure{margin:0;background:var(--surface);border:1px solid var(--line);padding:16px}
-figcaption{font-size:.75rem;letter-spacing:.1em;font-weight:700;color:var(--muted);margin-bottom:12px}
-.fig-note{font-size:.82rem;color:var(--muted);margin-top:12px}
+/* 人物 */
+.person .nm{font-family:var(--display);font-weight:600;font-size:1.05rem}
+.person .role small{color:var(--muted);font-weight:500;margin-left:8px;font-variant-numeric:tabular-nums}
+.person .role{font-size:.78rem;color:var(--ai);font-weight:700}
+.person .nb p{font-size:.86rem;line-height:1.7;margin-top:2px}
 
 /* 権力構造図 */
 .org{display:flex;flex-direction:column;align-items:center;gap:0}
-.box{border:1px solid var(--c);background:var(--paper);padding:6px 12px;text-align:center;font-size:.85rem;line-height:1.5;min-width:0}
-.box strong{display:block;font-family:var(--display);font-size:1rem}
-.box small{color:var(--muted);font-size:.75rem;display:block}
+.box{border:1px solid var(--c);background:var(--paper);padding:6px 10px;text-align:center;font-size:.82rem;line-height:1.5;min-width:0}
+.box strong{display:block;font-family:var(--display);font-size:.98rem}
+.box small{color:var(--muted);font-size:.72rem;display:block}
 .box.top{background:var(--c);color:var(--paper);border-color:var(--c)}
 .box.top small{color:inherit;opacity:.85}
 .box.mid{border-width:2px}
-.vline{width:2px;height:16px;background:var(--c)}
-.branches{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;border-top:2px solid var(--c);padding-top:12px;position:relative}
+.vline{width:2px;height:14px;background:var(--c)}
+.branches{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;border-top:2px solid var(--c);padding-top:10px}
 .branch{display:flex;flex-direction:column;gap:6px}
 .branch > .label{text-align:center}
-.branch .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}
-@media (max-width:560px){.branches{grid-template-columns:1fr}}
+.branch .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+@container (max-width:560px){.branches{grid-template-columns:1fr}}
 
 /* 相互関係図（御恩と奉公・朝貢） */
 .duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr);gap:12px;align-items:center}
-.duo .box{padding:12px}
-.arrows{display:flex;flex-direction:column;gap:10px;font-size:.82rem}
+.duo .box{padding:12px 6px}
+.arrows{display:flex;flex-direction:column;gap:10px;font-size:.8rem;line-height:1.6}
 .arr{display:flex;flex-direction:column;gap:2px}
 .arr .line{height:2px;background:var(--c);position:relative}
 .arr.r .line::after,.arr.l .line::before{content:"";position:absolute;top:-5px;border:6px solid transparent}
@@ -109,66 +161,46 @@ figcaption{font-size:.75rem;letter-spacing:.1em;font-weight:700;color:var(--mute
 .arr.l .line{background:var(--ai)}.arr.l .line::before{border-right-color:var(--ai)}
 .arr b{font-size:.85rem}.arr.l b{color:var(--ai)}
 .arr span{color:var(--muted)}
-@media (max-width:560px){.duo{grid-template-columns:minmax(0,.75fr) minmax(0,1.6fr) minmax(0,.75fr);gap:8px}.duo .box{padding:8px 4px}.arrows{font-size:.78rem}}
+@container (max-width:420px){.duo{grid-template-columns:minmax(0,.7fr) minmax(0,1.6fr) minmax(0,.7fr);gap:8px}.duo .box{padding:8px 2px}.arrows{font-size:.76rem}}
 
 /* 比較（承久の乱の前後） */
-.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch}
-.compare > div{border:1px solid var(--line);background:var(--paper);padding:12px;font-size:.88rem}
-.compare h3{font-size:1rem;margin-bottom:6px}
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.compare > div{border:1px solid var(--line);background:var(--paper);padding:10px;font-size:.84rem;line-height:1.7}
+.compare h3{font-size:.98rem;margin-bottom:4px}
 .compare .to{align-self:center;color:var(--c);font-weight:700;border:0;background:none;padding:0}
-.scale{display:flex;height:10px;margin:8px 0;border:1px solid var(--line)}
+.scale{display:flex;height:10px;margin:6px 0;border:1px solid var(--line)}
 .scale i{display:block}
 .scale .k{background:var(--ai)}.scale .b{background:var(--c)}
-.legend{display:flex;gap:12px;font-size:.75rem;color:var(--muted)}
+.legend{display:flex;gap:12px;font-size:.72rem;color:var(--muted);margin-top:8px;flex-wrap:wrap}
 .legend i{display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:-1px}
-@media (max-width:560px){.compare{grid-template-columns:1fr}.compare .to{transform:rotate(90deg);justify-self:center}}
+@container (max-width:420px){.compare{grid-template-columns:1fr}.compare .to{transform:rotate(90deg);justify-self:center}}
 
 /* 四方との関係 */
 .world{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.world div{border:1px solid var(--line);background:var(--paper);padding:10px 12px;font-size:.88rem;border-top:3px solid var(--ai)}
-.world h3{font-size:1rem;margin-bottom:2px}
-@media (max-width:560px){.world{grid-template-columns:1fr}}
+.world div{border:1px solid var(--line);background:var(--paper);padding:8px 10px;font-size:.84rem;line-height:1.7;border-top:3px solid var(--ai)}
+.world h3{font-size:.98rem;margin-bottom:2px}
+@container (max-width:420px){.world{grid-template-columns:1fr}}
 
-/* 因果の流れ */
-.chain{list-style:none;margin:0;padding:0;display:flex;gap:22px}
-.chain li{flex:1 1 0;min-width:0;background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--c);padding:8px 10px;font-size:.85rem;line-height:1.6;position:relative}
-.chain li+li::before{content:"▶";position:absolute;left:-17px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--c)}
-.chain li.end{background:var(--cbg)}
-@media (max-width:640px){
-  .chain{flex-direction:column;gap:18px}
-  .chain li+li::before{content:"▼";left:50%;top:-16px;transform:translateX(-50%)}
-}
 .why{border:1px dashed var(--c);padding:16px}
-
-/* 人物カード */
-.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-top:12px}
-.person{background:var(--surface);border:1px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:4px}
-.person h3{font-size:1.15rem;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.person h3 small{font-family:var(--body);font-size:.75rem;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
-.person .role{font-size:.78rem;color:var(--c);font-weight:700}
-.person p{font-size:.88rem;line-height:1.7}
-.person .ch{font-size:.75rem;color:var(--muted);margin-top:auto}
-
 .next-era{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem}
 .next-era a{text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:8px 14px}
 .next-era a:hover,.next-era a:focus-visible{border-color:var(--c);outline:none}
 .foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
-/* ふりがな（各章の初出のみ）と表示切り替え */
-/* 読みが長くても漢字の間が空かないよう、rt は語の中央上に重ねて置く */
+
+/* ふりがな（各章の本文・各補足で初出のみ）。読みが長くても漢字の間が空かないよう、rt は語の中央上に重ねて置く */
 ruby{position:relative;display:inline}
 rt{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);white-space:nowrap;line-height:1;margin-bottom:.1em;font-family:var(--body);font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:0;text-indent:0}
 b rt{color:var(--c);opacity:.8}
 .box.top rt{color:inherit;opacity:.85}
 .no-ruby rt{display:none}
 /* 行間の狭い図・カードでは、ふりがなを含む行だけ行間を広げて上の行に重ならないようにする */
-:root:not(.no-ruby) .wrap :is(p,li,span,small,strong,figcaption,h3):has(> ruby){line-height:2.2}
-:root:not(.no-ruby) .wrap .body > p{line-height:1.85}
+:root:not(.no-ruby) .wrap :is(p,li,span,small,strong,h3,summary):has(> ruby){line-height:2.2}
+:root:not(.no-ruby) .wrap .chapter > p{line-height:1.85}
 .furi{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:10;
   font:inherit;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;
   padding:6px 14px;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
 .furi span{color:var(--c);margin-left:6px}
 .furi:hover,.furi:focus-visible{border-color:var(--c);outline:none}
-@media print{.furi{display:none}}
 </style>
 </head>
 <body>
@@ -193,40 +225,50 @@ b rt{color:var(--c);opacity:.8}
     <div class="s6" style="--y:106"><b>戦国大名</b><span>1467–1573</span></div>
   </div>
   <p class="band-note"><span class="pc-only">幅は年数に比例。</span>中央の権力が強かったのは前半の一部と義満の頃で、時代が下るほど地方に力が移っていきます。</p>
-  <ol class="toc">
-    <li><a href="#c1"><span class="n">1</span>鎌倉幕府の成立<span class="yr">1180–1199</span></a></li>
-    <li><a href="#c2"><span class="n">2</span>承久の乱と執権政治<span class="yr">1199–1268</span></a></li>
-    <li><a href="#c3"><span class="n">3</span>元寇<span class="yr">1268–1297</span></a></li>
-    <li><a href="#c4"><span class="n">4</span>鎌倉幕府の滅亡と建武の新政<span class="yr">1297–1336</span></a></li>
-    <li><a href="#c5"><span class="n">5</span>南北朝の動乱<span class="yr">1336–1392</span></a></li>
-    <li><a href="#c6"><span class="n">6</span>足利義満と東アジア<span class="yr">1368–1428</span></a></li>
-    <li><a href="#c7"><span class="n">7</span>幕府の動揺と応仁の乱<span class="yr">1428–1477</span></a></li>
-    <li><a href="#c8"><span class="n">8</span>戦国時代<span class="yr">1477–1573</span></a></li>
+</section>
+
+<section>
+  <div class="label">中世の流れ（各章へ移動できます）</div>
+  <ol class="overview">
+    <li><a href="#c1"><span class="n">1</span><span class="t">鎌倉幕府の成立</span><span class="d"><ruby>頼朝<rt>よりとも</rt></ruby>が東国の武士を組織し、初めての武士の政権ができる</span><span class="yr">1180–1199</span></a></li>
+    <li><a href="#c2"><span class="n">2</span><span class="t"><ruby>承久の乱<rt>じょうきゅうのらん</rt></ruby>と<ruby>執権<rt>しっけん</rt></ruby>政治</span><span class="d">朝廷との戦いに勝ち、北条氏が実権を握って幕府が固まる</span><span class="yr">1199–1268</span></a></li>
+    <li><a href="#c3"><span class="n">3</span><span class="t">元寇</span><span class="d">モンゴルの襲来は退けたが、恩賞が出せず<ruby>御家人<rt>ごけにん</rt></ruby>が困窮する</span><span class="yr">1268–1297</span></a></li>
+    <li><a href="#c4"><span class="n">4</span><span class="t">幕府の滅亡と<ruby>建武の新政<rt>けんむのしんせい</rt></ruby></span><span class="d">不満が倒幕に向かうが、天皇の新政は武士の支持を失う</span><span class="yr">1297–1336</span></a></li>
+    <li><a href="#c5"><span class="n">5</span><span class="t">南北朝の動乱</span><span class="d">2つの朝廷が争う60年のあいだに、<ruby>守護<rt>しゅご</rt></ruby>が力をつける</span><span class="yr">1336–1392</span></a></li>
+    <li><a href="#c6"><span class="n">6</span><span class="t"><ruby>足利義満<rt>あしかがよしみつ</rt></ruby>と東アジア</span><span class="d">南北朝を統一し、明と国交を結んで幕府が最盛期を迎える</span><span class="yr">1368–1428</span></a></li>
+    <li><a href="#c7"><span class="n">7</span><span class="t">幕府の動揺と<ruby>応仁の乱<rt>おうにんのらん</rt></ruby></span><span class="d">将軍の権威が崩れ、守護どうしの大乱で中央の力が失われる</span><span class="yr">1428–1477</span></a></li>
+    <li><a href="#c8"><span class="n">8</span><span class="t">戦国時代</span><span class="d">実力で国を治める戦国大名が争い、やがて統一へ向かう</span><span class="yr">1477–1573</span></a></li>
   </ol>
 </section>
 
 <!-- 1 -->
 <section class="chapter" id="c1">
   <div class="chead"><span class="no">1</span><h2>鎌倉幕府の成立</h2><div class="meta">1180〜1199<span class="tag pol">政治</span></div></div>
-  <div class="body">
-    <p>平氏の政権に不満を持つ武士たちが各地で立ち上がる中、伊豆に流されていた<b><ruby>源頼朝<rt>みなもとのよりとも</rt></ruby></b>は1180年に挙兵し、鎌倉を拠点に東国の武士をまとめました。頼朝は自ら京都へは上らず、弟の<ruby>義経<rt>よしつね</rt></ruby>らに平氏を追わせながら、鎌倉で武士を組織することに力を注ぎます。</p>
-    <p>1185年に平氏が滅ぶと、頼朝は朝廷に迫って、国ごとに<b><ruby>守護<rt>しゅご</rt></ruby></b>、<ruby>荘園<rt>しょうえん</rt></ruby>や<ruby>公領<rt>こうりょう</rt></ruby>ごとに<b><ruby>地頭<rt>じとう</rt></ruby></b>を置く権利を認めさせました。これで頼朝の家来（<b><ruby>御家人<rt>ごけにん</rt></ruby></b>）が全国の治安と年貢の取り立てに関わるようになります。教科書でこの年を幕府の成立とすることが多いのはこのためです。1192年には<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>に任じられました。</p>
-    <p>ただし、朝廷がなくなったわけではありません。京都には天皇・<ruby>上皇<rt>じょうこう</rt></ruby>と貴族がいて、<ruby>国司<rt>こくし</rt></ruby>や荘園領主として西日本を中心に支配を続けていました。鎌倉時代の前半は、<b>朝廷と幕府が並び立つ二元的な支配</b>だったのです。</p>
-  </div>
-  <figure>
-    <figcaption>図　<ruby>御恩<rt>ごおん</rt></ruby>と<ruby>奉公<rt>ほうこう</rt></ruby>：土地を仲立ちにした主従関係</figcaption>
+  <p class="from">平安時代の末、朝廷の争いを武力で決めた平氏が政権を握ったが、各地の武士や貴族の反発が強まっていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1180〜1199</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1180</span><span><ruby>頼朝<rt>よりとも</rt></ruby>が伊豆で挙兵、鎌倉に入る（<ruby>侍所<rt>さむらいどころ</rt></ruby>を設置）</span></li>
+    <li><span class="y">1185</span><span><ruby>壇ノ浦<rt>だんのうら</rt></ruby>の戦いで平氏滅亡／<ruby>守護<rt>しゅご</rt></ruby>・<ruby>地頭<rt>じとう</rt></ruby>の設置を認めさせる</span></li>
+    <li><span class="y">1189</span><span><ruby>奥州藤原氏<rt>おうしゅうふじわらし</rt></ruby>を滅ぼす</span></li>
+    <li><span class="y">1192</span><span>頼朝が<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>に</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>源頼朝<rt>みなもとのよりとも</rt></ruby></span></summary><div class="nb">
+    <div class="role">鎌倉幕府を開く<small>1147–1199</small></div>
+    <p>東国の武士を<ruby>御恩<rt>ごおん</rt></ruby>と<ruby>奉公<rt>ほうこう</rt></ruby>でまとめ、<ruby>守護<rt>しゅご</rt></ruby>・<ruby>地頭<rt>じとう</rt></ruby>の設置を朝廷に認めさせた。武士の政権の型をつくった人物。</p>
+  </div></details>
+  <p>平氏の政権に不満を持つ武士たちが各地で立ち上がる中、伊豆に流されていた<b><ruby>源頼朝<rt>みなもとのよりとも</rt></ruby></b>は1180年に挙兵し、鎌倉を拠点に東国の武士をまとめました。頼朝は自ら京都へは上らず、弟の<ruby>義経<rt>よしつね</rt></ruby>らに平氏を追わせながら、鎌倉で武士を組織することに力を注ぎます。</p>
+  <details class="note"><summary><span class="kind">図</span>御恩と奉公</summary><div class="nb">
     <div class="duo">
       <div class="box top"><strong>将軍</strong><small><ruby>鎌倉殿<rt>かまくらどの</rt></ruby></small></div>
       <div class="arrows">
-        <div class="arr r"><b>御恩</b><div class="line"></div><span>先祖からの領地を保証する（<ruby>本領安堵<rt>ほんりょうあんど</rt></ruby>）／手柄に応じて新しい領地を与える（<ruby>新恩給与<rt>しんおんきゅうよ</rt></ruby>）</span></div>
-        <div class="arr l"><b>奉公</b><div class="line"></div><span>戦いに出る／京都や鎌倉の警備を務める（<ruby>大番役<rt>おおばんやく</rt></ruby>）</span></div>
+        <div class="arr r"><b><ruby>御恩<rt>ごおん</rt></ruby></b><div class="line"></div><span>先祖からの領地を保証する（<ruby>本領安堵<rt>ほんりょうあんど</rt></ruby>）／手柄に応じて新しい領地を与える（<ruby>新恩給与<rt>しんおんきゅうよ</rt></ruby>）</span></div>
+        <div class="arr l"><b><ruby>奉公<rt>ほうこう</rt></ruby></b><div class="line"></div><span>戦いに出る／京都や鎌倉の警備を務める（<ruby>大番役<rt>おおばんやく</rt></ruby>）</span></div>
       </div>
-      <div class="box"><strong>御家人</strong><small>将軍に仕える武士</small></div>
+      <div class="box"><strong><ruby>御家人<rt>ごけにん</rt></ruby></strong><small>将軍に仕える武士</small></div>
     </div>
-    <p class="fig-note">この関係は「与える土地があること」が前提です。この前提が、のちに元寇で崩れます（3章）。</p>
-  </figure>
-  <figure>
-    <figcaption>図　鎌倉幕府のしくみ（1225年頃以降）</figcaption>
+    <p class="fig-note">土地を仲立ちにした主従関係。「与える土地があること」が前提で、この前提がのちに元寇で崩れます（3章）。</p>
+  </div></details>
+  <p>1185年に平氏が滅ぶと、頼朝は朝廷に迫って、国ごとに<b><ruby>守護<rt>しゅご</rt></ruby></b>、<ruby>荘園<rt>しょうえん</rt></ruby>や<ruby>公領<rt>こうりょう</rt></ruby>ごとに<b><ruby>地頭<rt>じとう</rt></ruby></b>を置く権利を認めさせました。これで頼朝の家来（<b><ruby>御家人<rt>ごけにん</rt></ruby></b>）が全国の治安と年貢の取り立てに関わるようになります。教科書でこの年を幕府の成立とすることが多いのはこのためです。1192年には<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>に任じられました。</p>
+  <details class="note"><summary><span class="kind">図</span>鎌倉幕府のしくみ</summary><div class="nb">
     <div class="org">
       <div class="box top"><strong>将軍</strong><small>3代で源氏が絶え、以後は京都から迎えた名目上の将軍</small></div>
       <div class="vline"></div>
@@ -234,38 +276,47 @@ b rt{color:var(--c);opacity:.8}
       <div class="vline"></div>
       <div class="branches">
         <div class="branch"><div class="label">中央（鎌倉）</div><div class="row">
-          <div class="box"><strong><ruby>侍所<rt>さむらいどころ</rt></ruby></strong><small>御家人の統率・軍事</small></div>
+          <div class="box"><strong><ruby>侍所<rt>さむらいどころ</rt></ruby></strong><small><ruby>御家人<rt>ごけにん</rt></ruby>の統率・軍事</small></div>
           <div class="box"><strong><ruby>政所<rt>まんどころ</rt></ruby></strong><small>財政・一般の政務</small></div>
           <div class="box"><strong><ruby>問注所<rt>もんちゅうじょ</rt></ruby></strong><small>裁判</small></div>
         </div></div>
         <div class="branch"><div class="label">地方</div><div class="row">
           <div class="box"><strong><ruby>六波羅探題<rt>ろくはらたんだい</rt></ruby></strong><small>京都で朝廷を監視（1221〜）</small></div>
-          <div class="box"><strong>守護</strong><small>国ごと／軍事・警察</small></div>
-          <div class="box"><strong>地頭</strong><small>荘園・公領ごと／年貢の徴収</small></div>
+          <div class="box"><strong><ruby>守護<rt>しゅご</rt></ruby></strong><small>国ごと／軍事・警察</small></div>
+          <div class="box"><strong><ruby>地頭<rt>じとう</rt></ruby></strong><small><ruby>荘園<rt>しょうえん</rt></ruby>・<ruby>公領<rt>こうりょう</rt></ruby>ごと／年貢の徴収</small></div>
         </div></div>
       </div>
     </div>
-    <p class="fig-note">同じ土地に、朝廷側の国司・荘園領主と、幕府側の守護・地頭が重なって存在していました。</p>
-  </figure>
-  <ul class="ev">
-    <li><span class="y">1180</span><span>頼朝が伊豆で挙兵、鎌倉に入る（侍所を設置）</span></li>
-    <li><span class="y">1185</span><span><ruby>壇ノ浦<rt>だんのうら</rt></ruby>の戦いで平氏滅亡／守護・地頭の設置を認めさせる</span></li>
-    <li><span class="y">1189</span><span><ruby>奥州藤原氏<rt>おうしゅうふじわらし</rt></ruby>を滅ぼす</span></li>
-    <li><span class="y">1192</span><span>頼朝が征夷大将軍に</span></li>
-  </ul>
+    <p class="fig-note">1225年頃以降の形。同じ土地に、朝廷側の<ruby>国司<rt>こくし</rt></ruby>・荘園領主と、幕府側の守護・地頭が重なって存在していました。</p>
+  </div></details>
+  <p>ただし、朝廷がなくなったわけではありません。京都には天皇・<ruby>上皇<rt>じょうこう</rt></ruby>と貴族がいて、<ruby>国司<rt>こくし</rt></ruby>や荘園領主として西日本を中心に支配を続けていました。鎌倉時代の前半は、<b>朝廷と幕府が並び立つ二元的な支配</b>だったのです。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>平氏の政権に武士の不満が高まる</li>
+    <li>頼朝が鎌倉で東国の武士を組織する</li>
+    <li>平氏を滅ぼし、守護・地頭を全国に置く</li>
+    <li class="end">朝廷と並び立つ、初めての武士の政権ができる</li>
+  </ol>
+  <p class="next">幕府は頼朝と御家人の個人的な結びつきに支えられていた。その頼朝が亡くなると、主導権争いが始まる。<a href="#c2">→ 2章</a></p>
 </section>
 
 <!-- 2 -->
 <section class="chapter" id="c2">
   <div class="chead"><span class="no">2</span><h2><ruby>承久の乱<rt>じょうきゅうのらん</rt></ruby>と<ruby>執権<rt>しっけん</rt></ruby>政治</h2><div class="meta">1199〜1268<span class="tag pol">政治</span></div></div>
-  <div class="body">
-    <p>1199年に<ruby>頼朝<rt>よりとも</rt></ruby>が亡くなると、有力な<ruby>御家人<rt>ごけにん</rt></ruby>どうしの争いが続きます。その中で頼朝の妻<b><ruby>北条政子<rt>ほうじょうまさこ</rt></ruby></b>の実家である北条氏が、<b>執権</b>として実権を握りました。1219年に3代将軍の<ruby>源実朝<rt>みなもとのさねとも</rt></ruby>が暗殺されて源氏の将軍が絶えると、幕府は京都の貴族の子を名目上の将軍として迎えます。</p>
-    <p>これを幕府を倒す好機と見たのが<b><ruby>後鳥羽上皇<rt>ごとばじょうこう</rt></ruby></b>です。1221年、<ruby>上皇<rt>じょうこう</rt></ruby>は<ruby>北条義時<rt>ほうじょうよしとき</rt></ruby>を討つよう命令を出しました（<b>承久の乱</b>）。朝廷の命令に御家人が従うかが焦点でしたが、政子が頼朝の恩を説いて御家人を結束させたと伝えられ、幕府軍はわずか1か月ほどで京都を制圧します。</p>
-    <p>勝った幕府は3人の上皇を流罪にし、天皇を退位させ、上皇方の領地3000か所あまりを取り上げて御家人に分け与えました。京都には<b><ruby>六波羅探題<rt>ろくはらたんだい</rt></ruby></b>を置いて朝廷を見張ります。こうして力関係は逆転し、幕府の支配は西日本にも広がりました。</p>
-    <p>3代執権の<b><ruby>北条泰時<rt>ほうじょうやすとき</rt></ruby></b>は、執権を補佐する<ruby>連署<rt>れんしょ</rt></ruby>と、有力御家人による<ruby>評定衆<rt>ひょうじょうしゅう</rt></ruby>を置き、話し合いで政治を進める仕組みを整えました。1232年には武士のための初めての法律である<b><ruby>御成敗式目<rt>ごせいばいしきもく</rt></ruby></b>を定め、土地争いを裁く基準をはっきりさせます。</p>
-  </div>
-  <figure>
-    <figcaption>図　承久の乱の前と後：朝廷と幕府の力関係</figcaption>
+  <p class="from"><ruby>頼朝<rt>よりとも</rt></ruby>のつくった幕府は、まだ東国中心の政権で、朝廷とは並び立つ関係だった。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1199〜1268</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1203</span><span><ruby>北条時政<rt>ほうじょうときまさ</rt></ruby>が実権を握る（<ruby>執権<rt>しっけん</rt></ruby>のはじまり）</span></li>
+    <li><span class="y">1219</span><span><ruby>源実朝<rt>みなもとのさねとも</rt></ruby>が暗殺され、源氏の将軍が絶える</span></li>
+    <li><span class="y">1221</span><span><ruby>承久の乱<rt>じょうきゅうのらん</rt></ruby>／<ruby>六波羅探題<rt>ろくはらたんだい</rt></ruby>を設置</span></li>
+    <li><span class="y">1225</span><span><ruby>連署<rt>れんしょ</rt></ruby>・<ruby>評定衆<rt>ひょうじょうしゅう</rt></ruby>を設置</span></li>
+    <li><span class="y">1232</span><span><ruby>御成敗式目<rt>ごせいばいしきもく</rt></ruby>を制定</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>北条政子<rt>ほうじょうまさこ</rt></ruby></span></summary><div class="nb">
+    <div class="role"><ruby>頼朝<rt>よりとも</rt></ruby>の妻・「<ruby>尼将軍<rt>あましょうぐん</rt></ruby>」<small>1157–1225</small></div>
+    <p>頼朝の死後、実家の北条氏とともに幕府を支えた。<ruby>承久の乱<rt>じょうきゅうのらん</rt></ruby>では<ruby>御家人<rt>ごけにん</rt></ruby>に頼朝の恩を説き、結束させたと伝わる。</p>
+  </div></details>
+  <p>1199年に頼朝が亡くなると、有力な<ruby>御家人<rt>ごけにん</rt></ruby>どうしの争いが続きます。その中で頼朝の妻<b><ruby>北条政子<rt>ほうじょうまさこ</rt></ruby></b>の実家である北条氏が、<b>執権</b>として実権を握りました。1219年に3代将軍の<ruby>源実朝<rt>みなもとのさねとも</rt></ruby>が暗殺されて源氏の将軍が絶えると、幕府は京都の貴族の子を名目上の将軍として迎えます。</p>
+  <p>これを幕府を倒す好機と見たのが<b><ruby>後鳥羽上皇<rt>ごとばじょうこう</rt></ruby></b>です。1221年、<ruby>上皇<rt>じょうこう</rt></ruby>は<ruby>北条義時<rt>ほうじょうよしとき</rt></ruby>を討つよう命令を出しました（<b>承久の乱</b>）。朝廷の命令に御家人が従うかが焦点でしたが、政子が頼朝の恩を説いて御家人を結束させたと伝えられ、幕府軍はわずか1か月ほどで京都を制圧します。</p>
+  <details class="note"><summary><span class="kind">図</span>承久の乱の前と後</summary><div class="nb">
     <div class="compare">
       <div><h3>乱の前</h3>
         <div class="scale" aria-hidden="true"><i class="k" style="width:55%"></i><i class="b" style="width:45%"></i></div>
@@ -273,34 +324,44 @@ b rt{color:var(--c);opacity:.8}
       <div class="to" aria-hidden="true">▶</div>
       <div><h3>乱の後</h3>
         <div class="scale" aria-hidden="true"><i class="k" style="width:25%"></i><i class="b" style="width:75%"></i></div>
-        <p>幕府が皇位の継承にも口を出すようになる。西日本にも東国の御家人が<ruby>地頭<rt>じとう</rt></ruby>として入る。</p></div>
+        <p>幕府が皇位の継承にも口を出すようになる。西日本にも東国の<ruby>御家人<rt>ごけにん</rt></ruby>が<ruby>地頭<rt>じとう</rt></ruby>として入る。</p></div>
     </div>
-    <div class="legend" style="margin-top:10px"><span><i style="background:var(--ai)"></i>朝廷</span><span><i style="background:var(--c)"></i>幕府</span><span>（目安のイメージ）</span></div>
-  </figure>
+    <div class="legend"><span><i style="background:var(--ai)"></i>朝廷</span><span><i style="background:var(--c)"></i>幕府</span><span>（力関係の目安）</span></div>
+  </div></details>
+  <p>勝った幕府は3人の上皇を流罪にし、天皇を退位させ、上皇方の領地3000か所あまりを取り上げて御家人に分け与えました。京都には<b><ruby>六波羅探題<rt>ろくはらたんだい</rt></ruby></b>を置いて朝廷を見張ります。こうして力関係は逆転し、幕府の支配は西日本にも広がりました。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>北条泰時<rt>ほうじょうやすとき</rt></ruby></span></summary><div class="nb">
+    <div class="role">3代<ruby>執権<rt>しっけん</rt></ruby><small>1183–1242</small></div>
+    <p><ruby>連署<rt>れんしょ</rt></ruby>・<ruby>評定衆<rt>ひょうじょうしゅう</rt></ruby>を置いて話し合いによる政治を整え、武士の法である<ruby>御成敗式目<rt>ごせいばいしきもく</rt></ruby>を定めた。</p>
+  </div></details>
+  <p>3代執権の<b><ruby>北条泰時<rt>ほうじょうやすとき</rt></ruby></b>は、執権を補佐する<ruby>連署<rt>れんしょ</rt></ruby>と、有力御家人による<ruby>評定衆<rt>ひょうじょうしゅう</rt></ruby>を置き、話し合いで政治を進める仕組みを整えました。1232年には武士のための初めての法律である<b><ruby>御成敗式目<rt>ごせいばいしきもく</rt></ruby></b>を定め、土地争いを裁く基準をはっきりさせます。</p>
   <ol class="chain" aria-label="因果の流れ">
     <li>源氏の将軍が3代で絶える</li>
     <li>上皇が幕府を倒す好機とみて挙兵</li>
     <li>御家人が幕府側について圧勝</li>
     <li class="end">幕府が朝廷より優位に。北条氏の執権政治が固まる</li>
   </ol>
-  <ul class="ev">
-    <li><span class="y">1203</span><span><ruby>北条時政<rt>ほうじょうときまさ</rt></ruby>が実権を握る（執権のはじまり）</span></li>
-    <li><span class="y">1219</span><span>源実朝が暗殺され、源氏の将軍が絶える</span></li>
-    <li><span class="y">1221</span><span>承久の乱／六波羅探題を設置</span></li>
-    <li><span class="y">1225</span><span>連署・評定衆を設置</span></li>
-    <li><span class="y">1232</span><span>御成敗式目を制定</span></li>
-  </ul>
+  <p class="next">国内を固めた幕府に、初めて海の向こうから大きな脅威が迫る。<a href="#c3">→ 3章</a></p>
 </section>
 
 <!-- 3 -->
 <section class="chapter" id="c3">
   <div class="chead"><span class="no">3</span><h2>元寇</h2><div class="meta">1268〜1297<span class="tag dip">外交</span><span class="tag pol">政治</span></div></div>
-  <div class="body">
-    <p>13世紀、モンゴル帝国はユーラシア大陸の大部分を支配していました。中国を治めるため国号を<b>元</b>とした皇帝<b>フビライ</b>は、朝鮮半島の<ruby>高麗<rt>こうらい</rt></ruby>を従えたあと、日本にも従うよう国書を送ってきます。若い<ruby>執権<rt>しっけん</rt></ruby><b><ruby>北条時宗<rt>ほうじょうときむね</rt></ruby></b>はこれを拒みました。</p>
-    <p>1274年、元と高麗の軍が対馬・<ruby>壱岐<rt>いき</rt></ruby>を経て博多湾に上陸します（<b><ruby>文永の役<rt>ぶんえいのえき</rt></ruby></b>）。集団で戦う戦法や火薬を使った武器に<ruby>御家人<rt>ごけにん</rt></ruby>は苦戦しましたが、元軍は一日で船に引き揚げ、まもなく撤退しました。幕府は博多湾の沿岸に石の<ruby>防塁<rt>ぼうるい</rt></ruby>を築き、九州の御家人に警備を命じて次に備えます。1281年には、滅ぼされた<ruby>南宋<rt>なんそう</rt></ruby>の兵も加えた大軍が再び攻めてきましたが（<b><ruby>弘安の役<rt>こうあんのえき</rt></ruby></b>）、防塁と御家人の抵抗で上陸を阻まれ、暴風雨で大きな損害を受けて敗退しました。</p>
-    <p>勝ったとはいえ、これは外国から国を守る戦いでした。敵の土地を奪ったわけではないので、<b>御家人に分け与える新しい領地がありません</b>。御家人は戦いの費用を自分で負担したうえ、3度目の襲来に備えて警備を続けなければなりませんでした。さらに、領地を子どもたちで分けて相続する習慣のために、一人あたりの領地はもともと小さくなっていました。</p>
-    <p>幕府は1297年に<b><ruby>永仁の徳政令<rt>えいにんのとくせいれい</rt></ruby></b>を出し、御家人が手放した土地をただで取り戻せるようにしましたが、効果は一時的でした。一方で北条氏の本家（<b><ruby>得宗<rt>とくそう</rt></ruby></b>）とその家臣への権力集中が進み、ほかの御家人の不満は高まっていきます。</p>
-  </div>
+  <p class="from"><ruby>承久の乱<rt>じょうきゅうのらん</rt></ruby>に勝ち、<ruby>執権<rt>しっけん</rt></ruby>政治で安定した幕府。その頃ユーラシアでは、モンゴル帝国が急速に広がっていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1268〜1297</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1268</span><span>フビライの国書が届く。<ruby>時宗<rt>ときむね</rt></ruby>が<ruby>執権<rt>しっけん</rt></ruby>に</span></li>
+    <li><span class="y">1274</span><span><ruby>文永の役<rt>ぶんえいのえき</rt></ruby></span></li>
+    <li><span class="y">1276</span><span>博多湾に<ruby>防塁<rt>ぼうるい</rt></ruby>を築き始める</span></li>
+    <li><span class="y">1281</span><span><ruby>弘安の役<rt>こうあんのえき</rt></ruby></span></li>
+    <li><span class="y">1297</span><span><ruby>永仁の徳政令<rt>えいにんのとくせいれい</rt></ruby></span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>北条時宗<rt>ほうじょうときむね</rt></ruby></span></summary><div class="nb">
+    <div class="role">8代<ruby>執権<rt>しっけん</rt></ruby><small>1251–1284</small></div>
+    <p>フビライの国書を拒み、2度の元寇を退けた。ただし防衛の負担は<ruby>御家人<rt>ごけにん</rt></ruby>の困窮を招いた。</p>
+  </div></details>
+  <p>13世紀、モンゴル帝国はユーラシア大陸の大部分を支配していました。中国を治めるため国号を<b>元</b>とした皇帝<b>フビライ</b>は、朝鮮半島の<ruby>高麗<rt>こうらい</rt></ruby>を従えたあと、日本にも従うよう国書を送ってきます。若い執権<b><ruby>北条時宗<rt>ほうじょうときむね</rt></ruby></b>はこれを拒みました。</p>
+  <p>1274年、元と高麗の軍が対馬・<ruby>壱岐<rt>いき</rt></ruby>を経て博多湾に上陸します（<b><ruby>文永の役<rt>ぶんえいのえき</rt></ruby></b>）。集団で戦う戦法や火薬を使った武器に<ruby>御家人<rt>ごけにん</rt></ruby>は苦戦しましたが、元軍は一日で船に引き揚げ、まもなく撤退しました。幕府は博多湾の沿岸に石の<ruby>防塁<rt>ぼうるい</rt></ruby>を築き、九州の御家人に警備を命じて次に備えます。1281年には、滅ぼされた<ruby>南宋<rt>なんそう</rt></ruby>の兵も加えた大軍が再び攻めてきましたが（<b><ruby>弘安の役<rt>こうあんのえき</rt></ruby></b>）、防塁と御家人の抵抗で上陸を阻まれ、暴風雨で大きな損害を受けて敗退しました。</p>
+  <p>勝ったとはいえ、これは外国から国を守る戦いでした。敵の土地を奪ったわけではないので、<b>御家人に分け与える新しい領地がありません</b>。御家人は戦いの費用を自分で負担したうえ、3度目の襲来に備えて警備を続けなければなりませんでした。さらに、領地を子どもたちで分けて相続する習慣のために、一人あたりの領地はもともと小さくなっていました。</p>
+  <p>幕府は1297年に<b><ruby>永仁の徳政令<rt>えいにんのとくせいれい</rt></ruby></b>を出し、御家人が手放した土地をただで取り戻せるようにしましたが、効果は一時的でした。一方で北条氏の本家（<b><ruby>得宗<rt>とくそう</rt></ruby></b>）とその家臣への権力集中が進み、ほかの御家人の不満は高まっていきます。</p>
   <ol class="chain" aria-label="因果の流れ">
     <li>防衛戦なので、新しい領地が手に入らない</li>
     <li>恩賞がほとんど出ず、戦費も自分持ち</li>
@@ -308,23 +369,31 @@ b rt{color:var(--c);opacity:.8}
     <li>北条氏本家（得宗）が権力を独占</li>
     <li class="end">「<ruby>御恩<rt>ごおん</rt></ruby>と<ruby>奉公<rt>ほうこう</rt></ruby>」がゆらぎ、幕府への不満が広がる</li>
   </ol>
-  <ul class="ev">
-    <li><span class="y">1268</span><span>フビライの国書が届く。時宗が執権に</span></li>
-    <li><span class="y">1274</span><span>文永の役</span></li>
-    <li><span class="y">1276</span><span>博多湾に防塁を築き始める</span></li>
-    <li><span class="y">1281</span><span>弘安の役</span></li>
-    <li><span class="y">1297</span><span>永仁の徳政令</span></li>
-  </ul>
+  <p class="next">御家人の不満は、皇位をめぐって幕府と対立する天皇の動きと結びついていく。<a href="#c4">→ 4章</a></p>
 </section>
 
 <!-- 4 -->
 <section class="chapter" id="c4">
   <div class="chead"><span class="no">4</span><h2>鎌倉幕府の滅亡と<ruby>建武の新政<rt>けんむのしんせい</rt></ruby></h2><div class="meta">1297〜1336<span class="tag pol">政治</span></div></div>
-  <div class="body">
-    <p>この頃、天皇家は2つの系統（<ruby>持明院統<rt>じみょういんとう</rt></ruby>と<ruby>大覚寺統<rt>だいかくじとう</rt></ruby>）に分かれて皇位を争っており、幕府がその調整役になっていました。大覚寺統の<b><ruby>後醍醐天皇<rt>ごだいごてんのう</rt></ruby></b>は、天皇自らが政治を行うことを目指し、幕府を倒そうと2度計画しますが、いずれも失敗して<ruby>隠岐<rt>おき</rt></ruby>に流されます。</p>
-    <p>それでも、幕府に不満を持つ武士や、<ruby>楠木正成<rt>くすのきまさしげ</rt></ruby>のような新しい勢力が各地で立ち上がりました。1333年、幕府の有力<ruby>御家人<rt>ごけにん</rt></ruby>だった<b><ruby>足利尊氏<rt>あしかがたかうじ</rt></ruby></b>（当時は高氏）が幕府を裏切って京都の<ruby>六波羅探題<rt>ろくはらたんだい</rt></ruby>を攻め落とし、<b><ruby>新田義貞<rt>にったよしさだ</rt></ruby></b>が鎌倉を攻めて北条氏を滅ぼします。約150年続いた鎌倉幕府はこうして倒れました。</p>
-    <p>京都に戻った後醍醐天皇は<b>建武の新政</b>を始めます。しかし、土地の権利を認めるには天皇の命令書が必要とされたため、手続きが滞って混乱しました。恩賞も<ruby>公家<rt>くげ</rt></ruby>に厚く武士に薄いと受け取られ、武士の政治を望む声は尊氏に集まります。1335年に反乱をしずめるため関東へ向かった尊氏は、そのまま新政に背き、新政はわずか2年あまりで崩れました。</p>
-  </div>
+  <p class="from">元寇のあと、<ruby>御家人<rt>ごけにん</rt></ruby>は困窮し、権力を独占する北条氏本家への反発が強まっていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1297〜1336</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1324</span><span><ruby>正中の変<rt>しょうちゅうのへん</rt></ruby>（最初の倒幕計画が発覚）</span></li>
+    <li><span class="y">1331</span><span><ruby>元弘の変<rt>げんこうのへん</rt></ruby>（2度目の計画、天皇は<ruby>隠岐<rt>おき</rt></ruby>へ）</span></li>
+    <li><span class="y">1333</span><span>鎌倉幕府の滅亡</span></li>
+    <li><span class="y">1334</span><span><ruby>建武の新政<rt>けんむのしんせい</rt></ruby>が始まる</span></li>
+    <li><span class="y">1335</span><span><ruby>中先代の乱<rt>なかせんだいのらん</rt></ruby>。<ruby>尊氏<rt>たかうじ</rt></ruby>が新政に背く</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>後醍醐天皇<rt>ごだいごてんのう</rt></ruby></span></summary><div class="nb">
+    <div class="role">倒幕と<ruby>建武の新政<rt>けんむのしんせい</rt></ruby><small>1288–1339</small></div>
+    <p>天皇自ら政治を行うことを目指して鎌倉幕府を倒したが、武士の支持を失い、<ruby>吉野<rt>よしの</rt></ruby>で南朝を開いた。</p>
+  </div></details>
+  <p>この頃、天皇家は2つの系統（<ruby>持明院統<rt>じみょういんとう</rt></ruby>と<ruby>大覚寺統<rt>だいかくじとう</rt></ruby>）に分かれて皇位を争っており、幕府がその調整役になっていました。大覚寺統の<b><ruby>後醍醐天皇<rt>ごだいごてんのう</rt></ruby></b>は、天皇自らが政治を行うことを目指し、幕府を倒そうと2度計画しますが、いずれも失敗して<ruby>隠岐<rt>おき</rt></ruby>に流されます。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>足利尊氏<rt>あしかがたかうじ</rt></ruby></span></summary><div class="nb">
+    <div class="role">室町幕府初代将軍<small>1305–1358</small></div>
+    <p>鎌倉幕府を裏切って倒幕に加わり、のちに新政に背いて北朝を立て、幕府を開いた。弟の<ruby>直義<rt>ただよし</rt></ruby>とも争った。</p>
+  </div></details>
+  <p>それでも、幕府に不満を持つ武士や、<ruby>楠木正成<rt>くすのきまさしげ</rt></ruby>のような新しい勢力が各地で立ち上がりました。1333年、幕府の有力御家人だった<b><ruby>足利尊氏<rt>あしかがたかうじ</rt></ruby></b>（当時は高氏）が幕府を裏切って京都の<ruby>六波羅探題<rt>ろくはらたんだい</rt></ruby>を攻め落とし、<b><ruby>新田義貞<rt>にったよしさだ</rt></ruby></b>が鎌倉を攻めて北条氏を滅ぼします。約150年続いた鎌倉幕府はこうして倒れました。</p>
+  <p>京都に戻った後醍醐天皇は<b>建武の新政</b>を始めます。しかし、土地の権利を認めるには天皇の命令書が必要とされたため、手続きが滞って混乱しました。恩賞も<ruby>公家<rt>くげ</rt></ruby>に厚く武士に薄いと受け取られ、武士の政治を望む声は尊氏に集まります。1335年に反乱をしずめるため関東へ向かった尊氏は、そのまま新政に背き、新政はわずか2年あまりで崩れました。</p>
   <ol class="chain" aria-label="因果の流れ">
     <li>御家人の不満と、皇位をめぐる天皇家の対立</li>
     <li>後醍醐天皇が倒幕を呼びかける</li>
@@ -332,48 +401,48 @@ b rt{color:var(--c);opacity:.8}
     <li>天皇中心の新政が武士の期待に応えられない</li>
     <li class="end">尊氏が離反。武士の政権が再びつくられる</li>
   </ol>
-  <ul class="ev">
-    <li><span class="y">1324</span><span><ruby>正中の変<rt>しょうちゅうのへん</rt></ruby>（最初の倒幕計画が発覚）</span></li>
-    <li><span class="y">1331</span><span><ruby>元弘の変<rt>げんこうのへん</rt></ruby>（2度目の計画、天皇は隠岐へ）</span></li>
-    <li><span class="y">1333</span><span>鎌倉幕府の滅亡</span></li>
-    <li><span class="y">1334</span><span>建武の新政が始まる</span></li>
-    <li><span class="y">1335</span><span><ruby>中先代の乱<rt>なかせんだいのらん</rt></ruby>。尊氏が新政に背く</span></li>
-  </ul>
+  <p class="next">尊氏は新しい武家政権を開くが、後醍醐天皇はあきらめなかった。<a href="#c5">→ 5章</a></p>
 </section>
 
 <!-- 5 -->
 <section class="chapter" id="c5">
   <div class="chead"><span class="no">5</span><h2>南北朝の動乱</h2><div class="meta">1336〜1392<span class="tag pol">政治</span></div></div>
-  <div class="body">
-    <p>1336年、<ruby>尊氏<rt>たかうじ</rt></ruby>は京都を押さえ、<ruby>持明院統<rt>じみょういんとう</rt></ruby>の天皇（<b>北朝</b>）を立てて、政治の方針（<ruby>建武式目<rt>けんむしきもく</rt></ruby>）を示しました。これが室町幕府の始まりです。一方、<ruby>後醍醐天皇<rt>ごだいごてんのう</rt></ruby>は奈良の<ruby>吉野<rt>よしの</rt></ruby>に逃れて、自分こそ正統な天皇だと主張しました（<b>南朝</b>）。こうして2人の天皇が並び立つ時代が約60年続きます。</p>
-    <p>動乱が長引いたのは、南朝が強かったからではありません。幕府の内部でも、尊氏と弟の<ruby>直義<rt>ただよし</rt></ruby>が争う<b><ruby>観応の擾乱<rt>かんのうのじょうらん</rt></ruby></b>が起こり、負けそうになった側が南朝と手を結ぶことを繰り返したからです。各地の武士も、一族の中や近所の相手と争うたびに北朝・南朝のどちらかを名乗りました。</p>
-    <p>この戦乱の中で強くなったのが、国ごとに置かれた<b><ruby>守護<rt>しゅご</rt></ruby></b>です。幕府は戦費を集めさせるため、<ruby>荘園<rt>しょうえん</rt></ruby>の年貢の半分を守護が取り立てることを認めました（<b><ruby>半済令<rt>はんぜいれい</rt></ruby></b>）。守護はその土地を地元の武士に分け与えて家来にし、国全体を自分の領地のように治める<b>守護大名</b>へと成長していきます。</p>
-  </div>
+  <p class="from"><ruby>建武の新政<rt>けんむのしんせい</rt></ruby>は崩れ、武士の支持は<ruby>足利尊氏<rt>あしかがたかうじ</rt></ruby>に集まっていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1336〜1392</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1336</span><span><ruby>尊氏<rt>たかうじ</rt></ruby>が北朝を立て<ruby>建武式目<rt>けんむしきもく</rt></ruby>を示す／<ruby>後醍醐天皇<rt>ごだいごてんのう</rt></ruby>が<ruby>吉野<rt>よしの</rt></ruby>へ</span></li>
+    <li><span class="y">1338</span><span>尊氏が<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>に</span></li>
+    <li><span class="y">1350</span><span><ruby>観応の擾乱<rt>かんのうのじょうらん</rt></ruby>（〜1352）</span></li>
+    <li><span class="y">1352</span><span><ruby>半済令<rt>はんぜいれい</rt></ruby></span></li>
+    <li><span class="y">1392</span><span>南北朝の合一</span></li>
+  </ul></div></details>
+  <p>1336年、尊氏は京都を押さえ、<ruby>持明院統<rt>じみょういんとう</rt></ruby>の天皇（<b>北朝</b>）を立てて、政治の方針（<ruby>建武式目<rt>けんむしきもく</rt></ruby>）を示しました。これが室町幕府の始まりです。一方、<ruby>後醍醐天皇<rt>ごだいごてんのう</rt></ruby>は奈良の<ruby>吉野<rt>よしの</rt></ruby>に逃れて、自分こそ正統な天皇だと主張しました（<b>南朝</b>）。こうして2人の天皇が並び立つ時代が約60年続きます。</p>
+  <p>動乱が長引いたのは、南朝が強かったからではありません。幕府の内部でも、尊氏と弟の<ruby>直義<rt>ただよし</rt></ruby>が争う<b><ruby>観応の擾乱<rt>かんのうのじょうらん</rt></ruby></b>が起こり、負けそうになった側が南朝と手を結ぶことを繰り返したからです。各地の武士も、一族の中や近所の相手と争うたびに北朝・南朝のどちらかを名乗りました。</p>
+  <p>この戦乱の中で強くなったのが、国ごとに置かれた<b><ruby>守護<rt>しゅご</rt></ruby></b>です。幕府は戦費を集めさせるため、<ruby>荘園<rt>しょうえん</rt></ruby>の年貢の半分を守護が取り立てることを認めました（<b><ruby>半済令<rt>はんぜいれい</rt></ruby></b>）。守護はその土地を地元の武士に分け与えて家来にし、国全体を自分の領地のように治める<b>守護大名</b>へと成長していきます。</p>
   <ol class="chain" aria-label="因果の流れ">
     <li>2つの朝廷が並び、どちらにも大義名分がある</li>
     <li>幕府の内紛のたびに、負けた側が南朝と結ぶ</li>
     <li>幕府は戦いのため守護に大きな権限を与える</li>
     <li class="end">守護が国を支配する「守護大名」になる</li>
   </ol>
-  <ul class="ev">
-    <li><span class="y">1336</span><span>尊氏が北朝を立て建武式目を示す／後醍醐天皇が吉野へ</span></li>
-    <li><span class="y">1338</span><span>尊氏が<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>に</span></li>
-    <li><span class="y">1350</span><span>観応の擾乱（〜1352）</span></li>
-    <li><span class="y">1352</span><span>半済令</span></li>
-    <li><span class="y">1392</span><span>南北朝の合一</span></li>
-  </ul>
+  <p class="next">長い戦乱を収め、強くなった守護大名をまとめ上げたのが3代将軍の<ruby>義満<rt>よしみつ</rt></ruby>だった。<a href="#c6">→ 6章</a></p>
 </section>
 
 <!-- 6 -->
 <section class="chapter" id="c6">
   <div class="chead"><span class="no">6</span><h2><ruby>足利義満<rt>あしかがよしみつ</rt></ruby>と東アジア</h2><div class="meta">1368〜1428<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
-  <div class="body">
-    <p>3代将軍<b>足利義満</b>の時代に、室町幕府は最も強くなります。京都の室町に「花の御所」と呼ばれる邸宅を構え、力をつけすぎた<ruby>守護<rt>しゅご</rt></ruby>大名を戦いで抑えました。1392年には南朝に働きかけて<b>南北朝の合一</b>を実現し、のちに将軍を辞めて<ruby>太政大臣<rt>だいじょうだいじん</rt></ruby>にもなり、武家と<ruby>公家<rt>くげ</rt></ruby>の両方の頂点に立ちます。</p>
-    <p>この頃、東アジアも大きく変わっていました。中国では1368年に漢民族の<b>明</b>が元を北へ追い、朝鮮半島では1392年に<b>朝鮮</b>（李氏朝鮮）が建国されます。どちらも、朝鮮半島や中国の沿岸を荒らす日本人中心の海賊<b><ruby>倭寇<rt>わこう</rt></ruby></b>に悩まされていました。</p>
-    <p>明は、周りの国の王が皇帝に貢ぎ物を送り、皇帝が王として認めて返礼を与える<b><ruby>冊封<rt>さくほう</rt></ruby></b>の関係しか認めませんでした。義満は1401年に明へ使いを送り、「<b>日本国王</b>」として認められます。1404年から始まった<b>日明貿易</b>では、正式な船であることを示す合札（<b><ruby>勘合<rt>かんごう</rt></ruby></b>）を使ったので勘合貿易とも呼ばれます。銅銭が大量に輸入され、日本の貨幣経済を支えました。</p>
-  </div>
-  <figure>
-    <figcaption>図　室町幕府のしくみ</figcaption>
+  <p class="from">約60年の動乱で<ruby>守護<rt>しゅご</rt></ruby>大名が力をつけ、幕府はそれをどうまとめるかを迫られていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1368〜1428</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1368</span><span>明が建国。<ruby>義満<rt>よしみつ</rt></ruby>が将軍に</span></li>
+    <li><span class="y">1392</span><span>南北朝の合一／朝鮮が建国</span></li>
+    <li><span class="y">1401</span><span>義満が明に使いを送る</span></li>
+    <li><span class="y">1404</span><span><ruby>勘合<rt>かんごう</rt></ruby>貿易の開始</span></li>
+    <li><span class="y">1419</span><span><ruby>応永の外寇<rt>おうえいのがいこう</rt></ruby></span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>足利義満<rt>あしかがよしみつ</rt></ruby></span></summary><div class="nb">
+    <div class="role">3代将軍<small>1358–1408</small></div>
+    <p>南北朝を合一し、<ruby>守護<rt>しゅご</rt></ruby>大名を抑えて幕府の最盛期を築いた。明から「日本国王」と認められ、日明貿易を始めた。金閣を建てた。</p>
+  </div></details>
+  <details class="note"><summary><span class="kind">図</span>室町幕府のしくみ</summary><div class="nb">
     <div class="org">
       <div class="box top"><strong>将軍</strong><small>足利氏</small></div>
       <div class="vline"></div>
@@ -388,50 +457,60 @@ b rt{color:var(--c);opacity:.8}
         <div class="branch"><div class="label">地方</div><div class="row">
           <div class="box"><strong>鎌倉府</strong><small>関東を統治／<ruby>鎌倉公方<rt>かまくらくぼう</rt></ruby>（足利氏）と<ruby>関東管領<rt>かんとうかんれい</rt></ruby>（上杉氏）</small></div>
           <div class="box"><strong><ruby>九州探題<rt>きゅうしゅうたんだい</rt></ruby></strong><small>九州の統治</small></div>
-          <div class="box"><strong>守護（守護大名）</strong><small>多くは京都に住み、幕府の政治に加わる</small></div>
+          <div class="box"><strong><ruby>守護<rt>しゅご</rt></ruby>（守護大名）</strong><small>多くは京都に住み、幕府の政治に加わる</small></div>
         </div></div>
       </div>
     </div>
     <p class="fig-note">鎌倉幕府より将軍の直接の力は弱く、有力な守護大名の協力で成り立つ連合政権でした。鎌倉府もしだいに京都の幕府と対立します。</p>
-  </figure>
-  <figure>
-    <figcaption>図　日明貿易のしくみ（<ruby>朝貢<rt>ちょうこう</rt></ruby>貿易）</figcaption>
+  </div></details>
+  <p>3代将軍<b>足利義満</b>の時代に、室町幕府は最も強くなります。京都の室町に「花の御所」と呼ばれる邸宅を構え、力をつけすぎた守護大名を戦いで抑えました。1392年には南朝に働きかけて<b>南北朝の合一</b>を実現し、のちに将軍を辞めて<ruby>太政大臣<rt>だいじょうだいじん</rt></ruby>にもなり、武家と<ruby>公家<rt>くげ</rt></ruby>の両方の頂点に立ちます。</p>
+  <details class="note"><summary><span class="kind">図</span>日明貿易のしくみ</summary><div class="nb">
     <div class="duo">
       <div class="box top"><strong>明の皇帝</strong><small>周りの国の王を認める</small></div>
       <div class="arrows">
-        <div class="arr l"><b>朝貢</b><div class="line"></div><span>刀剣・<ruby>硫黄<rt>いおう</rt></ruby>・銅・扇などを献上（勘合を持った船だけが入港できる）</span></div>
-        <div class="arr r"><b>返礼・冊封</b><div class="line"></div><span>「日本国王」に任命／銅銭・生糸・絹織物・書物など</span></div>
+        <div class="arr l"><b><ruby>朝貢<rt>ちょうこう</rt></ruby></b><div class="line"></div><span>刀剣・<ruby>硫黄<rt>いおう</rt></ruby>・銅・扇などを献上（<ruby>勘合<rt>かんごう</rt></ruby>を持った船だけが入港できる）</span></div>
+        <div class="arr r"><b>返礼・<ruby>冊封<rt>さくほう</rt></ruby></b><div class="line"></div><span>「日本国王」に任命／銅銭・生糸・絹織物・書物など</span></div>
       </div>
       <div class="box"><strong>日本国王</strong><small>足利将軍</small></div>
     </div>
     <p class="fig-note">形の上では明に従う関係ですが、滞在費や運送費は明が負担したため、日本側の利益は大きいものでした。4代将軍<ruby>義持<rt>よしもち</rt></ruby>は形式を嫌って一時中断しますが、6代<ruby>義教<rt>よしのり</rt></ruby>が再開します。</p>
-  </figure>
-  <figure>
-    <figcaption>図　中世後半の日本と四方の関係</figcaption>
+  </div></details>
+  <p>この頃、東アジアも大きく変わっていました。中国では1368年に漢民族の<b>明</b>が元を北へ追い、朝鮮半島では1392年に<b>朝鮮</b>（李氏朝鮮）が建国されます。どちらも、朝鮮半島や中国の沿岸を荒らす日本人中心の海賊<b><ruby>倭寇<rt>わこう</rt></ruby></b>に悩まされていました。</p>
+  <details class="note"><summary><span class="kind">図</span>中世後半の日本と四方の関係</summary><div class="nb">
     <div class="world">
-      <div><h3>明</h3><p>勘合貿易で銅銭などを輸入。<ruby>応仁の乱<rt>おうにんのらん</rt></ruby>後は<ruby>大内氏<rt>おおうちし</rt></ruby>と細川氏が貿易を争い、1523年に<ruby>寧波<rt>ニンポー</rt></ruby>で衝突。大内氏の滅亡（1551）で途絶える。</p></div>
-      <div><h3>朝鮮</h3><p>倭寇の取り締まりを求められ、対馬の<ruby>宗氏<rt>そうし</rt></ruby>を窓口に貿易。1419年には朝鮮が倭寇の拠点とみて対馬を攻撃（<ruby>応永の外寇<rt>おうえいのがいこう</rt></ruby>）。木綿が主な輸入品。</p></div>
+      <div><h3>明</h3><p><ruby>勘合<rt>かんごう</rt></ruby>貿易で銅銭などを輸入。<ruby>応仁の乱<rt>おうにんのらん</rt></ruby>後は<ruby>大内氏<rt>おおうちし</rt></ruby>と細川氏が貿易を争い、1523年に<ruby>寧波<rt>ニンポー</rt></ruby>で衝突。大内氏の滅亡（1551）で途絶える。</p></div>
+      <div><h3>朝鮮</h3><p><ruby>倭寇<rt>わこう</rt></ruby>の取り締まりを求められ、対馬の<ruby>宗氏<rt>そうし</rt></ruby>を窓口に貿易。1419年には朝鮮が倭寇の拠点とみて対馬を攻撃（<ruby>応永の外寇<rt>おうえいのがいこう</rt></ruby>）。木綿が主な輸入品。</p></div>
       <div><h3>琉球</h3><p>1429年、<ruby>尚巴志<rt>しょうはし</rt></ruby>が沖縄島を統一して琉球王国が成立。明・日本・朝鮮・東南アジアを結ぶ中継貿易で栄える。</p></div>
       <div><h3><ruby>蝦夷地<rt>えぞち</rt></ruby></h3><p>津軽の<ruby>十三湊<rt>とさみなと</rt></ruby>を拠点とする<ruby>安藤氏<rt>あんどうし</rt></ruby>がアイヌと交易。和人の進出に対し、1457年にアイヌのコシャマインが蜂起する。</p></div>
     </div>
-  </figure>
-  <ul class="ev">
-    <li><span class="y">1368</span><span>明が建国。義満が将軍に</span></li>
-    <li><span class="y">1392</span><span>南北朝の合一／朝鮮が建国</span></li>
-    <li><span class="y">1401</span><span>義満が明に使いを送る</span></li>
-    <li><span class="y">1404</span><span>勘合貿易の開始</span></li>
-    <li><span class="y">1419</span><span>応永の外寇</span></li>
-  </ul>
+  </div></details>
+  <p>明は、周りの国の王が皇帝に貢ぎ物を送り、皇帝が王として認めて返礼を与える<b><ruby>冊封<rt>さくほう</rt></ruby></b>の関係しか認めませんでした。義満は1401年に明へ使いを送り、「<b>日本国王</b>」として認められます。1404年から始まった<b>日明貿易</b>では、正式な船であることを示す合札（<b><ruby>勘合<rt>かんごう</rt></ruby></b>）を使ったので勘合貿易とも呼ばれます。銅銭が大量に輸入され、日本の貨幣経済を支えました。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>義満が南北朝を合一し、守護大名を抑える</li>
+    <li>明は冊封を受けた国としか貿易しない</li>
+    <li>義満が「日本国王」として明と国交を結ぶ</li>
+    <li class="end">貿易の利益と権威で、幕府が最盛期を迎える</li>
+  </ol>
+  <p class="next">義満の築いた安定は、将軍と守護大名の力の釣り合いの上に成り立っていた。<a href="#c7">→ 7章</a></p>
 </section>
 
 <!-- 7 -->
 <section class="chapter" id="c7">
   <div class="chead"><span class="no">7</span><h2>幕府の動揺と<ruby>応仁の乱<rt>おうにんのらん</rt></ruby></h2><div class="meta">1428〜1477<span class="tag pol">政治</span></div></div>
-  <div class="body">
-    <p><ruby>義満<rt>よしみつ</rt></ruby>のあと、将軍の力はしだいに弱まります。6代将軍<b><ruby>足利義教<rt>あしかがよしのり</rt></ruby></b>はくじ引きで選ばれた将軍で、権威を取り戻そうと強い態度で<ruby>守護<rt>しゅご</rt></ruby>大名にのぞみ、関東で幕府に逆らった<ruby>鎌倉公方<rt>かまくらくぼう</rt></ruby>を滅ぼしました（<ruby>永享の乱<rt>えいきょうのらん</rt></ruby>）。しかし1441年、処罰を恐れた守護大名の<ruby>赤松満祐<rt>あかまつみつすけ</rt></ruby>に殺されてしまいます（<b><ruby>嘉吉の変<rt>かきつのへん</rt></ruby></b>）。将軍が家臣に殺されたことで、幕府の権威は大きく傷つきました。</p>
-    <p>同じ頃、民衆も力をつけていました。村の人々は団結して自治を行い（<ruby>惣村<rt>そうそん</rt></ruby>）、借金の帳消しを求めて<ruby>土倉<rt>どそう</rt></ruby>や酒屋を襲う<b><ruby>土一揆<rt>つちいっき</rt></ruby></b>を起こします。</p>
-    <p>8代将軍<b><ruby>足利義政<rt>あしかがよしまさ</rt></ruby></b>の時代、将軍の跡継ぎ争いに、<ruby>管領<rt>かんれい</rt></ruby>家の<ruby>畠山<rt>はたけやま</rt></ruby>氏・<ruby>斯波<rt>しば</rt></ruby>氏の家督争い、そして有力者の<b><ruby>細川勝元<rt>ほそかわかつもと</rt></ruby></b>と<b><ruby>山名宗全<rt>やまなそうぜん</rt></ruby></b>の主導権争いが結びつき、1467年に<b>応仁の乱</b>が始まります。全国の守護大名が東軍と西軍に分かれて京都で11年も戦い、京都は焼け野原になりました。決着がつかないまま乱は終わりましたが、守護大名が京都で戦っているあいだに、地元では家臣や<ruby>国人<rt>こくじん</rt></ruby>が力をのばしていました。</p>
-  </div>
+  <p class="from"><ruby>義満<rt>よしみつ</rt></ruby>の死後、将軍と<ruby>守護<rt>しゅご</rt></ruby>大名の力の釣り合いが少しずつ崩れ始める。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1428〜1477</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1428</span><span><ruby>正長の土一揆<rt>しょうちょうのつちいっき</rt></ruby></span></li>
+    <li><span class="y">1438</span><span><ruby>永享の乱<rt>えいきょうのらん</rt></ruby>（<ruby>鎌倉公方<rt>かまくらくぼう</rt></ruby>が滅ぶ）</span></li>
+    <li><span class="y">1441</span><span><ruby>嘉吉の変<rt>かきつのへん</rt></ruby>（<ruby>義教<rt>よしのり</rt></ruby>が殺される）</span></li>
+    <li><span class="y">1467</span><span><ruby>応仁の乱<rt>おうにんのらん</rt></ruby>が始まる（〜1477）</span></li>
+  </ul></div></details>
+  <p>義満のあと、将軍の力はしだいに弱まります。6代将軍<b><ruby>足利義教<rt>あしかがよしのり</rt></ruby></b>はくじ引きで選ばれた将軍で、権威を取り戻そうと強い態度で守護大名にのぞみ、関東で幕府に逆らった<ruby>鎌倉公方<rt>かまくらくぼう</rt></ruby>を滅ぼしました（<ruby>永享の乱<rt>えいきょうのらん</rt></ruby>）。しかし1441年、処罰を恐れた守護大名の<ruby>赤松満祐<rt>あかまつみつすけ</rt></ruby>に殺されてしまいます（<b><ruby>嘉吉の変<rt>かきつのへん</rt></ruby></b>）。将軍が家臣に殺されたことで、幕府の権威は大きく傷つきました。</p>
+  <p>同じ頃、民衆も力をつけていました。村の人々は団結して自治を行い（<ruby>惣村<rt>そうそん</rt></ruby>）、借金の帳消しを求めて<ruby>土倉<rt>どそう</rt></ruby>や酒屋を襲う<b><ruby>土一揆<rt>つちいっき</rt></ruby></b>を起こします。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>足利義政<rt>あしかがよしまさ</rt></ruby></span></summary><div class="nb">
+    <div class="role">8代将軍<small>1436–1490</small></div>
+    <p>跡継ぎ問題をこじらせ、<ruby>応仁の乱<rt>おうにんのらん</rt></ruby>の一因となった。政治から離れて銀閣を建て、<ruby>東山文化<rt>ひがしやまぶんか</rt></ruby>を育てた。</p>
+  </div></details>
+  <p>8代将軍<b><ruby>足利義政<rt>あしかがよしまさ</rt></ruby></b>の時代、将軍の跡継ぎ争いに、<ruby>管領<rt>かんれい</rt></ruby>家の<ruby>畠山<rt>はたけやま</rt></ruby>氏・<ruby>斯波<rt>しば</rt></ruby>氏の家督争い、そして有力者の<b><ruby>細川勝元<rt>ほそかわかつもと</rt></ruby></b>と<b><ruby>山名宗全<rt>やまなそうぜん</rt></ruby></b>の主導権争いが結びつき、1467年に<b>応仁の乱</b>が始まります。全国の守護大名が東軍と西軍に分かれて京都で11年も戦い、京都は焼け野原になりました。決着がつかないまま乱は終わりましたが、守護大名が京都で戦っているあいだに、地元では家臣や<ruby>国人<rt>こくじん</rt></ruby>が力をのばしていました。</p>
   <ol class="chain" aria-label="因果の流れ">
     <li>将軍の暗殺で幕府の権威が傷つく</li>
     <li>将軍家・管領家の跡継ぎ争いがからみ合う</li>
@@ -439,55 +518,26 @@ b rt{color:var(--c);opacity:.8}
     <li>守護の留守中に、地元の家臣や国人が実権を握る</li>
     <li class="end">将軍も守護も、地方を抑えられなくなる</li>
   </ol>
-  <ul class="ev">
-    <li><span class="y">1428</span><span><ruby>正長の土一揆<rt>しょうちょうのつちいっき</rt></ruby></span></li>
-    <li><span class="y">1438</span><span>永享の乱（鎌倉公方が滅ぶ）</span></li>
-    <li><span class="y">1441</span><span>嘉吉の変（義教が殺される）</span></li>
-    <li><span class="y">1467</span><span>応仁の乱が始まる（〜1477）</span></li>
-  </ul>
+  <p class="next">将軍も守護も力を失い、実力だけがものをいう時代がやってくる。<a href="#c8">→ 8章</a></p>
 </section>
 
 <!-- 8 -->
 <section class="chapter" id="c8">
   <div class="chead"><span class="no">8</span><h2>戦国時代</h2><div class="meta">1477〜1573<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
-  <div class="body">
-    <p><ruby>応仁の乱<rt>おうにんのらん</rt></ruby>のあと、身分の低い者が実力で上の者を倒す<b><ruby>下剋上<rt>げこくじょう</rt></ruby></b>の風潮が広がります。1485年には<ruby>山城<rt>やましろ</rt></ruby>（京都府南部）で<ruby>国人<rt>こくじん</rt></ruby>と農民が<ruby>守護<rt>しゅご</rt></ruby>の軍を追い出して自治を行い（<ruby>山城の国一揆<rt>やましろのくにいっき</rt></ruby>）、1488年には<ruby>浄土真宗<rt>じょうどしんしゅう</rt></ruby>（<ruby>一向宗<rt>いっこうしゅう</rt></ruby>）の信者が<ruby>加賀<rt>かが</rt></ruby>の守護を倒して約100年にわたり国を治めました（加賀の<ruby>一向一揆<rt>いっこういっき</rt></ruby>）。1493年には<ruby>管領<rt>かんれい</rt></ruby>の細川氏が将軍を交代させる事件（<ruby>明応の政変<rt>めいおうのせいへん</rt></ruby>）も起こり、将軍は有力者に担がれる存在になります。</p>
-    <p>こうした中で、自分の力で一国以上を治める<b>戦国大名</b>が各地に現れます。守護大名から生き残った武田氏や今川氏、家臣から主家を乗っ取った<ruby>朝倉氏<rt>あさくらし</rt></ruby>、そして伊豆・<ruby>相模<rt>さがみ</rt></ruby>を奪った<ruby>北条早雲<rt>ほうじょうそううん</rt></ruby>（<ruby>伊勢宗瑞<rt>いせそうずい</rt></ruby>）などです。戦国大名は独自の法律（<b><ruby>分国法<rt>ぶんこくほう</rt></ruby></b>）を定め、城下町をつくり、鉱山の開発や治水にも取り組みました。</p>
-    <p>16世紀半ばには、ヨーロッパの人々がアジアの海に進出してきます。1543年、<ruby>種子島<rt>たねがしま</rt></ruby>に漂着した船に乗っていたポルトガル人が<b>鉄砲</b>を伝え（1542年説もあり）、まもなく<ruby>堺<rt>さかい</rt></ruby>や<ruby>近江<rt>おうみ</rt></ruby>の<ruby>国友<rt>くにとも</rt></ruby>で大量に作られるようになりました。1549年には<b>フランシスコ・ザビエル</b>が鹿児島に来てキリスト教を伝え、ポルトガルやスペインの商人との<b><ruby>南蛮貿易<rt>なんばんぼうえき</rt></ruby></b>も始まります。鉄砲は戦い方を変え、それを大量にそろえる経済力が勝敗を左右するようになりました。</p>
-    <p>1568年、<ruby>尾張<rt>おわり</rt></ruby>の<b><ruby>織田信長<rt>おだのぶなが</rt></ruby></b>は<ruby>足利義昭<rt>あしかがよしあき</rt></ruby>を15代将軍に立てて京都に入りますが、やがて対立し、1573年に義昭を京都から追放しました。これで室町幕府は事実上滅び、中世は終わりを迎えます。</p>
-  </div>
-  <ul class="ev">
-    <li><span class="y">1485</span><span>山城の国一揆</span></li>
-    <li><span class="y">1488</span><span>加賀の一向一揆</span></li>
-    <li><span class="y">1493</span><span>明応の政変</span></li>
+  <p class="from"><ruby>応仁の乱<rt>おうにんのらん</rt></ruby>で将軍と<ruby>守護<rt>しゅご</rt></ruby>大名の権威は失われ、地方では新しい実力者が台頭していた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1477〜1573</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1485</span><span><ruby>山城の国一揆<rt>やましろのくにいっき</rt></ruby></span></li>
+    <li><span class="y">1488</span><span><ruby>加賀<rt>かが</rt></ruby>の<ruby>一向一揆<rt>いっこういっき</rt></ruby></span></li>
+    <li><span class="y">1493</span><span><ruby>明応の政変<rt>めいおうのせいへん</rt></ruby></span></li>
     <li><span class="y">1543</span><span>鉄砲伝来</span></li>
     <li><span class="y">1549</span><span>ザビエルがキリスト教を伝える</span></li>
     <li><span class="y">1560</span><span><ruby>桶狭間<rt>おけはざま</rt></ruby>の戦い（信長が<ruby>今川義元<rt>いまがわよしもと</rt></ruby>を破る）</span></li>
-    <li><span class="y">1573</span><span>信長が足利義昭を追放、室町幕府が滅ぶ</span></li>
-  </ul>
-</section>
-
-<!-- 人物 -->
-<section>
-  <div class="label">中世を動かした人物</div>
-  <div class="people">
-    <article class="person"><h3><ruby>源頼朝<rt>みなもとのよりとも</rt></ruby><small>1147–1199</small></h3><div class="role">鎌倉幕府を開く</div>
-      <p>東国の武士を<ruby>御恩<rt>ごおん</rt></ruby>と<ruby>奉公<rt>ほうこう</rt></ruby>でまとめ、<ruby>守護<rt>しゅご</rt></ruby>・<ruby>地頭<rt>じとう</rt></ruby>の設置を朝廷に認めさせた。武士の政権の型をつくった人物。</p><div class="ch">→ 1章</div></article>
-    <article class="person"><h3><ruby>北条政子<rt>ほうじょうまさこ</rt></ruby><small>1157–1225</small></h3><div class="role">頼朝の妻・「<ruby>尼将軍<rt>あましょうぐん</rt></ruby>」</div>
-      <p>頼朝の死後、実家の北条氏とともに幕府を支えた。<ruby>承久の乱<rt>じょうきゅうのらん</rt></ruby>では<ruby>御家人<rt>ごけにん</rt></ruby>に頼朝の恩を説き、結束させたと伝わる。</p><div class="ch">→ 2章</div></article>
-    <article class="person"><h3><ruby>北条泰時<rt>ほうじょうやすとき</rt></ruby><small>1183–1242</small></h3><div class="role">3代<ruby>執権<rt>しっけん</rt></ruby></div>
-      <p><ruby>連署<rt>れんしょ</rt></ruby>・<ruby>評定衆<rt>ひょうじょうしゅう</rt></ruby>を置いて話し合いによる政治を整え、武士の法である<ruby>御成敗式目<rt>ごせいばいしきもく</rt></ruby>を定めた。</p><div class="ch">→ 2章</div></article>
-    <article class="person"><h3><ruby>北条時宗<rt>ほうじょうときむね</rt></ruby><small>1251–1284</small></h3><div class="role">8代執権</div>
-      <p>フビライの国書を拒み、2度の元寇を退けた。ただし防衛の負担は御家人の困窮を招いた。</p><div class="ch">→ 3章</div></article>
-    <article class="person"><h3><ruby>後醍醐天皇<rt>ごだいごてんのう</rt></ruby><small>1288–1339</small></h3><div class="role">倒幕と<ruby>建武の新政<rt>けんむのしんせい</rt></ruby></div>
-      <p>天皇自ら政治を行うことを目指して鎌倉幕府を倒したが、武士の支持を失い、<ruby>吉野<rt>よしの</rt></ruby>で南朝を開いた。</p><div class="ch">→ 4・5章</div></article>
-    <article class="person"><h3><ruby>足利尊氏<rt>あしかがたかうじ</rt></ruby><small>1305–1358</small></h3><div class="role">室町幕府初代将軍</div>
-      <p>鎌倉幕府を裏切って倒幕に加わり、のちに新政に背いて北朝を立て、幕府を開いた。弟の<ruby>直義<rt>ただよし</rt></ruby>とも争った。</p><div class="ch">→ 4・5章</div></article>
-    <article class="person"><h3><ruby>足利義満<rt>あしかがよしみつ</rt></ruby><small>1358–1408</small></h3><div class="role">3代将軍</div>
-      <p>南北朝を合一し、守護大名を抑えて幕府の最盛期を築いた。明から「日本国王」と認められ、日明貿易を始めた。金閣を建てた。</p><div class="ch">→ 6章</div></article>
-    <article class="person"><h3><ruby>足利義政<rt>あしかがよしまさ</rt></ruby><small>1436–1490</small></h3><div class="role">8代将軍</div>
-      <p>跡継ぎ問題をこじらせ、<ruby>応仁の乱<rt>おうにんのらん</rt></ruby>の一因となった。政治から離れて銀閣を建て、<ruby>東山文化<rt>ひがしやまぶんか</rt></ruby>を育てた。</p><div class="ch">→ 7章</div></article>
-  </div>
+    <li><span class="y">1573</span><span>信長が<ruby>足利義昭<rt>あしかがよしあき</rt></ruby>を追放、室町幕府が滅ぶ</span></li>
+  </ul></div></details>
+  <p>応仁の乱のあと、身分の低い者が実力で上の者を倒す<b><ruby>下剋上<rt>げこくじょう</rt></ruby></b>の風潮が広がります。1485年には<ruby>山城<rt>やましろ</rt></ruby>（京都府南部）で<ruby>国人<rt>こくじん</rt></ruby>と農民が守護の軍を追い出して自治を行い（<ruby>山城の国一揆<rt>やましろのくにいっき</rt></ruby>）、1488年には<ruby>浄土真宗<rt>じょうどしんしゅう</rt></ruby>（<ruby>一向宗<rt>いっこうしゅう</rt></ruby>）の信者が<ruby>加賀<rt>かが</rt></ruby>の守護を倒して約100年にわたり国を治めました（加賀の<ruby>一向一揆<rt>いっこういっき</rt></ruby>）。1493年には<ruby>管領<rt>かんれい</rt></ruby>の細川氏が将軍を交代させる事件（<ruby>明応の政変<rt>めいおうのせいへん</rt></ruby>）も起こり、将軍は有力者に担がれる存在になります。</p>
+  <p>こうした中で、自分の力で一国以上を治める<b>戦国大名</b>が各地に現れます。守護大名から生き残った武田氏や今川氏、家臣から主家を乗っ取った<ruby>朝倉氏<rt>あさくらし</rt></ruby>、そして伊豆・<ruby>相模<rt>さがみ</rt></ruby>を奪った<ruby>北条早雲<rt>ほうじょうそううん</rt></ruby>（<ruby>伊勢宗瑞<rt>いせそうずい</rt></ruby>）などです。戦国大名は独自の法律（<b><ruby>分国法<rt>ぶんこくほう</rt></ruby></b>）を定め、城下町をつくり、鉱山の開発や治水にも取り組みました。</p>
+  <p>16世紀半ばには、ヨーロッパの人々がアジアの海に進出してきます。1543年、<ruby>種子島<rt>たねがしま</rt></ruby>に漂着した船に乗っていたポルトガル人が<b>鉄砲</b>を伝え（1542年説もあり）、まもなく<ruby>堺<rt>さかい</rt></ruby>や<ruby>近江<rt>おうみ</rt></ruby>の<ruby>国友<rt>くにとも</rt></ruby>で大量に作られるようになりました。1549年には<b>フランシスコ・ザビエル</b>が鹿児島に来てキリスト教を伝え、ポルトガルやスペインの商人との<b><ruby>南蛮貿易<rt>なんばんぼうえき</rt></ruby></b>も始まります。鉄砲は戦い方を変え、それを大量にそろえる経済力が勝敗を左右するようになりました。</p>
+  <p>1568年、<ruby>尾張<rt>おわり</rt></ruby>の<b><ruby>織田信長<rt>おだのぶなが</rt></ruby></b>は<ruby>足利義昭<rt>あしかがよしあき</rt></ruby>を15代将軍に立てて京都に入りますが、やがて対立し、1573年に義昭を京都から追放しました。これで室町幕府は事実上滅び、中世は終わりを迎えます。</p>
 </section>
 
 <!-- 次の時代へ -->
@@ -512,6 +562,32 @@ b rt{color:var(--c);opacity:.8}
 <button class="furi" type="button" aria-pressed="true">ふりがな<span>あり</span></button>
 <script>
 (function(){
+  // 補足（図・人物・年表）：狭い画面ではすべて折りたたむ。
+  // 広い画面では章ごとに、本文の高さに収まる分だけ開く（背の高い図 → 年表 → 人物 の順に閉じていく）
+  var wide=matchMedia('(min-width:1180px)');
+  function fit(){
+    document.querySelectorAll('.chapter').forEach(function(ch){
+      var notes=[].slice.call(ch.querySelectorAll('details.note'));
+      notes.forEach(function(d){ d.open=wide.matches; });
+      if(!wide.matches) return;
+      var text=[].slice.call(ch.children).filter(function(e){ return e.tagName!=='DETAILS'; }).pop();
+      function over(){
+        var bottom=Math.max.apply(null,notes.map(function(d){ return d.getBoundingClientRect().bottom; }));
+        return bottom > text.getBoundingClientRect().bottom + 24;
+      }
+      function rank(d){ return d.classList.contains('person')?2:d.classList.contains('years')?1:0; }
+      notes.slice().sort(function(a,b){ return rank(a)-rank(b) || b.offsetHeight-a.offsetHeight; })
+        .forEach(function(d){ if(over()) d.open=false; });
+    });
+  }
+  // 狭い画面どうしのリサイズでは、読者が開いた補足を閉じ直さない
+  var lastWide=null, timer;
+  function refit(){ if(wide.matches||lastWide!==false) fit(); lastWide=wide.matches; }
+  refit();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(refit);
+  addEventListener('resize',function(){ clearTimeout(timer); timer=setTimeout(refit,200); });
+
+  // ふりがなの表示切り替え（設定はブラウザに保存）
   var KEY='kyoyo-ruby', root=document.documentElement, btn=document.querySelector('.furi');
   function apply(on){
     root.classList.toggle('no-ruby',!on);
