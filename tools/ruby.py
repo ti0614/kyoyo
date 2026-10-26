@@ -17,14 +17,23 @@ import sys
 
 DICT = pathlib.Path(__file__).with_name('ruby-dict.txt')
 
-reading, group = {}, {}
+reading, group, not_after = {}, {}, {}
 lines = [l for l in DICT.read_text(encoding='utf-8').splitlines() if l.strip() and not l.startswith('#')]
 for gi, line in enumerate(lines):
     for item in line.split('|'):
         w, r = item.split(':')
+        if '!' in r:  # 「国人:こくじん!外中」= 直前が「外」「中」のとき（外国人・中国人）は付けない
+            r, not_after[w] = r.split('!')
         reading[w] = r
         group[w] = gi
-pat = re.compile('|'.join(sorted(map(re.escape, reading), key=len, reverse=True)))
+
+
+def alt(w):
+    rx = re.escape(w)
+    return f'(?<![{re.escape(not_after[w])}]){rx}' if w in not_after else rx
+
+
+pat = re.compile('|'.join(alt(w) for w in sorted(reading, key=len, reverse=True)))
 
 
 def strip(html):

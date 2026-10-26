@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="旧石器・縄文から平安時代末まで。ムラからクニ、ヤマト政権、律令国家、貴族の政治を経て武士が台頭するまでを、政治と外交の流れで読む。">
+<title>原始・古代の日本史</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 本文は「前の章から → 本文 → 因果の流れ → 次の章へ」の一本道。
+   図・人物・年表は .note（details）にまとめ、広い画面では本文右の余白に浮かせ、狭い画面では本文中に折りたたむ */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
+  --ai:#24476b;            /* 藍：リンク・補助 */
+  --c:#7a6a3c; --cbg:#ece6d6; /* 原始・古代の日本史の区分色（流れ図の g1 と同じ） */
+  --c2:#a29776; --c3:#c3bca7; --c4:#dad5c8;
+  --side:340px; --gap:40px;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fb4dc;
+  --c:#d6c08a; --cbg:#2b2719; --c2:#9c8e69; --c3:#6c644d; --c4:#4b483a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fb4dc;
+  --c:#d6c08a; --cbg:#2b2719; --c2:#9c8e69; --c3:#6c644d; --c4:#4b483a; color-scheme:dark}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.85;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:2.4rem;font-weight:800}
+h1 small{font-family:var(--body);font-size:1rem;color:var(--muted);font-weight:500;margin-left:10px}
+.lead{color:var(--muted);margin:8px 0 0;max-width:40em}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+a{color:inherit}
+p{margin:0}
+b{color:var(--c)}
+.crumbs{margin:0;font-size:.85rem;display:flex;gap:16px;flex-wrap:wrap}
+
+/* 問い */
+.question{border-left:4px solid var(--c);background:var(--surface);padding:12px 16px;margin-top:20px;max-width:46em}
+.question p{font-family:var(--display);font-size:1.15rem;font-weight:600}
+
+/* 実権の推移バー（幅は年数に比例） */
+.band{display:flex;margin-top:12px;border:1px solid var(--line);background:var(--surface)}
+.band div{flex:var(--y) 1 0;min-width:30px;padding:8px 6px;border-right:1px solid var(--paper);background:var(--bg);color:var(--fg,var(--ink));display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.band div:last-child{border-right:0}
+.band b{color:inherit;font-size:.85rem;line-height:1.35}
+.band span{font-size:.72rem;line-height:1.35;font-variant-numeric:tabular-nums;opacity:.85}
+.band .thin b,.band .thin span{writing-mode:vertical-rl;letter-spacing:.05em}
+.s1{--bg:var(--c4)}.s2{--bg:var(--c3)}.s3{--bg:var(--c);--fg:var(--paper)}.s4{--bg:var(--c2);--fg:var(--paper)}.s5{--bg:var(--c3)}.s6{--bg:var(--c4)}
+.band-note{font-size:.8rem;color:var(--muted);margin-top:6px}
+@media (max-width:640px){
+  .band{flex-direction:column}
+  .band div{flex:none;flex-direction:row;align-items:baseline;gap:10px;border-right:0;border-bottom:1px solid var(--paper)}
+  .band .thin b,.band .thin span{writing-mode:horizontal-tb}
+  .pc-only{display:none}
+}
+
+/* 全体の流れ（目次を兼ねる） */
+.overview{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:0}
+.overview li{position:relative;padding-left:28px}
+.overview li::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--c)}
+.overview li:first-child::before{top:18px}.overview li:last-child::before{bottom:calc(100% - 18px)}
+.overview li::after{content:"";position:absolute;left:3px;top:12px;width:8px;height:8px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+.overview a{display:grid;grid-template-columns:1.4em 13em 1fr auto;gap:0 12px;align-items:baseline;text-decoration:none;padding:6px 10px;border-radius:2px}
+.overview a:hover,.overview a:focus-visible{background:var(--surface);outline:none}
+.overview .n{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+.overview .t{font-family:var(--display);font-weight:600;font-size:1.02rem}
+.overview .d{font-size:.88rem;color:var(--muted)}
+.overview .yr{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:640px){
+  .overview a{grid-template-columns:1.4em 1fr auto}
+  .overview .d{grid-column:2 / 4}
+}
+
+/* 章 */
+.chapter{display:flow-root;scroll-margin-top:16px}
+.chead{border-bottom:2px solid var(--c);padding-bottom:8px;margin-bottom:16px;display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:baseline}
+.chead .no{font-family:var(--display);font-size:2rem;color:var(--c);line-height:1;grid-row:span 2}
+.chead h2{font-size:1.5rem}
+.chead .meta{font-size:.8rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{font-size:.7rem;font-weight:700;padding:0 6px;border:1px solid currentColor;border-radius:2px}
+.tag.pol{color:var(--c)}.tag.dip{color:var(--ai)}
+.chapter > p{margin-bottom:14px}
+.from,.next{font-size:.9rem;color:var(--muted)}
+.from{margin-bottom:14px}
+.from::before,.next::before{display:inline-block;margin-right:10px;vertical-align:.1em;line-height:1.6;font-size:.7rem;letter-spacing:.08em;font-weight:700;white-space:nowrap;color:var(--c);border:1px solid var(--c);padding:0 6px;border-radius:2px}
+.from::before{content:"前の章から"}
+.next::before{content:"次の章へ"}
+.next{margin-top:16px}
+.next a{color:var(--ink)}
+
+/* 因果の流れ */
+.chain{list-style:none;margin:20px 0 0;padding:0;display:flex;gap:22px}
+.chain li{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c);padding:8px 10px;font-size:.85rem;line-height:1.6;position:relative}
+.chain li+li::before{content:"▶";position:absolute;left:-17px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--c)}
+.chain li.end{background:var(--cbg)}
+@media (max-width:640px){
+  .chain{flex-direction:column;gap:18px}
+  .chain li+li::before{content:"▼";left:50%;top:-16px;transform:translateX(-50%)}
+}
+
+/* 補足（図・人物・年表）。狭い画面では本文中の折りたたみ */
+.note{margin:0 0 14px;background:var(--surface);border:1px solid var(--line)}
+.note summary{cursor:pointer;list-style:none;display:flex;gap:10px;align-items:baseline;padding:7px 12px;font-size:.85rem;font-weight:500}
+.note summary::-webkit-details-marker{display:none}
+.note summary::after{content:"▸";margin-left:auto;color:var(--muted);transition:transform .15s}
+.note[open] summary::after{transform:rotate(90deg)}
+.note summary:focus-visible{outline:2px solid var(--c);outline-offset:-2px}
+.kind{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--paper);background:var(--k,var(--c));padding:0 6px;border-radius:2px;white-space:nowrap}
+.note.person{--k:var(--ai)}.note.years{--k:var(--muted)}
+.nb{padding:4px 14px 14px;container-type:inline-size}
+.fig-note{font-size:.8rem;color:var(--muted);margin-top:10px;line-height:1.7}
+
+/* 広い画面：補足を本文の右の余白へ。置いた段落の横に並び、重なるときは下へ送る */
+@media (min-width:1180px){
+  .wrap{max-width:calc(780px + var(--side) + var(--gap))}
+  .chapter{padding-right:calc(var(--side) + var(--gap))}
+  .chapter > .chead{margin-right:calc(-1 * (var(--side) + var(--gap)))}
+  .note{float:right;clear:right;width:var(--side);margin:0 calc(-1 * (var(--side) + var(--gap))) 14px 0}
+  .why,.next-era{max-width:780px}
+}
+
+/* 年表 */
+.ev{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:.85rem;line-height:1.65}
+.ev li{display:grid;grid-template-columns:6.6em 1fr;gap:8px}
+.ev .y{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+
+/* 人物 */
+.person .nm{font-family:var(--display);font-weight:600;font-size:1.05rem}
+.person .role small{color:var(--muted);font-weight:500;margin-left:8px;font-variant-numeric:tabular-nums}
+.person .role{font-size:.78rem;color:var(--ai);font-weight:700}
+.person .nb p{font-size:.86rem;line-height:1.7;margin-top:2px}
+
+/* 権力構造図 */
+.org{display:flex;flex-direction:column;align-items:center;gap:0}
+.box{border:1px solid var(--c);background:var(--paper);padding:6px 10px;text-align:center;font-size:.82rem;line-height:1.5;min-width:0}
+.box strong{display:block;font-family:var(--display);font-size:.98rem}
+.box small{color:var(--muted);font-size:.72rem;display:block}
+.box.top{background:var(--c);color:var(--paper);border-color:var(--c)}
+.box.top small{color:inherit;opacity:.85}
+.box.mid{border-width:2px}
+.vline{width:2px;height:14px;background:var(--c)}
+.branches{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;border-top:2px solid var(--c);padding-top:10px}
+.branch{display:flex;flex-direction:column;gap:6px}
+.branch > .label{text-align:center}
+.branch .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+@container (max-width:560px){.branches{grid-template-columns:1fr}}
+
+/* 相互関係図（御恩と奉公・朝貢） */
+.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr);gap:12px;align-items:center}
+.duo .box{padding:12px 6px}
+.arrows{display:flex;flex-direction:column;gap:10px;font-size:.8rem;line-height:1.6}
+.arr{display:flex;flex-direction:column;gap:2px}
+.arr .line{height:2px;background:var(--c);position:relative}
+.arr.r .line::after,.arr.l .line::before{content:"";position:absolute;top:-5px;border:6px solid transparent}
+.arr.r .line::after{right:-2px;border-left:9px solid var(--c);border-right:0}
+.arr.l .line::before{left:-2px;border-right:9px solid var(--c);border-left:0}
+.arr.l .line{background:var(--ai)}.arr.l .line::before{border-right-color:var(--ai)}
+.arr b{font-size:.85rem}.arr.l b{color:var(--ai)}
+.arr span{color:var(--muted)}
+@container (max-width:420px){.duo{grid-template-columns:minmax(0,.7fr) minmax(0,1.6fr) minmax(0,.7fr);gap:8px}.duo .box{padding:8px 2px}.arrows{font-size:.76rem}}
+
+/* 比較（承久の乱の前後） */
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.compare > div{border:1px solid var(--line);background:var(--paper);padding:10px;font-size:.84rem;line-height:1.7}
+.compare h3{font-size:.98rem;margin-bottom:4px}
+.compare .to{align-self:center;color:var(--c);font-weight:700;border:0;background:none;padding:0}
+.scale{display:flex;height:10px;margin:6px 0;border:1px solid var(--line)}
+.scale i{display:block}
+.scale .k{background:var(--ai)}.scale .b{background:var(--c)}
+.legend{display:flex;gap:12px;font-size:.72rem;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:-1px}
+@container (max-width:420px){.compare{grid-template-columns:1fr}.compare .to{transform:rotate(90deg);justify-self:center}}
+
+/* 四方との関係 */
+.world{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.world div{border:1px solid var(--line);background:var(--paper);padding:8px 10px;font-size:.84rem;line-height:1.7;border-top:3px solid var(--ai)}
+.world h3{font-size:.98rem;margin-bottom:2px}
+@container (max-width:420px){.world{grid-template-columns:1fr}}
+
+.why{border:1px dashed var(--c);padding:16px}
+.next-era{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem}
+.next-era a{text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:8px 14px}
+.next-era a:hover,.next-era a:focus-visible{border-color:var(--c);outline:none}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+
+/* ふりがな（各章の本文・各補足で初出のみ）。読みが長くても漢字の間が空かないよう、rt は語の中央上に重ねて置く */
+ruby{position:relative;display:inline}
+rt{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);white-space:nowrap;line-height:1;margin-bottom:.1em;font-family:var(--body);font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:0;text-indent:0}
+b rt{color:var(--c);opacity:.8}
+.box.top rt{color:inherit;opacity:.85}
+.no-ruby rt{display:none}
+/* 行間の狭い図・カードでは、ふりがなを含む行だけ行間を広げて上の行に重ならないようにする */
+:root:not(.no-ruby) .wrap :is(p,li,span,small,strong,h3,summary):has(> ruby){line-height:2.2}
+:root:not(.no-ruby) .wrap .chapter > p{line-height:1.85}
+.furi{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:10;
+  font:inherit;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
+.furi span{color:var(--c);margin-left:6px}
+.furi:hover,.furi:focus-visible{border-color:var(--c);outline:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="crumbs"><a href="../../">← kyoyo 目次</a><a href="../#jomon">← 日本史の流れ図</a></p>
+
+<header>
+  <div class="label">日本史の流れ図　詳説 1／5</div>
+  <h1>原始・古代<small>〜1185</small></h1>
+  <p class="lead">狩猟と採集の暮らしから、稲作とクニの誕生、ヤマト政権、律令国家、そして貴族の政治を経て武士が台頭するまで。政治と外交の動きを軸に、出来事どうしの因果関係に注目して読んでいく。</p>
+  <div class="question"><div class="label">この時代の問い</div><p>小さなムラはどのようにして一つの国家にまとまり、その国家のしくみはなぜ崩れていったのか。</p></div>
+</header>
+
+<section>
+  <div class="label">実権を握っていたのは誰か</div>
+  <div class="band" role="img" aria-label="古代の実権の推移。ヤマト政権の大王と豪族3世紀中頃〜592年、蘇我氏592〜645年、天皇と律令の官僚645〜858年、藤原氏の摂関政治858〜1068年、上皇の院政1068〜1167年、平氏1167〜1185年。">
+    <div class="s1" style="--y:342"><b>大王と豪族（ヤマト政権）</b><span>3世紀中頃–592</span></div>
+    <div class="s2" style="--y:53"><b>蘇我氏</b><span>592–645</span></div>
+    <div class="s3" style="--y:213"><b>天皇と律令の官僚</b><span>645–858</span></div>
+    <div class="s4" style="--y:210"><b>藤原氏（摂関）</b><span>858–1068</span></div>
+    <div class="s5" style="--y:99"><b>上皇（院政）</b><span>1068–1167</span></div>
+    <div class="s6 thin" style="--y:18"><b>平氏</b><span>1167</span></div>
+  </div>
+  <p class="band-note"><span class="pc-only">各区間の幅は年数に比例する。</span>帯はヤマト政権が成立した3世紀中頃から示す。政治の中心は、豪族の連合から天皇を頂点とする国家へ移り、やがて天皇の外戚や上皇が実権を握るようになった。</p>
+</section>
+
+<section>
+  <div class="label">原始・古代の流れ（各章へのリンクを兼ねる）</div>
+  <ol class="overview">
+    <li><a href="#c1"><span class="n">1</span><span class="t">旧石器・縄文の社会</span><span class="d">狩猟と採集で暮らし、土器を使って定住を始める</span><span class="yr">〜前4世紀頃</span></a></li>
+    <li><a href="#c2"><span class="n">2</span><span class="t">稲作とクニの誕生</span><span class="d">稲作が広がって争いが生まれ、クニが中国の王朝に使いを送る</span><span class="yr">前4世紀頃–3世紀</span></a></li>
+    <li><a href="#c3"><span class="n">3</span><span class="t">ヤマト政権と古墳</span><span class="d"><ruby>大王<rt>おおきみ</rt></ruby>と豪族の連合政権が生まれ、朝鮮半島と深く関わる</span><span class="yr">3世紀中頃–6世紀</span></a></li>
+    <li><a href="#c4"><span class="n">4</span><span class="t">飛鳥の改革</span><span class="d">隋・唐の出現を受け、天皇中心の国づくりが始まる</span><span class="yr">592–672</span></a></li>
+    <li><a href="#c5"><span class="n">5</span><span class="t"><ruby>律令国家<rt>りつりょうこっか</rt></ruby>の完成</span><span class="d"><ruby>壬申の乱<rt>じんしんのらん</rt></ruby>に勝った<ruby>天武天皇<rt>てんむてんのう</rt></ruby>のもとで、法と役所が整う</span><span class="yr">672–710</span></a></li>
+    <li><a href="#c6"><span class="n">6</span><span class="t">奈良時代の政治と仏教</span><span class="d">政争と疫病が続き、土地の私有が認められていく</span><span class="yr">710–794</span></a></li>
+    <li><a href="#c7"><span class="n">7</span><span class="t"><ruby>平安京<rt>へいあんきょう</rt></ruby>と<ruby>摂関政治<rt>せっかんせいじ</rt></ruby></span><span class="d">藤原氏が天皇の<ruby>外戚<rt>がいせき</rt></ruby>として実権を握り、<ruby>荘園<rt>しょうえん</rt></ruby>が広がる</span><span class="yr">794–1068</span></a></li>
+    <li><a href="#c8"><span class="n">8</span><span class="t"><ruby>院政<rt>いんせい</rt></ruby>と平氏政権</span><span class="d"><ruby>上皇<rt>じょうこう</rt></ruby>が政治を動かし、争いを武力で決めた平氏が台頭する</span><span class="yr">1068–1185</span></a></li>
+  </ol>
+</section>
+
+<!-- 1 -->
+<section class="chapter" id="c1">
+  <div class="chead"><span class="no">1</span><h2>旧石器・縄文の社会</h2><div class="meta">約3.8万年前〜前4世紀頃<span class="tag pol">政治</span></div></div>
+  <p class="from">日本列島に人が住み始めたのは、約3万8000年前とされる。当時は氷期で、列島は今よりずっと寒かった。</p>
+  <details class="note years"><summary><span class="kind">年表</span>約3.8万年前〜前4世紀頃</summary><div class="nb"><ul class="ev">
+    <li><span class="y">約3.8万年前</span><span>日本列島で人の活動が始まる（旧石器時代）</span></li>
+    <li><span class="y">約1.6万年前</span><span>土器が使われ始める（縄文時代のはじまり）</span></li>
+    <li><span class="y">約6000年前</span><span>温暖化で海面が上がり、入り江が内陸まで入り込む</span></li>
+    <li><span class="y">前3900頃</span><span><ruby>三内丸山遺跡<rt>さんないまるやまいせき</rt></ruby>（青森）に大きな集落ができる</span></li>
+  </ul></div></details>
+  <p>旧石器時代の人々は、打ち欠いて作った石器を使い、ナウマンゾウやオオツノジカなどの大型動物を追って移動しながら暮らしていた。長いあいだ日本に旧石器時代はなかったと考えられていたが、1946年に群馬県の<b><ruby>岩宿遺跡<rt>いわじゅくいせき</rt></ruby></b>で関東ローム層から石器が見つかり、その存在が確かめられた。</p>
+  <p>約1万年あまり前に氷期が終わって気候が暖かくなると、大型動物は姿を消し、森にはドングリなどの木の実が実るようになった。人々は<b>土器</b>で食べ物を煮炊きし、弓矢で小動物を狩り、海辺では貝や魚をとった。食べ物が安定して手に入るようになったことで、人々は<b><ruby>竪穴住居<rt>たてあなじゅうきょ</rt></ruby></b>を建てて一か所に住み続けるようになる。これが縄文時代である。</p>
+  <p>青森県の<b><ruby>三内丸山遺跡<rt>さんないまるやまいせき</rt></ruby></b>のように、数百人規模が長く暮らした大きな集落も現れた。遠く離れた産地の<ruby>黒曜石<rt>こくようせき</rt></ruby>やヒスイが各地で見つかることから、集落どうしの交易もあったことがわかる。ただし、蓄えられる富はまだ少なく、墓の様子からも大きな身分の差はなかったと考えられている。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>氷期が終わり、気候が暖かくなる</li>
+    <li>木の実や魚介など、身近な食べ物が増える</li>
+    <li>土器で煮炊きし、竪穴住居で定住する</li>
+    <li class="end">身分の差の小さい、狩猟と採集の社会が長く続く</li>
+  </ol>
+  <p class="next">この社会を大きく変えたのは、大陸から伝わった稲作と金属器だった。<a href="#c2">→ 2章</a></p>
+</section>
+
+<!-- 2 -->
+<section class="chapter" id="c2">
+  <div class="chead"><span class="no">2</span><h2>稲作とクニの誕生</h2><div class="meta">前4世紀頃〜3世紀<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from">縄文の人々は、自然から食べ物を得て、身分の差の小さい社会で暮らしていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>前4世紀頃〜3世紀</summary><div class="nb"><ul class="ev">
+    <li><span class="y">前4世紀頃</span><span>水田での稲作が西日本に広がる（弥生時代）</span></li>
+    <li><span class="y">前1世紀</span><span>倭は100あまりの国に分かれていたと記される</span></li>
+    <li><span class="y">57</span><span><ruby>奴国<rt>なこく</rt></ruby>の王が<ruby>後漢<rt>ごかん</rt></ruby>に使いを送り、印を受ける</span></li>
+    <li><span class="y">2世紀後半</span><span><ruby>倭国大乱<rt>わこくたいらん</rt></ruby></span></li>
+    <li><span class="y">239</span><span><ruby>邪馬台国<rt>やまたいこく</rt></ruby>の<ruby>卑弥呼<rt>ひみこ</rt></ruby>が魏に使いを送る</span></li>
+  </ul></div></details>
+  <details class="note"><summary><span class="kind">図</span>縄文から弥生へ</summary><div class="nb">
+    <div class="compare">
+      <div><h3>縄文</h3><p>狩猟・採集・漁で暮らす。蓄えは少なく、身分の差は小さい。集落どうしの大きな争いの跡は少ない。</p></div>
+      <div class="to" aria-hidden="true">▶</div>
+      <div><h3>弥生</h3><p>稲作で米を蓄えられる。土地と水をめぐる争いが起こり、指導者と身分の差が生まれる。</p></div>
+    </div>
+  </div></details>
+  <p>紀元前4世紀頃（さらにさかのぼるとする説もある）、朝鮮半島から九州北部に<b>水田での稲作</b>が伝わり、西日本から東日本へと広がっていった。同じころ、青銅器や鉄器といった<b>金属器</b>も伝わる。米は蓄えることができるため、蓄えの多い者と少ない者の差が生まれ、水田に適した土地や水をめぐって集落どうしの争いも起こるようになった。</p>
+  <p>佐賀県の<b><ruby>吉野ヶ里遺跡<rt>よしのがりいせき</rt></ruby></b>のように、周りを深い堀で囲んだ<b><ruby>環濠集落<rt>かんごうしゅうらく</rt></ruby></b>が現れるのはこのためである。争いの中で、いくつもの集落をまとめる指導者が現れ、やがて「クニ」と呼ばれる小さな政治のまとまりができていった。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>卑弥呼<rt>ひみこ</rt></ruby></span></summary><div class="nb">
+    <div class="role"><ruby>邪馬台国<rt>やまたいこく</rt></ruby>の女王<small>3世紀</small></div>
+    <p><ruby>倭国大乱<rt>わこくたいらん</rt></ruby>のあと、諸国に共に立てられて王となった。魏に使いを送って「<ruby>親魏倭王<rt>しんぎわおう</rt></ruby>」の称号を得た。</p>
+  </div></details>
+  <details class="note"><summary><span class="kind">図</span>中国の王朝と倭の関係</summary><div class="nb">
+    <div class="duo">
+      <div class="box top"><strong>中国の皇帝</strong><small><ruby>後漢<rt>ごかん</rt></ruby>・魏など</small></div>
+      <div class="arrows">
+        <div class="arr l"><b><ruby>朝貢<rt>ちょうこう</rt></ruby></b><div class="line"></div><span>使いを送り、貢ぎ物を差し出す</span></div>
+        <div class="arr r"><b><ruby>冊封<rt>さくほう</rt></ruby></b><div class="line"></div><span>王として認め、印や銅鏡などを与える</span></div>
+      </div>
+      <div class="box"><strong>倭の王</strong><small><ruby>奴国<rt>なこく</rt></ruby>・<ruby>邪馬台国<rt>やまたいこく</rt></ruby>など</small></div>
+    </div>
+    <p class="fig-note">中国の王朝に認められることは、周りのクニに対して自分の力を示す後ろ盾になった。</p>
+  </div></details>
+  <p>この時代の日本の姿は、中国の歴史書に記されている。57年には<b><ruby>奴国<rt>なこく</rt></ruby></b>の王が<b><ruby>後漢<rt>ごかん</rt></ruby></b>に使いを送り、皇帝から印を授けられた。江戸時代に福岡県の<ruby>志賀島<rt>しかのしま</rt></ruby>で見つかった「<b><ruby>漢委奴国王<rt>かんのわのなのこくおう</rt></ruby></b>」の金印がこれにあたるとされる。2世紀後半には倭国で大きな争いが続いたが、諸国は<b><ruby>邪馬台国<rt>やまたいこく</rt></ruby></b>の女王<b><ruby>卑弥呼<rt>ひみこ</rt></ruby></b>を共に立てることで争いを収めた。卑弥呼は239年に<b>魏</b>へ使いを送り、「<b><ruby>親魏倭王<rt>しんぎわおう</rt></ruby></b>」の称号と金印、銅鏡などを与えられている。クニの王たちは、中国の皇帝に認められることで、自らの立場を強めようとしたのである。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>稲作が伝わり、米を蓄えられるようになる</li>
+    <li>貧富の差が生まれ、土地や水をめぐって争う</li>
+    <li>集落をまとめる指導者が現れ、クニができる</li>
+    <li class="end">王たちが中国の王朝に認められて力を強めようとする</li>
+  </ol>
+  <p class="next">各地のクニは、やがて近畿を中心とする大きな連合へとまとまっていく。<a href="#c3">→ 3章</a></p>
+</section>
+
+<!-- 3 -->
+<section class="chapter" id="c3">
+  <div class="chead"><span class="no">3</span><h2>ヤマト政権と古墳</h2><div class="meta">3世紀中頃〜6世紀<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from">各地のクニが争い、中国の王朝の後ろ盾を求めていた。その中で、より大きなまとまりが生まれつつあった。</p>
+  <details class="note years"><summary><span class="kind">年表</span>3世紀中頃〜6世紀</summary><div class="nb"><ul class="ev">
+    <li><span class="y">3世紀中頃</span><span>奈良盆地に大きな<ruby>前方後円墳<rt>ぜんぽうこうえんふん</rt></ruby>が現れる</span></li>
+    <li><span class="y">391</span><span>倭が朝鮮半島に渡り、<ruby>高句麗<rt>こうくり</rt></ruby>と戦う（<ruby>好太王碑<rt>こうたいおうひ</rt></ruby>）</span></li>
+    <li><span class="y">5世紀</span><span><ruby>倭の五王<rt>わのごおう</rt></ruby>が中国の南朝に使いを送る。大仙陵古墳が築かれる</span></li>
+    <li><span class="y">527</span><span><ruby>磐井の乱<rt>いわいのらん</rt></ruby></span></li>
+    <li><span class="y">538</span><span><ruby>百済<rt>くだら</rt></ruby>から仏教が伝わる（552年説もある）</span></li>
+    <li><span class="y">587</span><span><ruby>蘇我氏<rt>そがし</rt></ruby>が<ruby>物部氏<rt>もののべし</rt></ruby>を滅ぼす</span></li>
+  </ul></div></details>
+  <p>3世紀中頃になると、奈良盆地を中心に、鍵穴のような形をした巨大な<b><ruby>前方後円墳<rt>ぜんぽうこうえんふん</rt></ruby></b>が築かれ始める。同じ形の古墳はやがて九州から東北南部まで広がった。これは、近畿の有力な豪族を中心とする連合政権、すなわち<b>ヤマト政権</b>が生まれ、各地の豪族がそれに加わったことを示していると考えられている。政権の頂点に立つ者は<b><ruby>大王<rt>おおきみ</rt></ruby></b>と呼ばれた。</p>
+  <details class="note"><summary><span class="kind">図</span>4〜6世紀の東アジアと倭</summary><div class="nb">
+    <div class="world">
+      <div><h3>中国</h3><p>南北に分かれて争う時代。<ruby>倭の五王<rt>わのごおう</rt></ruby>は南朝の宋に使いを送り、朝鮮半島南部での立場を認めるよう求めた。</p></div>
+      <div><h3><ruby>高句麗<rt>こうくり</rt></ruby></h3><p>朝鮮半島北部の強国。南へ勢力を広げ、<ruby>百済<rt>くだら</rt></ruby>や倭と戦った。</p></div>
+      <div><h3>百済</h3><p>朝鮮半島西部の国。倭と結び、漢字や儒教、仏教などを伝えた。</p></div>
+      <div><h3><ruby>新羅<rt>しらぎ</rt></ruby>・<ruby>加耶<rt>かや</rt></ruby></h3><p>半島南東部の新羅は6世紀に力を伸ばし、倭が鉄を求めて関わっていた加耶を併合した。</p></div>
+    </div>
+  </div></details>
+  <p>ヤマト政権は、朝鮮半島とも深く関わっていた。半島南部の<b><ruby>加耶<rt>かや</rt></ruby></b>は、武器や農具の材料となる鉄の産地だったからである。<ruby>高句麗<rt>こうくり</rt></ruby>の王の業績をたたえた<b><ruby>好太王碑<rt>こうたいおうひ</rt></ruby></b>には、391年以降、倭が海を渡って高句麗と戦ったことが記されている。5世紀には「<b><ruby>倭の五王<rt>わのごおう</rt></ruby></b>」と呼ばれる5人の王が次々に中国南朝の宋に使いを送り、朝鮮半島南部での軍事的な立場を認めるよう求めた。こうした交流の中で、多くの<b><ruby>渡来人<rt>とらいじん</rt></ruby></b>が海を渡り、漢字や鉄の加工、<ruby>須恵器<rt>すえき</rt></ruby>と呼ばれる硬い土器の製法などを伝えた。</p>
+  <details class="note"><summary><span class="kind">図</span>ヤマト政権のしくみ（氏姓制度）</summary><div class="nb">
+    <div class="org">
+      <div class="box top"><strong><ruby>大王<rt>おおきみ</rt></ruby></strong><small>ヤマト政権の頂点（のちの天皇）</small></div>
+      <div class="vline"></div>
+      <div class="box mid"><strong><ruby>大臣・大連<rt>おおおみ・おおむらじ</rt></ruby></strong><small>有力な豪族が就き、政治の中心を担う（<ruby>蘇我氏<rt>そがし</rt></ruby>・<ruby>物部氏<rt>もののべし</rt></ruby>など）</small></div>
+      <div class="vline"></div>
+      <div class="branches">
+        <div class="branch"><div class="label">中央</div><div class="row">
+          <div class="box"><strong>豪族（氏）</strong><small>血縁を中心とする集団。家柄に応じた称号（姓）を与えられる</small></div>
+          <div class="box"><strong><ruby>部民<rt>べみん</rt></ruby></strong><small>豪族や大王に属し、生産や労役を担う人々</small></div>
+        </div></div>
+        <div class="branch"><div class="label">地方</div><div class="row">
+          <div class="box"><strong><ruby>国造<rt>くにのみやつこ</rt></ruby></strong><small>地方の豪族が任じられ、その地域を治める</small></div>
+        </div></div>
+      </div>
+    </div>
+    <p class="fig-note">豪族は土地と人々を自ら支配したまま、大王に仕えていた。この「豪族ごとの支配」を改めることが、7世紀の改革の課題になる。</p>
+  </div></details>
+  <p>政権の内部では、豪族が血縁を中心とする集団（氏）をつくり、家柄に応じた称号（姓）を大王から与えられて仕えた。このしくみを<b><ruby>氏姓制度<rt>しせいせいど</rt></ruby></b>という。ただし豪族の力は強く、527年には九州の豪族が<ruby>新羅<rt>しらぎ</rt></ruby>と結んで反乱を起こしている（<b><ruby>磐井の乱<rt>いわいのらん</rt></ruby></b>）。6世紀には<b><ruby>百済<rt>くだら</rt></ruby></b>から仏教が伝わり、仏教を受け入れるかどうかをめぐって<b><ruby>蘇我氏<rt>そがし</rt></ruby></b>と<b><ruby>物部氏<rt>もののべし</rt></ruby></b>が対立した。587年に蘇我氏が物部氏を滅ぼし、政権の中で大きな力を持つようになる。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>近畿の豪族を中心に、各地の豪族が連合する</li>
+    <li>鉄を求めて朝鮮半島に進出し、中国南朝にも使いを送る</li>
+    <li>渡来人が技術や文字、仏教をもたらす</li>
+    <li class="end">豪族の力は強いまま、蘇我氏が政権の主導権を握る</li>
+  </ol>
+  <p class="next">そのころ中国では、約300年ぶりに統一王朝の隋が生まれようとしていた。<a href="#c4">→ 4章</a></p>
+</section>
+
+<!-- 4 -->
+<section class="chapter" id="c4">
+  <div class="chead"><span class="no">4</span><h2>飛鳥の改革</h2><div class="meta">592〜672<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from">ヤマト政権では<ruby>蘇我氏<rt>そがし</rt></ruby>が主導権を握っていたが、豪族がそれぞれ土地と人々を支配するしくみは変わっていなかった。</p>
+  <details class="note years"><summary><span class="kind">年表</span>592〜672</summary><div class="nb"><ul class="ev">
+    <li><span class="y">592</span><span><ruby>推古天皇<rt>すいこてんのう</rt></ruby>が即位する</span></li>
+    <li><span class="y">603</span><span><ruby>冠位十二階<rt>かんいじゅうにかい</rt></ruby></span></li>
+    <li><span class="y">604</span><span>十七条の憲法</span></li>
+    <li><span class="y">607</span><span><ruby>小野妹子<rt>おののいもこ</rt></ruby>を隋に派遣する</span></li>
+    <li><span class="y">645</span><span><ruby>乙巳の変<rt>いっしのへん</rt></ruby>。翌年、改新の詔が出される</span></li>
+    <li><span class="y">663</span><span><ruby>白村江の戦い<rt>はくすきのえのたたかい</rt></ruby>で唐・<ruby>新羅<rt>しらぎ</rt></ruby>に敗れる</span></li>
+    <li><span class="y">672</span><span><ruby>壬申の乱<rt>じんしんのらん</rt></ruby></span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>厩戸王<rt>うまやとおう</rt></ruby></span></summary><div class="nb">
+    <div class="role"><ruby>聖徳太子<rt>しょうとくたいし</rt></ruby><small>574–622</small></div>
+    <p><ruby>推古天皇<rt>すいこてんのう</rt></ruby>のもとで<ruby>蘇我馬子<rt>そがのうまこ</rt></ruby>とともに政治にあたり、<ruby>冠位十二階<rt>かんいじゅうにかい</rt></ruby>や十七条の憲法を定め、隋に使いを送ったと伝えられる。</p>
+  </div></details>
+  <p>589年、中国では<b>隋</b>が約300年ぶりに南北を統一し、強大な帝国が東アジアに現れた。このころヤマト政権では、<b><ruby>推古天皇<rt>すいこてんのう</rt></ruby></b>のもとで、甥の<b><ruby>厩戸王<rt>うまやとおう</rt></ruby></b>（<ruby>聖徳太子<rt>しょうとくたいし</rt></ruby>）と大臣の<b><ruby>蘇我馬子<rt>そがのうまこ</rt></ruby></b>が政治を進めていた。603年には、家柄ではなく才能や功績に応じて役人を取り立てるための<b><ruby>冠位十二階<rt>かんいじゅうにかい</rt></ruby></b>、翌604年には、役人の心構えを示した<b>十七条の憲法</b>が定められたとされる。607年には<b><ruby>小野妹子<rt>おののいもこ</rt></ruby></b>が<b><ruby>遣隋使<rt>けんずいし</rt></ruby></b>として派遣された。このとき倭は、隋の皇帝に対等の立場で国書を送ったと伝えられ、朝鮮半島の国々とは異なる姿勢を示している。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>中大兄皇子<rt>なかのおおえのおうじ</rt></ruby></span></summary><div class="nb">
+    <div class="role">のちの<ruby>天智天皇<rt>てんじてんのう</rt></ruby><small>626–671</small></div>
+    <p><ruby>中臣鎌足<rt>なかとみのかまたり</rt></ruby>とともに<ruby>蘇我氏<rt>そがし</rt></ruby>の本家を倒し、<ruby>大化の改新<rt>たいかのかいしん</rt></ruby>を進めた。白村江の敗戦後は国の守りを固め、即位して天智天皇となった。</p>
+  </div></details>
+  <p>618年に隋が滅んで<b>唐</b>が成立すると、唐は周辺の国々への圧力を強めた。国内では蘇我氏の権力がさらに大きくなっていたが、645年、<b><ruby>中大兄皇子<rt>なかのおおえのおうじ</rt></ruby></b>と<b><ruby>中臣鎌足<rt>なかとみのかまたり</rt></ruby></b>が<ruby>蘇我入鹿<rt>そがのいるか</rt></ruby>を宮中で討ち、蘇我氏の本家を滅ぼした（<b><ruby>乙巳の変<rt>いっしのへん</rt></ruby></b>）。翌646年に出された改新の詔では、豪族が支配していた土地と人々を国のものとし、全国を国・郡などに分けて治める方針が示された。これを<b><ruby>大化の改新<rt>たいかのかいしん</rt></ruby></b>という。</p>
+  <p>しかし、改革は東アジアの戦争によって中断を迫られる。唐と<ruby>新羅<rt>しらぎ</rt></ruby>が<ruby>百済<rt>くだら</rt></ruby>を滅ぼすと、倭は百済の復興を助けるために大軍を送ったが、663年の<b><ruby>白村江の戦い<rt>はくすきのえのたたかい</rt></ruby></b>で唐・新羅の連合軍に大敗した。唐が攻めてくることを恐れた中大兄皇子は、九州に<ruby>防人<rt>さきもり</rt></ruby>を置き、<ruby>大宰府<rt>だいざいふ</rt></ruby>の守りに<ruby>水城<rt>みずき</rt></ruby>や<ruby>大野城<rt>おおのじょう</rt></ruby>などの城を築いて国の守りを固めた。そして都を<ruby>近江<rt>おうみ</rt></ruby>の大津に移し、668年に即位して<b><ruby>天智天皇<rt>てんじてんのう</rt></ruby></b>となる。天智天皇の死後、672年には、その弟の<ruby>大海人皇子<rt>おおあまのおうじ</rt></ruby>と、子の<ruby>大友皇子<rt>おおとものおうじ</rt></ruby>が皇位をめぐって争った（<b><ruby>壬申の乱<rt>じんしんのらん</rt></ruby></b>）。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>隋・唐という強大な帝国が現れる</li>
+    <li>蘇我氏を倒し、豪族の土地と人々を国のものにする方針を示す</li>
+    <li>白村江の戦いに敗れ、唐の侵攻を恐れる</li>
+    <li class="end">国の守りを固めるため、天皇のもとに力を集める必要が高まる</li>
+  </ol>
+  <p class="next">壬申の乱に勝ったのは大海人皇子だった。強い天皇のもとで、国家のしくみが一気に整えられていく。<a href="#c5">→ 5章</a></p>
+</section>
+
+<!-- 5 -->
+<section class="chapter" id="c5">
+  <div class="chead"><span class="no">5</span><h2><ruby>律令国家<rt>りつりょうこっか</rt></ruby>の完成</h2><div class="meta">672〜710<span class="tag pol">政治</span></div></div>
+  <p class="from">白村江の敗戦で、唐に対抗できる国家をつくることが急務になっていた。そこへ皇位をめぐる内乱が起こる。</p>
+  <details class="note years"><summary><span class="kind">年表</span>672〜710</summary><div class="nb"><ul class="ev">
+    <li><span class="y">673</span><span><ruby>大海人皇子<rt>おおあまのおうじ</rt></ruby>が即位し、<ruby>天武天皇<rt>てんむてんのう</rt></ruby>となる</span></li>
+    <li><span class="y">684</span><span><ruby>八色の姓<rt>やくさのかばね</rt></ruby>を定める</span></li>
+    <li><span class="y">689</span><span><ruby>飛鳥浄御原令<rt>あすかきよみはらりょう</rt></ruby>を施行する</span></li>
+    <li><span class="y">694</span><span><ruby>藤原京<rt>ふじわらきょう</rt></ruby>に都を移す</span></li>
+    <li><span class="y">701</span><span><ruby>大宝律令<rt>たいほうりつりょう</rt></ruby>が完成する</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>天武天皇<rt>てんむてんのう</rt></ruby></span></summary><div class="nb">
+    <div class="role"><ruby>壬申の乱<rt>じんしんのらん</rt></ruby>に勝利<small>?–686</small></div>
+    <p>壬申の乱で<ruby>大友皇子<rt>おおとものおうじ</rt></ruby>を破って即位し、強い権力で中央集権の国家づくりを進めた。歴史書の編さんも始めさせた。</p>
+  </div></details>
+  <p><ruby>壬申の乱<rt>じんしんのらん</rt></ruby>では、多くの豪族が<ruby>大友皇子<rt>おおとものおうじ</rt></ruby>の側について敗れた。そのため、勝った<b><ruby>天武天皇<rt>てんむてんのう</rt></ruby></b>は、豪族に遠慮することなく強い権力をふるうことができた。天武天皇は皇族を政治の中心に置き、豪族の家柄を新たに格付けし直して（<b><ruby>八色の姓<rt>やくさのかばね</rt></ruby></b>）、天皇との距離によって序列を決めた。このころから「天皇」という称号や、「日本」という国の名が使われるようになったと考えられている。</p>
+  <details class="note"><summary><span class="kind">図</span>律令による政治のしくみ</summary><div class="nb">
+    <div class="org">
+      <div class="box top"><strong>天皇</strong><small>国家の頂点</small></div>
+      <div class="vline"></div>
+      <div class="box mid"><strong><ruby>太政官<rt>だいじょうかん</rt></ruby></strong><small>政治の中心。<ruby>太政大臣<rt>だいじょうだいじん</rt></ruby>・左大臣・右大臣・大納言らの話し合いで決める（ほかに祭りをつかさどる<ruby>神祇官<rt>じんぎかん</rt></ruby>）</small></div>
+      <div class="vline"></div>
+      <div class="branches">
+        <div class="branch"><div class="label">中央</div><div class="row">
+          <div class="box"><strong><ruby>八省<rt>はっしょう</rt></ruby></strong><small>中務・式部・治部・民部・兵部・刑部・大蔵・宮内の各省が実務を分担</small></div>
+        </div></div>
+        <div class="branch"><div class="label">地方</div><div class="row">
+          <div class="box"><strong><ruby>国司<rt>こくし</rt></ruby></strong><small>都から派遣される</small></div>
+          <div class="box"><strong><ruby>郡司<rt>ぐんじ</rt></ruby></strong><small>地方の豪族が任じられる</small></div>
+          <div class="box"><strong><ruby>大宰府<rt>だいざいふ</rt></ruby></strong><small>九州を治め、外交の窓口となる</small></div>
+        </div></div>
+      </div>
+    </div>
+    <p class="fig-note">これを二官八省という。かつて土地と人々を支配していた豪族は、国家の役人として位と給与を受ける立場になった。</p>
+  </div></details>
+  <p>天武天皇の死後、皇后だった<b><ruby>持統天皇<rt>じとうてんのう</rt></ruby></b>がその事業を引き継ぎ、689年に<b><ruby>飛鳥浄御原令<rt>あすかきよみはらりょう</rt></ruby></b>を施行し、694年には中国の都にならった本格的な都である<b><ruby>藤原京<rt>ふじわらきょう</rt></ruby></b>に移った。そして701年、刑罰の決まりである律と、政治のしくみを定めた令からなる<b><ruby>大宝律令<rt>たいほうりつりょう</rt></ruby></b>が完成する。律令は唐の制度を手本にしながら、日本の実情に合わせて作られたもので、これによって天皇を頂点とする中央集権の国家、すなわち<b>律令国家</b>のしくみが整った。</p>
+  <details class="note"><summary><span class="kind">図</span>班田収授と税</summary><div class="nb">
+    <div class="duo">
+      <div class="box top"><strong>国家</strong><small>戸籍で人々を把握</small></div>
+      <div class="arrows">
+        <div class="arr r"><b><ruby>口分田<rt>くぶんでん</rt></ruby></b><div class="line"></div><span>6歳以上の男女に田を与える（6年ごとに戸籍をつくり直す）</span></div>
+        <div class="arr l"><b>税と労役</b><div class="line"></div><span>租（稲）・調（特産物）・庸（布）、労役や兵役</span></div>
+      </div>
+      <div class="box"><strong>人々</strong><small>公民</small></div>
+    </div>
+    <p class="fig-note">土地も人々も国家のものとする「公地公民」の考え方に基づく。税のうち調・庸や兵役は成人男性に重くかかった。</p>
+  </div></details>
+  <p>律令国家は、<b>戸籍</b>によって一人ひとりを把握し、6歳以上の男女に田（<b><ruby>口分田<rt>くぶんでん</rt></ruby></b>）を貸し与えた。これを<b><ruby>班田収授法<rt>はんでんしゅうじゅのほう</rt></ruby></b>という。人々は田の収穫の一部を<b><ruby>租・庸・調<rt>そ・よう・ちょう</rt></ruby></b>などの税として納め、都での労役や兵役も負担した。全国は国・郡・里に分けられ、都から派遣される<b><ruby>国司<rt>こくし</rt></ruby></b>と、地方の豪族から選ばれる<b><ruby>郡司<rt>ぐんじ</rt></ruby></b>が人々を治めた。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>壬申の乱で、敵対した豪族の力が弱まる</li>
+    <li>天武天皇が強い権力で国家づくりを進める</li>
+    <li>唐を手本に、律令と都、戸籍を整える</li>
+    <li class="end">天皇を頂点とする中央集権の律令国家が完成する</li>
+  </ol>
+  <p class="next">律令国家は、新しい都でその姿を示そうとする。しかし、その運営は最初から順調ではなかった。<a href="#c6">→ 6章</a></p>
+</section>
+
+<!-- 6 -->
+<section class="chapter" id="c6">
+  <div class="chead"><span class="no">6</span><h2>奈良時代の政治と仏教</h2><div class="meta">710〜794<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from"><ruby>大宝律令<rt>たいほうりつりょう</rt></ruby>によって、天皇を頂点とする国家のしくみが整った。その中心となる都が、奈良につくられる。</p>
+  <details class="note years"><summary><span class="kind">年表</span>710〜794</summary><div class="nb"><ul class="ev">
+    <li><span class="y">710</span><span><ruby>平城京<rt>へいじょうきょう</rt></ruby>に都を移す</span></li>
+    <li><span class="y">723</span><span><ruby>三世一身法<rt>さんぜいっしんのほう</rt></ruby></span></li>
+    <li><span class="y">729</span><span><ruby>長屋王<rt>ながやおう</rt></ruby>の変</span></li>
+    <li><span class="y">741</span><span><ruby>国分寺<rt>こくぶんじ</rt></ruby>建立の詔</span></li>
+    <li><span class="y">743</span><span><ruby>墾田永年私財法<rt>こんでんえいねんしざいほう</rt></ruby>。大仏造立の詔</span></li>
+    <li><span class="y">752</span><span>東大寺の大仏の開眼</span></li>
+    <li><span class="y">770</span><span><ruby>称徳天皇<rt>しょうとくてんのう</rt></ruby>が亡くなり、<ruby>道鏡<rt>どうきょう</rt></ruby>が退けられる</span></li>
+    <li><span class="y">784</span><span>長岡京に都を移す</span></li>
+  </ul></div></details>
+  <p>710年、唐の都・長安にならった<b><ruby>平城京<rt>へいじょうきょう</rt></ruby></b>がつくられた。唐へはおよそ20年に一度<b><ruby>遣唐使<rt>けんとうし</rt></ruby></b>が送られ、留学生や僧が唐の制度や文化、仏教を持ち帰った。一方で、朝鮮半島を統一した<b><ruby>新羅<rt>しらぎ</rt></ruby></b>とは、互いの立場をめぐってしばしば関係が悪化し、中国東北部の<b><ruby>渤海<rt>ぼっかい</rt></ruby></b>とは友好的な使節の行き来が続いた。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>聖武天皇<rt>しょうむてんのう</rt></ruby></span></summary><div class="nb">
+    <div class="role">大仏をつくらせた天皇<small>701–756</small></div>
+    <p>政争と疫病、反乱が続く中で、仏教の力で国を守ろうと<ruby>国分寺<rt>こくぶんじ</rt></ruby>の建立と大仏の造立を命じた。</p>
+  </div></details>
+  <p>都では、律令づくりに力を尽くした<b><ruby>藤原不比等<rt>ふじわらのふひと</rt></ruby></b>の子どもたちと、皇族との間で権力争いが続いた。729年には、皇族の<b><ruby>長屋王<rt>ながやおう</rt></ruby></b>が藤原氏の4兄弟に追いつめられて自害している（<b>長屋王の変</b>）。ところが737年、天然痘が大流行し、この4兄弟もそろって亡くなった。740年には九州で藤原広嗣が反乱を起こす。政争と疫病、反乱が相次ぐ中で、<b><ruby>聖武天皇<rt>しょうむてんのう</rt></ruby></b>は仏教の力で国を守ろうと考え、741年に国ごとに<b><ruby>国分寺<rt>こくぶんじ</rt></ruby></b>を建てるよう命じ、743年には大仏をつくる詔を出した。東大寺の大仏は752年に完成する。</p>
+  <details class="note"><summary><span class="kind">図</span>土地制度の変化</summary><div class="nb">
+    <div class="compare">
+      <div><h3>班田収授（8世紀初め）</h3><p>土地は国家のもの。人々に<ruby>口分田<rt>くぶんでん</rt></ruby>を貸し与え、死ねば国に返す。</p></div>
+      <div class="to" aria-hidden="true">▶</div>
+      <div><h3><ruby>墾田永年私財法<rt>こんでんえいねんしざいほう</rt></ruby>（743）</h3><p>新しく開いた田は、いつまでも私有してよい。貴族や寺社が開墾を進める。</p></div>
+    </div>
+    <p class="fig-note">私有地はのちの<ruby>荘園<rt>しょうえん</rt></ruby>のもとになり、「公地公民」の原則はしだいに崩れていく。</p>
+  </div></details>
+  <p>同じころ、律令の土地制度にも変化が起きていた。人口が増える一方で<ruby>口分田<rt>くぶんでん</rt></ruby>が足りなくなり、重い税や労役から逃れるために土地を捨てる人々も現れた。そこで朝廷は、田を新たに開くことを促すため、723年に<b><ruby>三世一身法<rt>さんぜいっしんのほう</rt></ruby></b>で開いた田を3代まで私有することを認め、743年には<b><ruby>墾田永年私財法<rt>こんでんえいねんしざいほう</rt></ruby></b>でいつまでも私有してよいとした。この結果、財力のある貴族や大きな寺院が盛んに開墾を進め、私有地が広がっていった。</p>
+  <p>政治では、仏教の保護が行き過ぎて、僧が政治に深く関わるようになった。<ruby>称徳天皇<rt>しょうとくてんのう</rt></ruby>に重く用いられた僧の<b><ruby>道鏡<rt>どうきょう</rt></ruby></b>は、一時は皇位をうかがったともいわれる。天皇の死後、道鏡は退けられ、やがて即位した<b><ruby>桓武天皇<rt>かんむてんのう</rt></ruby></b>は、寺院の勢力が強い奈良を離れて、784年に長岡京、794年には<ruby>平安京<rt>へいあんきょう</rt></ruby>へと都を移した。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>権力争い・疫病・反乱が相次ぐ</li>
+    <li>天皇が仏教の力で国を守ろうとし、寺院が力を持つ</li>
+    <li>口分田が不足し、開いた田の私有を認める</li>
+    <li class="end">律令の土台が崩れ始め、桓武天皇が都を移して立て直しを図る</li>
+  </ol>
+  <p class="next">新しい都で天皇は政治の立て直しを進める。しかしまもなく、天皇に代わって政治を動かす一族が現れる。<a href="#c7">→ 7章</a></p>
+</section>
+
+<!-- 7 -->
+<section class="chapter" id="c7">
+  <div class="chead"><span class="no">7</span><h2><ruby>平安京<rt>へいあんきょう</rt></ruby>と<ruby>摂関政治<rt>せっかんせいじ</rt></ruby></h2><div class="meta">794〜1068<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from">寺院の政治への関わりと、土地の私有の広がりによって、<ruby>律令国家<rt>りつりょうこっか</rt></ruby>は立て直しを迫られていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>794〜1068</summary><div class="nb"><ul class="ev">
+    <li><span class="y">794</span><span><ruby>平安京<rt>へいあんきょう</rt></ruby>に都を移す</span></li>
+    <li><span class="y">802</span><span><ruby>坂上田村麻呂<rt>さかのうえのたむらまろ</rt></ruby>が東北に胆沢城を築く</span></li>
+    <li><span class="y">866</span><span><ruby>藤原良房<rt>ふじわらのよしふさ</rt></ruby>が正式に<ruby>摂政<rt>せっしょう</rt></ruby>となる</span></li>
+    <li><span class="y">894</span><span><ruby>遣唐使<rt>けんとうし</rt></ruby>の派遣をやめる</span></li>
+    <li><span class="y">939</span><span><ruby>平将門<rt>たいらのまさかど</rt></ruby>の乱・<ruby>藤原純友<rt>ふじわらのすみとも</rt></ruby>の乱（〜941）</span></li>
+    <li><span class="y">1016</span><span><ruby>藤原道長<rt>ふじわらのみちなが</rt></ruby>が摂政となる</span></li>
+    <li><span class="y">1019</span><span><ruby>刀伊の入寇<rt>といのにゅうこう</rt></ruby></span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>桓武天皇<rt>かんむてんのう</rt></ruby></span></summary><div class="nb">
+    <div class="role"><ruby>平安京<rt>へいあんきょう</rt></ruby>を開く<small>737–806</small></div>
+    <p>長岡京・平安京へ都を移し、東北の<ruby>蝦夷<rt>えみし</rt></ruby>の征討と地方政治の引き締めによって<ruby>律令国家<rt>りつりょうこっか</rt></ruby>の立て直しを図った。</p>
+  </div></details>
+  <p><b><ruby>桓武天皇<rt>かんむてんのう</rt></ruby></b>は平安京で政治の立て直しを進めた。東北地方では、朝廷に従わない人々（<b><ruby>蝦夷<rt>えみし</rt></ruby></b>）の抵抗が続いていたため、<b><ruby>坂上田村麻呂<rt>さかのうえのたむらまろ</rt></ruby></b>を<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>に任じて北へ支配を広げさせた。地方の役人の不正を取り締まり、農民の兵役の負担も軽くしている。ただし、東北への遠征と都づくりという二つの大事業は国の財政を圧迫し、805年には両方とも打ち切られた。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>藤原道長<rt>ふじわらのみちなが</rt></ruby></span></summary><div class="nb">
+    <div class="role"><ruby>摂関政治<rt>せっかんせいじ</rt></ruby>の最盛期<small>966–1027</small></div>
+    <p>4人の娘を天皇の后とし、3人の天皇の外祖父となった。約30年にわたって朝廷の実権を握った。</p>
+  </div></details>
+  <details class="note"><summary><span class="kind">図</span>摂関政治のしくみ</summary><div class="nb">
+    <div class="duo">
+      <div class="box top"><strong>藤原氏</strong><small>天皇の<ruby>外戚<rt>がいせき</rt></ruby></small></div>
+      <div class="arrows">
+        <div class="arr r"><b>娘を后に</b><div class="line"></div><span>娘を天皇の后とし、生まれた皇子を次の天皇に立てる</span></div>
+        <div class="arr l"><b><ruby>摂政<rt>せっしょう</rt></ruby>・<ruby>関白<rt>かんぱく</rt></ruby></b><div class="line"></div><span>幼い天皇に代わる摂政、成人後も補佐する関白として政治を動かす</span></div>
+      </div>
+      <div class="box"><strong>天皇</strong><small>藤原氏の娘が母</small></div>
+    </div>
+    <p class="fig-note">当時は、子どもが母方の家で育てられることが多く、母方の祖父や叔父（外戚）の発言力が強かった。藤原氏はこの関係を利用して、官職の任命などの実権を握った。</p>
+  </div></details>
+  <p>9世紀に入ると、藤原氏が朝廷で力を伸ばしていく。藤原氏は自分の娘を天皇の后とし、生まれた皇子を天皇に立てることで、天皇の母方の親族（<b><ruby>外戚<rt>がいせき</rt></ruby></b>）として発言力を強めた。858年に幼い清和天皇が即位すると、その祖父の<b><ruby>藤原良房<rt>ふじわらのよしふさ</rt></ruby></b>が政治を代わりに行い、のちに正式に<b><ruby>摂政<rt>せっしょう</rt></ruby></b>となる。良房の後を継いだ<ruby>藤原基経<rt>ふじわらのもとつね</rt></ruby>は、成人した天皇を補佐する<b><ruby>関白<rt>かんぱく</rt></ruby></b>となった。こうして、藤原氏が摂政や関白として政治を動かす<b>摂関政治</b>が形づくられ、11世紀前半の<b><ruby>藤原道長<rt>ふじわらのみちなが</rt></ruby></b>・<b><ruby>藤原頼通<rt>ふじわらのよりみち</rt></ruby></b>父子の時代に最盛期を迎える。</p>
+  <p>対外関係も変わっていった。唐の勢いが衰えると、894年、<b><ruby>菅原道真<rt>すがわらのみちざね</rt></ruby></b>の意見によって<ruby>遣唐使<rt>けんとうし</rt></ruby>の派遣がとりやめられた。907年に唐が滅んだあとも、日本は中国の宋や朝鮮半島の<ruby>高麗<rt>こうらい</rt></ruby>と正式な国交を結ばず、商人を通じた交易だけを続けた。この中で、かな文字の普及に代表される、日本の風土や感覚に合った<b><ruby>国風文化<rt>こくふうぶんか</rt></ruby></b>が育っている。一方、1019年には大陸の<ruby>女真族<rt>じょしんぞく</rt></ruby>とみられる海賊が対馬・<ruby>壱岐<rt>いき</rt></ruby>や北九州を襲い（<b><ruby>刀伊の入寇<rt>といのにゅうこう</rt></ruby></b>）、九州の武士たちがこれを退けた。</p>
+  <details class="note"><summary><span class="kind">図</span>荘園の寄進のしくみ</summary><div class="nb">
+    <div class="org">
+      <div class="box top"><strong>本家</strong><small>摂関家・皇族・大寺院など。最も力のある保護者</small></div>
+      <div class="vline"></div>
+      <div class="box mid"><strong>領家</strong><small>都の貴族や寺社。土地の権利を名目上ゆずり受ける</small></div>
+      <div class="vline"></div>
+      <div class="branches">
+        <div class="branch"><div class="label">現地</div><div class="row">
+          <div class="box"><strong>開発領主（荘官）</strong><small>土地を開いた地方の有力者。現地で実際に管理する</small></div>
+          <div class="box"><strong>農民</strong><small>耕作して年貢を納める</small></div>
+        </div></div>
+      </div>
+    </div>
+    <p class="fig-note">地方の有力者は、<ruby>国司<rt>こくし</rt></ruby>に税を取られないよう、土地を都の有力者に寄進して保護を受けた。税を免除される<ruby>荘園<rt>しょうえん</rt></ruby>が増えるほど、国家の収入は減っていく。</p>
+  </div></details>
+  <p>この時期、地方では律令の土地と税のしくみが大きく崩れていた。地方の有力者は、開いた土地を<ruby>国司<rt>こくし</rt></ruby>の課税から守るため、都の有力な貴族や寺社に寄進して保護を受けた。こうして生まれた私有地を<b><ruby>荘園<rt>しょうえん</rt></ruby></b>といい、摂関家にはその寄進が集中した。一方、国司の中には任地で富を蓄える者が多く、地方の治安は乱れた。有力者たちは武装して自らの土地を守るようになり、そこから<b>武士</b>が生まれてくる。939年には、関東で<b><ruby>平将門<rt>たいらのまさかど</rt></ruby></b>が、瀬戸内海で<b><ruby>藤原純友<rt>ふじわらのすみとも</rt></ruby></b>が反乱を起こした。これを鎮めたのも、同じ武士たちだった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>藤原氏が娘を后にして、天皇の外戚となる</li>
+    <li>摂政・関白として政治の実権を握る</li>
+    <li>荘園の寄進が摂関家に集まり、国家の収入が減る</li>
+    <li class="end">地方の治安が乱れ、武装した武士が力をつける</li>
+  </ol>
+  <p class="next">ところが11世紀後半、藤原氏を外戚としない天皇が即位する。政治の主役が、ここで再び入れ替わる。<a href="#c8">→ 8章</a></p>
+</section>
+
+<!-- 8 -->
+<section class="chapter" id="c8">
+  <div class="chead"><span class="no">8</span><h2><ruby>院政<rt>いんせい</rt></ruby>と平氏政権</h2><div class="meta">1068〜1185<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from"><ruby>摂関政治<rt>せっかんせいじ</rt></ruby>のもとで<ruby>荘園<rt>しょうえん</rt></ruby>が広がり、地方では武士が力をつけていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1068〜1185</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1069</span><span><ruby>後三条天皇<rt>ごさんじょうてんのう</rt></ruby>が<ruby>延久の荘園整理令<rt>えんきゅうのしょうえんせいりれい</rt></ruby>を出す</span></li>
+    <li><span class="y">1086</span><span><ruby>白河上皇<rt>しらかわじょうこう</rt></ruby>が<ruby>院政<rt>いんせい</rt></ruby>を始める</span></li>
+    <li><span class="y">1156</span><span><ruby>保元の乱<rt>ほうげんのらん</rt></ruby></span></li>
+    <li><span class="y">1159</span><span><ruby>平治の乱<rt>へいじのらん</rt></ruby></span></li>
+    <li><span class="y">1167</span><span><ruby>平清盛<rt>たいらのきよもり</rt></ruby>が<ruby>太政大臣<rt>だいじょうだいじん</rt></ruby>となる</span></li>
+    <li><span class="y">1180</span><span><ruby>源頼朝<rt>みなもとのよりとも</rt></ruby>らが挙兵する（<ruby>治承・寿永の乱<rt>じしょう・じゅえいのらん</rt></ruby>、〜1185）</span></li>
+    <li><span class="y">1185</span><span><ruby>壇ノ浦<rt>だんのうら</rt></ruby>の戦いで平氏が滅ぶ</span></li>
+  </ul></div></details>
+  <p>1068年に即位した<b><ruby>後三条天皇<rt>ごさんじょうてんのう</rt></ruby></b>は、藤原氏を<ruby>外戚<rt>がいせき</rt></ruby>としない、170年ぶりの天皇だった。そのため摂関家に遠慮することなく政治を進め、翌1069年には<b><ruby>延久の荘園整理令<rt>えんきゅうのしょうえんせいりれい</rt></ruby></b>を出して、手続きの不確かな荘園を整理した。摂関家の荘園も例外とはされず、摂関家の力は大きく後退した。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>白河上皇<rt>しらかわじょうこう</rt></ruby></span></summary><div class="nb">
+    <div class="role"><ruby>院政<rt>いんせい</rt></ruby>を始める<small>1053–1129</small></div>
+    <p>譲位したあとも<ruby>上皇<rt>じょうこう</rt></ruby>として政治を動かし、院政の形をつくった。武士を身辺の警備に用いた。</p>
+  </div></details>
+  <details class="note"><summary><span class="kind">図</span>摂関政治と院政</summary><div class="nb">
+    <div class="compare">
+      <div><h3><ruby>摂関政治<rt>せっかんせいじ</rt></ruby></h3><p>天皇の母方の親族（藤原氏）が、<ruby>摂政<rt>せっしょう</rt></ruby>・<ruby>関白<rt>かんぱく</rt></ruby>として政治を動かす。</p></div>
+      <div class="to" aria-hidden="true">▶</div>
+      <div><h3><ruby>院政<rt>いんせい</rt></ruby></h3><p>天皇の父や祖父にあたる<ruby>上皇<rt>じょうこう</rt></ruby>が、天皇家の長として政治を動かす。</p></div>
+    </div>
+    <p class="fig-note">院政のもとでも摂関家はなくならなかったが、政治の主導権は天皇家の父方へ移った。</p>
+  </div></details>
+  <p>後三条天皇の子の<b><ruby>白河天皇<rt>しらかわてんのう</rt></ruby></b>は、1086年に幼い子に位をゆずったあとも、<b><ruby>上皇<rt>じょうこう</rt></ruby></b>として政治の実権を握り続けた。これを<b>院政</b>という。上皇は天皇の父や祖父という立場から、法や慣例にとらわれずに政治を動かした。荘園の寄進は、今度は上皇のもとに集まるようになる。上皇は<b><ruby>北面の武士<rt>ほくめんのぶし</rt></ruby></b>と呼ばれる武士を身辺の警備に置き、大寺院の<ruby>僧兵<rt>そうへい</rt></ruby>が<ruby>強訴<rt>ごうそ</rt></ruby>を繰り返すと、その鎮圧にも武士を用いた。武士は、都の政治にも欠かせない存在になっていく。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>平清盛<rt>たいらのきよもり</rt></ruby></span></summary><div class="nb">
+    <div class="role">最初の武士の政権を築く<small>1118–1181</small></div>
+    <p>保元・<ruby>平治の乱<rt>へいじのらん</rt></ruby>に勝ち、武士として初めて<ruby>太政大臣<rt>だいじょうだいじん</rt></ruby>となった。<ruby>日宋貿易<rt>にっそうぼうえき</rt></ruby>に力を入れたが、権力の独占は各地の反発を招いた。</p>
+  </div></details>
+  <p>12世紀半ばには、皇位や摂関家の跡継ぎをめぐる争いが、武士の力で決着するようになる。1156年の<b><ruby>保元の乱<rt>ほうげんのらん</rt></ruby></b>では、後白河天皇の側についた<b><ruby>平清盛<rt>たいらのきよもり</rt></ruby></b>と源義朝が勝利した。1159年の<b><ruby>平治の乱<rt>へいじのらん</rt></ruby></b>では清盛が義朝を破り、義朝の子の<b><ruby>源頼朝<rt>みなもとのよりとも</rt></ruby></b>は伊豆に流された。勝ち残った清盛は、1167年に武士として初めて<b><ruby>太政大臣<rt>だいじょうだいじん</rt></ruby></b>となり、一族を高い官職につけ、娘を天皇の后として、その子を天皇に立てた。清盛はまた、瀬戸内海の航路と摂津の<b><ruby>大輪田泊<rt>おおわだのとまり</rt></ruby></b>を整えて<b><ruby>日宋貿易<rt>にっそうぼうえき</rt></ruby></b>に力を入れ、宋の銅銭や絹織物、書物を輸入して大きな利益をあげた。</p>
+  <p>しかし、平氏による権力の独占は、ほかの貴族や寺社、そして平氏に従わない各地の武士の反発を招いた。1179年に清盛が<ruby>後白河法皇<rt>ごしらかわほうおう</rt></ruby>を幽閉すると、翌1180年、法皇の皇子の<ruby>以仁王<rt>もちひとおう</rt></ruby>が平氏打倒を呼びかけ、伊豆の源頼朝をはじめ各地の武士が兵を挙げた（<b><ruby>治承・寿永の乱<rt>じしょう・じゅえいのらん</rt></ruby></b>）。1181年に清盛が亡くなったあと、平氏は西へ追われ、1185年に<ruby>壇ノ浦<rt>だんのうら</rt></ruby>で滅んだ。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>藤原氏を外戚としない天皇が即位し、摂関家が後退する</li>
+    <li>上皇が院政を始め、警備や鎮圧に武士を用いる</li>
+    <li>皇位や摂関家の争いを、武士の力が決めるようになる</li>
+    <li class="end">平清盛が政権を握るが、権力の独占が各地の反発を招く</li>
+  </ol>
+</section>
+
+<!-- 次の時代へ -->
+<section class="why">
+  <div class="label">なぜ中世へ移ったのか</div>
+  <ol class="chain" aria-label="古代から中世への因果の流れ" style="margin-top:12px">
+    <li><ruby>荘園<rt>しょうえん</rt></ruby>が広がり、律令の土地と税のしくみが崩れる</li>
+    <li>地方の治安を、武装した武士が担うようになる</li>
+    <li>保元・<ruby>平治の乱<rt>へいじのらん</rt></ruby>で、武士の力が政治の争いを決める</li>
+    <li>平氏が政権を握るが、各地の武士の支持を得られない</li>
+    <li class="end">東国の武士が<ruby>源頼朝<rt>みなもとのよりとも</rt></ruby>のもとに集まり、武家政権が生まれる</li>
+  </ol>
+</section>
+
+<nav class="next-era" aria-label="前後の区分">
+  <a href="../">← 日本史の流れ図</a>
+  <a href="../medieval/">中世 →</a>
+</nav>
+
+<p class="foot">年代は主な通説に従う。弥生時代の始まりには、水田稲作の開始を紀元前10世紀頃までさかのぼらせる説もある。仏教の伝来には538年説と552年説がある。厩戸王（聖徳太子）の業績とされるものには、後世の評価が加わっているとする見方もある。図中の帯は、理解のための目安である。</p>
+</div>
+<button class="furi" type="button" aria-pressed="true">ふりがな<span>あり</span></button>
+<script>
+(function(){
+  // 補足（図・人物・年表）：狭い画面ではすべて折りたたむ。
+  // 広い画面では章ごとに、本文の高さに収まる分だけ開く（背の高い図 → 年表 → 人物 の順に閉じていく）
+  var wide=matchMedia('(min-width:1180px)');
+  function fit(){
+    document.querySelectorAll('.chapter').forEach(function(ch){
+      var notes=[].slice.call(ch.querySelectorAll('details.note'));
+      notes.forEach(function(d){ d.open=wide.matches; });
+      if(!wide.matches) return;
+      var text=[].slice.call(ch.children).filter(function(e){ return e.tagName!=='DETAILS'; }).pop();
+      function over(){
+        var bottom=Math.max.apply(null,notes.map(function(d){ return d.getBoundingClientRect().bottom; }));
+        return bottom > text.getBoundingClientRect().bottom + 24;
+      }
+      function rank(d){ return d.classList.contains('person')?2:d.classList.contains('years')?1:0; }
+      notes.slice().sort(function(a,b){ return rank(a)-rank(b) || b.offsetHeight-a.offsetHeight; })
+        .forEach(function(d){ if(over()) d.open=false; });
+    });
+  }
+  // 狭い画面どうしのリサイズでは、読者が開いた補足を閉じ直さない
+  var lastWide=null, timer;
+  function refit(){ if(wide.matches||lastWide!==false) fit(); lastWide=wide.matches; }
+  refit();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(refit);
+  addEventListener('resize',function(){ clearTimeout(timer); timer=setTimeout(refit,200); });
+
+  // ふりがなの表示切り替え（設定はブラウザに保存）
+  var KEY='kyoyo-ruby', root=document.documentElement, btn=document.querySelector('.furi');
+  function apply(on){
+    root.classList.toggle('no-ruby',!on);
+    btn.setAttribute('aria-pressed',String(on));
+    btn.lastChild.textContent=on?'あり':'なし';
+  }
+  var on=true;
+  try{on=localStorage.getItem(KEY)!=='off'}catch(e){}
+  apply(on);
+  btn.addEventListener('click',function(){
+    on=!on; apply(on); nudge();
+    try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}
+  });
+
+  // 長い読みが行の端で画面からはみ出す場合は、内側へずらす
+  function nudge(){
+    var edge=8, w=document.documentElement.clientWidth;
+    document.querySelectorAll('rt').forEach(function(rt){
+      rt.style.transform='';
+      var r=rt.getBoundingClientRect();
+      if(!r.width) return;
+      var dx=r.right>w-edge ? r.right-(w-edge) : r.left<edge ? r.left-edge : 0;
+      if(dx) rt.style.transform='translateX(calc(-50% - '+dx+'px))';
+    });
+  }
+  nudge();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(nudge);
+  addEventListener('resize',function(){ clearTimeout(nudge.t); nudge.t=setTimeout(nudge,250); });
+  document.addEventListener('toggle',nudge,true);
+})();
+</script>
+</body>
+</html>

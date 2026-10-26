@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="織田信長の上洛から江戸幕府の滅亡まで。天下統一と幕藩体制による長い安定、そして外圧による動揺を、政治と外交の流れで読む。">
+<title>近世の日本史</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 本文は「前の章から → 本文 → 因果の流れ → 次の章へ」の一本道。
+   図・人物・年表は .note（details）にまとめ、広い画面では本文右の余白に浮かせ、狭い画面では本文中に折りたたむ */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
+  --ai:#24476b;            /* 藍：リンク・補助 */
+  --c:#2f5d4e; --cbg:#d9e8e1; /* 近世の日本史の区分色（流れ図の g3 と同じ） */
+  --c2:#6d8e83; --c3:#a1b6af; --c4:#c5d2cd;
+  --side:340px; --gap:40px;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fb4dc;
+  --c:#8fcfb6; --cbg:#1a2b25; --c2:#6a9888; --c3:#4c6b61; --c4:#374c46; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fb4dc;
+  --c:#8fcfb6; --cbg:#1a2b25; --c2:#6a9888; --c3:#4c6b61; --c4:#374c46; color-scheme:dark}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.85;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:2.4rem;font-weight:800}
+h1 small{font-family:var(--body);font-size:1rem;color:var(--muted);font-weight:500;margin-left:10px}
+.lead{color:var(--muted);margin:8px 0 0;max-width:40em}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+a{color:inherit}
+p{margin:0}
+b{color:var(--c)}
+.crumbs{margin:0;font-size:.85rem;display:flex;gap:16px;flex-wrap:wrap}
+
+/* 問い */
+.question{border-left:4px solid var(--c);background:var(--surface);padding:12px 16px;margin-top:20px;max-width:46em}
+.question p{font-family:var(--display);font-size:1.15rem;font-weight:600}
+
+/* 実権の推移バー（幅は年数に比例） */
+.band{display:flex;margin-top:12px;border:1px solid var(--line);background:var(--surface)}
+.band div{flex:var(--y) 1 0;min-width:30px;padding:8px 6px;border-right:1px solid var(--paper);background:var(--bg);color:var(--fg,var(--ink));display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.band div:last-child{border-right:0}
+.band b{color:inherit;font-size:.85rem;line-height:1.35}
+.band span{font-size:.72rem;line-height:1.35;font-variant-numeric:tabular-nums;opacity:.85}
+.band .thin b,.band .thin span{writing-mode:vertical-rl;letter-spacing:.05em}
+.s1{--bg:var(--c4)}.s2{--bg:var(--c3)}.s3{--bg:var(--c);--fg:var(--paper)}.s4{--bg:var(--c2);--fg:var(--paper)}.s5{--bg:var(--c3)}.s6{--bg:var(--c4)}
+.band-note{font-size:.8rem;color:var(--muted);margin-top:6px}
+@media (max-width:640px){
+  .band{flex-direction:column}
+  .band div{flex:none;flex-direction:row;align-items:baseline;gap:10px;border-right:0;border-bottom:1px solid var(--paper)}
+  .band .thin b,.band .thin span{writing-mode:horizontal-tb}
+  .pc-only{display:none}
+}
+
+/* 全体の流れ（目次を兼ねる） */
+.overview{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:0}
+.overview li{position:relative;padding-left:28px}
+.overview li::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--c)}
+.overview li:first-child::before{top:18px}.overview li:last-child::before{bottom:calc(100% - 18px)}
+.overview li::after{content:"";position:absolute;left:3px;top:12px;width:8px;height:8px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+.overview a{display:grid;grid-template-columns:1.4em 13em 1fr auto;gap:0 12px;align-items:baseline;text-decoration:none;padding:6px 10px;border-radius:2px}
+.overview a:hover,.overview a:focus-visible{background:var(--surface);outline:none}
+.overview .n{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+.overview .t{font-family:var(--display);font-weight:600;font-size:1.02rem}
+.overview .d{font-size:.88rem;color:var(--muted)}
+.overview .yr{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:640px){
+  .overview a{grid-template-columns:1.4em 1fr auto}
+  .overview .d{grid-column:2 / 4}
+}
+
+/* 章 */
+.chapter{display:flow-root;scroll-margin-top:16px}
+.chead{border-bottom:2px solid var(--c);padding-bottom:8px;margin-bottom:16px;display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:baseline}
+.chead .no{font-family:var(--display);font-size:2rem;color:var(--c);line-height:1;grid-row:span 2}
+.chead h2{font-size:1.5rem}
+.chead .meta{font-size:.8rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{font-size:.7rem;font-weight:700;padding:0 6px;border:1px solid currentColor;border-radius:2px}
+.tag.pol{color:var(--c)}.tag.dip{color:var(--ai)}
+.chapter > p{margin-bottom:14px}
+.from,.next{font-size:.9rem;color:var(--muted)}
+.from{margin-bottom:14px}
+.from::before,.next::before{display:inline-block;margin-right:10px;vertical-align:.1em;line-height:1.6;font-size:.7rem;letter-spacing:.08em;font-weight:700;white-space:nowrap;color:var(--c);border:1px solid var(--c);padding:0 6px;border-radius:2px}
+.from::before{content:"前の章から"}
+.next::before{content:"次の章へ"}
+.next{margin-top:16px}
+.next a{color:var(--ink)}
+
+/* 因果の流れ */
+.chain{list-style:none;margin:20px 0 0;padding:0;display:flex;gap:22px}
+.chain li{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c);padding:8px 10px;font-size:.85rem;line-height:1.6;position:relative}
+.chain li+li::before{content:"▶";position:absolute;left:-17px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--c)}
+.chain li.end{background:var(--cbg)}
+@media (max-width:640px){
+  .chain{flex-direction:column;gap:18px}
+  .chain li+li::before{content:"▼";left:50%;top:-16px;transform:translateX(-50%)}
+}
+
+/* 補足（図・人物・年表）。狭い画面では本文中の折りたたみ */
+.note{margin:0 0 14px;background:var(--surface);border:1px solid var(--line)}
+.note summary{cursor:pointer;list-style:none;display:flex;gap:10px;align-items:baseline;padding:7px 12px;font-size:.85rem;font-weight:500}
+.note summary::-webkit-details-marker{display:none}
+.note summary::after{content:"▸";margin-left:auto;color:var(--muted);transition:transform .15s}
+.note[open] summary::after{transform:rotate(90deg)}
+.note summary:focus-visible{outline:2px solid var(--c);outline-offset:-2px}
+.kind{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--paper);background:var(--k,var(--c));padding:0 6px;border-radius:2px;white-space:nowrap}
+.note.person{--k:var(--ai)}.note.years{--k:var(--muted)}
+.nb{padding:4px 14px 14px;container-type:inline-size}
+.fig-note{font-size:.8rem;color:var(--muted);margin-top:10px;line-height:1.7}
+
+/* 広い画面：補足を本文の右の余白へ。置いた段落の横に並び、重なるときは下へ送る */
+@media (min-width:1180px){
+  .wrap{max-width:calc(780px + var(--side) + var(--gap))}
+  .chapter{padding-right:calc(var(--side) + var(--gap))}
+  .chapter > .chead{margin-right:calc(-1 * (var(--side) + var(--gap)))}
+  .note{float:right;clear:right;width:var(--side);margin:0 calc(-1 * (var(--side) + var(--gap))) 14px 0}
+  .why,.next-era{max-width:780px}
+}
+
+/* 年表 */
+.ev{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:.85rem;line-height:1.65}
+.ev li{display:grid;grid-template-columns:4.4em 1fr;gap:8px}
+.ev .y{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+
+/* 人物 */
+.person .nm{font-family:var(--display);font-weight:600;font-size:1.05rem}
+.person .role small{color:var(--muted);font-weight:500;margin-left:8px;font-variant-numeric:tabular-nums}
+.person .role{font-size:.78rem;color:var(--ai);font-weight:700}
+.person .nb p{font-size:.86rem;line-height:1.7;margin-top:2px}
+
+/* 権力構造図 */
+.org{display:flex;flex-direction:column;align-items:center;gap:0}
+.box{border:1px solid var(--c);background:var(--paper);padding:6px 10px;text-align:center;font-size:.82rem;line-height:1.5;min-width:0}
+.box strong{display:block;font-family:var(--display);font-size:.98rem}
+.box small{color:var(--muted);font-size:.72rem;display:block}
+.box.top{background:var(--c);color:var(--paper);border-color:var(--c)}
+.box.top small{color:inherit;opacity:.85}
+.box.mid{border-width:2px}
+.vline{width:2px;height:14px;background:var(--c)}
+.branches{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;border-top:2px solid var(--c);padding-top:10px}
+.branch{display:flex;flex-direction:column;gap:6px}
+.branch > .label{text-align:center}
+.branch .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+@container (max-width:560px){.branches{grid-template-columns:1fr}}
+
+/* 相互関係図（御恩と奉公・朝貢） */
+.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr);gap:12px;align-items:center}
+.duo .box{padding:12px 6px}
+.arrows{display:flex;flex-direction:column;gap:10px;font-size:.8rem;line-height:1.6}
+.arr{display:flex;flex-direction:column;gap:2px}
+.arr .line{height:2px;background:var(--c);position:relative}
+.arr.r .line::after,.arr.l .line::before{content:"";position:absolute;top:-5px;border:6px solid transparent}
+.arr.r .line::after{right:-2px;border-left:9px solid var(--c);border-right:0}
+.arr.l .line::before{left:-2px;border-right:9px solid var(--c);border-left:0}
+.arr.l .line{background:var(--ai)}.arr.l .line::before{border-right-color:var(--ai)}
+.arr b{font-size:.85rem}.arr.l b{color:var(--ai)}
+.arr span{color:var(--muted)}
+@container (max-width:420px){.duo{grid-template-columns:minmax(0,.7fr) minmax(0,1.6fr) minmax(0,.7fr);gap:8px}.duo .box{padding:8px 2px}.arrows{font-size:.76rem}}
+
+/* 比較（承久の乱の前後） */
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.compare > div{border:1px solid var(--line);background:var(--paper);padding:10px;font-size:.84rem;line-height:1.7}
+.compare h3{font-size:.98rem;margin-bottom:4px}
+.compare .to{align-self:center;color:var(--c);font-weight:700;border:0;background:none;padding:0}
+.scale{display:flex;height:10px;margin:6px 0;border:1px solid var(--line)}
+.scale i{display:block}
+.scale .k{background:var(--ai)}.scale .b{background:var(--c)}
+.legend{display:flex;gap:12px;font-size:.72rem;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:-1px}
+@container (max-width:420px){.compare{grid-template-columns:1fr}.compare .to{transform:rotate(90deg);justify-self:center}}
+
+/* 四方との関係 */
+.world{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.world div{border:1px solid var(--line);background:var(--paper);padding:8px 10px;font-size:.84rem;line-height:1.7;border-top:3px solid var(--ai)}
+.world h3{font-size:.98rem;margin-bottom:2px}
+@container (max-width:420px){.world{grid-template-columns:1fr}}
+
+.why{border:1px dashed var(--c);padding:16px}
+.next-era{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem}
+.next-era a{text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:8px 14px}
+.next-era a:hover,.next-era a:focus-visible{border-color:var(--c);outline:none}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+
+/* ふりがな（各章の本文・各補足で初出のみ）。読みが長くても漢字の間が空かないよう、rt は語の中央上に重ねて置く */
+ruby{position:relative;display:inline}
+rt{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);white-space:nowrap;line-height:1;margin-bottom:.1em;font-family:var(--body);font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:0;text-indent:0}
+b rt{color:var(--c);opacity:.8}
+.box.top rt{color:inherit;opacity:.85}
+.no-ruby rt{display:none}
+/* 行間の狭い図・カードでは、ふりがなを含む行だけ行間を広げて上の行に重ならないようにする */
+:root:not(.no-ruby) .wrap :is(p,li,span,small,strong,h3,summary):has(> ruby){line-height:2.2}
+:root:not(.no-ruby) .wrap .chapter > p{line-height:1.85}
+.furi{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:10;
+  font:inherit;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
+.furi span{color:var(--c);margin-left:6px}
+.furi:hover,.furi:focus-visible{border-color:var(--c);outline:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="crumbs"><a href="../../">← kyoyo 目次</a><a href="../#azuchi">← 日本史の流れ図</a></p>
+
+<header>
+  <div class="label">日本史の流れ図　詳説 3／5</div>
+  <h1>近世<small>1573〜1868</small></h1>
+  <p class="lead">戦国の争いを終わらせた天下統一から、約260年続いた江戸幕府の支配、そして欧米諸国の来航による動揺と滅亡まで。政治と外交の動きを軸に、出来事どうしの因果関係に注目して読んでいく。</p>
+  <div class="question"><div class="label">この時代の問い</div><p>分裂していた国はどのようにして統一され、その長い安定はなぜ終わりを迎えたのか。</p></div>
+</header>
+
+<section>
+  <div class="label">実権を握っていたのは誰か</div>
+  <div class="band" role="img" aria-label="近世の実権の推移。織田信長1573〜1582年、豊臣秀吉1582〜1598年、徳川将軍の武断政治1598〜1651年、文治政治1651〜1716年、将軍と老中による改革の時代1716〜1853年、雄藩と朝廷の台頭1853〜1868年。">
+    <div class="s1 thin" style="--y:9"><b>信長</b><span>1573</span></div>
+    <div class="s2" style="--y:16"><b>豊臣秀吉</b><span>1582–98</span></div>
+    <div class="s3" style="--y:53"><b>徳川将軍（武断）</b><span>1598–1651</span></div>
+    <div class="s4" style="--y:65"><b>徳川将軍（文治）</b><span>1651–1716</span></div>
+    <div class="s5" style="--y:137"><b>将軍と老中（改革と財政難）</b><span>1716–1853</span></div>
+    <div class="s6" style="--y:15"><b>雄藩</b><span>1853–</span></div>
+  </div>
+  <p class="band-note"><span class="pc-only">各区間の幅は年数に比例する。</span>全国の大名を従えた統一政権が約300年にわたって続いた。後半は財政難と外圧に苦しみ、最後は薩摩・長州などの雄藩が政治を動かすようになる。</p>
+</section>
+
+<section>
+  <div class="label">近世の流れ（各章へのリンクを兼ねる）</div>
+  <ol class="overview">
+    <li><a href="#c1"><span class="n">1</span><span class="t"><ruby>織田信長<rt>おだのぶなが</rt></ruby>の統一事業</span><span class="d">鉄砲と経済力で敵を破り、古い権威を力でねじ伏せる</span><span class="yr">1568–1582</span></a></li>
+    <li><a href="#c2"><span class="n">2</span><span class="t"><ruby>豊臣秀吉<rt>とよとみひでよし</rt></ruby>の全国統一</span><span class="d">検地と刀狩で社会の土台を組み替え、全国を統一する</span><span class="yr">1582–1598</span></a></li>
+    <li><a href="#c3"><span class="n">3</span><span class="t">江戸幕府の成立</span><span class="d">関ヶ原に勝った家康が、大名を統制するしくみを築く</span><span class="yr">1598–1651</span></a></li>
+    <li><a href="#c4"><span class="n">4</span><span class="t">「鎖国」と四つの口</span><span class="d">キリスト教を禁じ、外交と貿易を幕府の管理下に置く</span><span class="yr">1600–1641</span></a></li>
+    <li><a href="#c5"><span class="n">5</span><span class="t"><ruby>文治政治<rt>ぶんちせいじ</rt></ruby>と経済の発展</span><span class="d">武力から儀礼と法の政治へ。商品経済が大きく育つ</span><span class="yr">1651–1716</span></a></li>
+    <li><a href="#c6"><span class="n">6</span><span class="t">財政難と三つの改革</span><span class="d">米に頼る財政が行き詰まり、改革が繰り返される</span><span class="yr">1716–1843</span></a></li>
+    <li><a href="#c7"><span class="n">7</span><span class="t">外国船の来航</span><span class="d">ロシア・イギリス・アメリカの船が開国を迫る</span><span class="yr">1792–1853</span></a></li>
+    <li><a href="#c8"><span class="n">8</span><span class="t">開国と幕府の滅亡</span><span class="d">不平等条約への不満が倒幕へ向かい、幕府が政権を返す</span><span class="yr">1853–1868</span></a></li>
+  </ol>
+</section>
+
+<!-- 1 -->
+<section class="chapter" id="c1">
+  <div class="chead"><span class="no">1</span><h2><ruby>織田信長<rt>おだのぶなが</rt></ruby>の統一事業</h2><div class="meta">1568〜1582<span class="tag pol">政治</span></div></div>
+  <p class="from"><ruby>応仁の乱<rt>おうにんのらん</rt></ruby>のあと、全国で戦国大名が争い、将軍は有力者に担がれるだけの存在になっていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1568〜1582</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1560</span><span><ruby>桶狭間<rt>おけはざま</rt></ruby>の戦いで<ruby>今川義元<rt>いまがわよしもと</rt></ruby>を破る</span></li>
+    <li><span class="y">1568</span><span><ruby>足利義昭<rt>あしかがよしあき</rt></ruby>を立てて京都に入る</span></li>
+    <li><span class="y">1571</span><span>比叡山<ruby>延暦寺<rt>えんりゃくじ</rt></ruby>を焼き打ちする</span></li>
+    <li><span class="y">1573</span><span>義昭を追放し、室町幕府が滅ぶ</span></li>
+    <li><span class="y">1575</span><span><ruby>長篠の戦い<rt>ながしののたたかい</rt></ruby>で<ruby>武田勝頼<rt>たけだかつより</rt></ruby>を破る</span></li>
+    <li><span class="y">1576</span><span><ruby>安土城<rt>あづちじょう</rt></ruby>を築き始める</span></li>
+    <li><span class="y">1580</span><span>石山本願寺が降伏する</span></li>
+    <li><span class="y">1582</span><span><ruby>本能寺の変<rt>ほんのうじのへん</rt></ruby></span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>織田信長<rt>おだのぶなが</rt></ruby></span></summary><div class="nb">
+    <div class="role">天下統一の道を開く<small>1534–1582</small></div>
+    <p>鉄砲を大量に用い、商業を自由にして経済力を蓄えた。寺社や将軍といった古い権威にも従わず、力で抑え込んだ。</p>
+  </div></details>
+  <p><ruby>尾張<rt>おわり</rt></ruby>の戦国大名<b>織田信長</b>は、1560年に<b><ruby>桶狭間<rt>おけはざま</rt></ruby></b>で駿河の<ruby>今川義元<rt>いまがわよしもと</rt></ruby>を破って名を上げ、美濃を手に入れると「<ruby>天下布武<rt>てんかふぶ</rt></ruby>」の印を用いて全国の支配を目指す意志を示した。1568年には<ruby>足利義昭<rt>あしかがよしあき</rt></ruby>を15代将軍に立てて京都に入るが、やがて義昭と対立し、1573年に京都から追放した。これによって室町幕府は事実上滅んだ。</p>
+  <p>信長の強さを支えたのは、新しい戦い方と経済力である。1575年の<b><ruby>長篠の戦い<rt>ながしののたたかい</rt></ruby></b>では、大量の鉄砲を用いて、騎馬隊で知られた<ruby>武田勝頼<rt>たけだかつより</rt></ruby>の軍を破った。また、琵琶湖のほとりに<b><ruby>安土城<rt>あづちじょう</rt></ruby></b>を築き、その城下では<b><ruby>楽市・楽座<rt>らくいち・らくざ</rt></ruby></b>によって誰でも自由に商売ができるようにした。各地の関所を廃止して人や物の行き来を活発にし、豊かな港町の<ruby>堺<rt>さかい</rt></ruby>も支配下に置いた。こうして得た富が、鉄砲をそろえる力になった。</p>
+  <p>信長は古い権威にも容赦しなかった。1571年には自らに敵対した比叡山<b><ruby>延暦寺<rt>えんりゃくじ</rt></ruby></b>を焼き打ちし、各地で大名と結んで抵抗した<ruby>一向一揆<rt>いっこういっき</rt></ruby>とも戦い続けた。その中心だった大坂の石山本願寺とは10年にわたって争い（<b><ruby>石山合戦<rt>いしやまかっせん</rt></ruby></b>）、1580年に降伏させている。しかし統一を目前にした1582年、家臣の<b><ruby>明智光秀<rt>あけちみつひで</rt></ruby></b>に京都の本能寺で襲われ、自害した（<b><ruby>本能寺の変<rt>ほんのうじのへん</rt></ruby></b>）。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>楽市・楽座や関所の廃止で商業を盛んにする</li>
+    <li>得た富で鉄砲を大量にそろえる</li>
+    <li>戦国大名や寺社の勢力を力で抑え込む</li>
+    <li class="end">近畿を中心に統一が進むが、本能寺の変で倒れる</li>
+  </ol>
+  <p class="next">信長の後継者の座を勝ち取ったのは、低い身分から出世した家臣の羽柴（豊臣）秀吉だった。<a href="#c2">→ 2章</a></p>
+</section>
+
+<!-- 2 -->
+<section class="chapter" id="c2">
+  <div class="chead"><span class="no">2</span><h2><ruby>豊臣秀吉<rt>とよとみひでよし</rt></ruby>の全国統一</h2><div class="meta">1582〜1598<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from">信長は統一を目前にして倒れた。その事業を誰が引き継ぐかが、家臣たちの争点になる。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1582〜1598</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1582</span><span><ruby>山崎の戦い<rt>やまざきのたたかい</rt></ruby>で<ruby>明智光秀<rt>あけちみつひで</rt></ruby>を破る。検地を始める</span></li>
+    <li><span class="y">1583</span><span>大坂城を築き始める</span></li>
+    <li><span class="y">1585</span><span><ruby>関白<rt>かんぱく</rt></ruby>となる</span></li>
+    <li><span class="y">1587</span><span>九州を平定する。バテレン追放令</span></li>
+    <li><span class="y">1588</span><span><ruby>刀狩令<rt>かたながりれい</rt></ruby></span></li>
+    <li><span class="y">1590</span><span>小田原の北条氏を滅ぼし、全国を統一する</span></li>
+    <li><span class="y">1592</span><span>朝鮮に出兵する（<ruby>文禄の役<rt>ぶんろくのえき</rt></ruby>）</span></li>
+    <li><span class="y">1597</span><span>再び出兵する（<ruby>慶長の役<rt>けいちょうのえき</rt></ruby>）。翌年、秀吉の死で撤兵</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>豊臣秀吉<rt>とよとみひでよし</rt></ruby></span></summary><div class="nb">
+    <div class="role">全国を統一する<small>1537–1598</small></div>
+    <p>信長の家臣から出世し、<ruby>関白<rt>かんぱく</rt></ruby>として全国を統一した。検地と刀狩で近世社会の土台をつくったが、朝鮮出兵は失敗に終わった。</p>
+  </div></details>
+  <p>信長の家臣だった羽柴秀吉は、1582年に<b><ruby>山崎の戦い<rt>やまざきのたたかい</rt></ruby></b>で<ruby>明智光秀<rt>あけちみつひで</rt></ruby>を討ち、後継者争いの主導権を握った。翌年には壮大な<b>大坂城</b>を築き始め、1585年には朝廷から<b><ruby>関白<rt>かんぱく</rt></ruby></b>に任じられ、のちに豊臣の姓を与えられる。秀吉は朝廷の権威を利用して、大名どうしの争いをやめるよう命じ、従わない大名を攻めた。四国、九州を平定し、1590年に小田原の北条氏を滅ぼすと、東北の大名も従い、全国の統一が完成した。</p>
+  <details class="note"><summary><span class="kind">図</span>太閤検地の前と後</summary><div class="nb">
+    <div class="compare">
+      <div><h3>検地の前</h3><p>一つの土地に、<ruby>荘園<rt>しょうえん</rt></ruby>領主・武士・地元の有力者などの権利が何重にも重なっている。</p></div>
+      <div class="to" aria-hidden="true">▶</div>
+      <div><h3>検地の後</h3><p>実際に耕す農民を検地帳に登録し、土地の生産力を米の量（<ruby>石高<rt>こくだか</rt></ruby>）で表す。</p></div>
+    </div>
+    <p class="fig-note">石高は、大名の領地の大きさや、農民が納める年貢、大名が負う軍役の基準になった。荘園のしくみは、ここで最終的に解体された。</p>
+  </div></details>
+  <p>秀吉が統一の過程で進めたのが、全国の田畑を調べる<b>検地</b>である（<b><ruby>太閤検地<rt>たいこうけんち</rt></ruby></b>）。秀吉は役人を派遣して長さや面積の単位を統一し、土地の生産力を米の量である<b><ruby>石高<rt>こくだか</rt></ruby></b>で表した。そして実際に耕している農民を検地帳に登録し、年貢を納める責任を負わせた。一つの土地に何重にも権利が重なっていた<ruby>荘園<rt>しょうえん</rt></ruby>のしくみは、これによって解体される。さらに1588年の<b><ruby>刀狩令<rt>かたながりれい</rt></ruby></b>で農民から刀や鉄砲を取り上げ、1591年には武士が町人や農民になることや、農民が商売を始めることを禁じた。こうして、武士と農民・町人の身分が分けられていった（<b><ruby>兵農分離<rt>へいのうぶんり</rt></ruby></b>）。</p>
+  <p>対外的には、秀吉は当初、<ruby>南蛮貿易<rt>なんばんぼうえき</rt></ruby>を奨励していたが、キリシタン大名が長崎をイエズス会に寄進していたことなどを知ると、1587年に<b>バテレン追放令</b>を出して宣教師の国外退去を命じた。ただし貿易は続けたため、禁教は徹底しなかった。さらに秀吉は、明を征服する計画を立て、その通り道として朝鮮に協力を求めた。朝鮮がこれを拒むと、1592年と1597年の2度にわたって大軍を送った（<b><ruby>文禄の役<rt>ぶんろくのえき</rt></ruby></b>・<b><ruby>慶長の役<rt>けいちょうのえき</rt></ruby></b>）。日本軍は朝鮮の義兵の抵抗や明の援軍、<ruby>李舜臣<rt>イ・スンシン</rt></ruby>の率いる水軍に苦しみ、1598年に秀吉が亡くなると撤退した。この出兵は朝鮮に大きな被害を与え、豊臣政権の力も弱めた。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>朝廷の権威を借りて、大名に争いをやめるよう命じる</li>
+    <li>検地で土地と年貢を石高によって把握する</li>
+    <li>刀狩で武士と農民の身分を分ける</li>
+    <li class="end">全国を統一するが、朝鮮出兵の失敗で政権が弱まる</li>
+  </ol>
+  <p class="next">秀吉の死後、幼い後継者を支える大名たちの中で、最大の実力者は徳川家康だった。<a href="#c3">→ 3章</a></p>
+</section>
+
+<!-- 3 -->
+<section class="chapter" id="c3">
+  <div class="chead"><span class="no">3</span><h2>江戸幕府の成立</h2><div class="meta">1598〜1651<span class="tag pol">政治</span></div></div>
+  <p class="from">秀吉は全国を統一したが、跡継ぎの秀頼はまだ幼く、朝鮮出兵で大名たちは疲れ切っていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1598〜1651</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1600</span><span><ruby>関ヶ原の戦い<rt>せきがはらのたたかい</rt></ruby></span></li>
+    <li><span class="y">1603</span><span>家康が<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>となる</span></li>
+    <li><span class="y">1614</span><span><ruby>大坂の陣<rt>おおさかのじん</rt></ruby>（〜1615）で豊臣氏が滅ぶ</span></li>
+    <li><span class="y">1615</span><span><ruby>一国一城令<rt>いっこくいちじょうれい</rt></ruby>。<ruby>武家諸法度<rt>ぶけしょはっと</rt></ruby>・<ruby>禁中並公家諸法度<rt>きんちゅうならびにくげしょはっと</rt></ruby></span></li>
+    <li><span class="y">1635</span><span><ruby>家光<rt>いえみつ</rt></ruby>が<ruby>参勤交代<rt>さんきんこうたい</rt></ruby>を制度として定める</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm">徳川家康</span></summary><div class="nb">
+    <div class="role">江戸幕府を開く<small>1543–1616</small></div>
+    <p><ruby>関ヶ原の戦い<rt>せきがはらのたたかい</rt></ruby>に勝って<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>となった。<ruby>大坂の陣<rt>おおさかのじん</rt></ruby>で豊臣氏を滅ぼし、大名と朝廷を法で縛る体制を築いた。</p>
+  </div></details>
+  <p>秀吉の死後、政権の中で最大の領地を持っていた<b>徳川家康</b>が力を強めた。これに反発した<b><ruby>石田三成<rt>いしだみつなり</rt></ruby></b>らは西軍として兵を挙げたが、1600年の<b><ruby>関ヶ原の戦い<rt>せきがはらのたたかい</rt></ruby></b>で家康の東軍に敗れた。家康は敵対した大名の領地を取り上げて味方の大名に分け与え、1603年に<ruby>征夷大将軍<rt>せいいたいしょうぐん</rt></ruby>となって江戸に幕府を開いた。わずか2年で将軍職を子の秀忠にゆずったのは、将軍職が徳川家に代々受け継がれることを世に示すためだった。その後、1614年と1615年の<b><ruby>大坂の陣<rt>おおさかのじん</rt></ruby></b>で豊臣氏を滅ぼし、戦国時代から続いた戦乱はここで終わる。</p>
+  <details class="note"><summary><span class="kind">図</span>江戸幕府のしくみ</summary><div class="nb">
+    <div class="org">
+      <div class="box top"><strong>将軍</strong><small>徳川家が代々受け継ぐ</small></div>
+      <div class="vline"></div>
+      <div class="box mid"><strong><ruby>老中<rt>ろうじゅう</rt></ruby></strong><small>政治の中心。<ruby>譜代<rt>ふだい</rt></ruby>大名から数人が選ばれ、話し合いで決める（非常時には<ruby>大老<rt>たいろう</rt></ruby>を置く）</small></div>
+      <div class="vline"></div>
+      <div class="branches">
+        <div class="branch"><div class="label">江戸</div><div class="row">
+          <div class="box"><strong><ruby>三奉行<rt>さんぶぎょう</rt></ruby></strong><small>寺社奉行・町奉行・勘定奉行</small></div>
+          <div class="box"><strong><ruby>大目付<rt>おおめつけ</rt></ruby></strong><small>大名を監視する</small></div>
+          <div class="box"><strong><ruby>若年寄<rt>わかどしより</rt></ruby></strong><small>老中を補佐し、<ruby>旗本<rt>はたもと</rt></ruby>を監督する</small></div>
+        </div></div>
+        <div class="branch"><div class="label">地方</div><div class="row">
+          <div class="box"><strong><ruby>京都所司代<rt>きょうとしょしだい</rt></ruby></strong><small>朝廷と西日本の大名を監視する</small></div>
+          <div class="box"><strong><ruby>大坂城代<rt>おおさかじょうだい</rt></ruby></strong><small>大坂を守る</small></div>
+          <div class="box"><strong>藩（大名）</strong><small><ruby>親藩<rt>しんぱん</rt></ruby>・譜代・<ruby>外様<rt>とざま</rt></ruby>。自分の領地を治める</small></div>
+        </div></div>
+      </div>
+    </div>
+    <p class="fig-note">全国の土地は、幕府の直轄地と、大名が治める藩に分かれていた。この体制を<ruby>幕藩体制<rt>ばくはんたいせい</rt></ruby>という。</p>
+  </div></details>
+  <p>江戸幕府は、全国の約4分の1を直接支配し、残りを<b>大名</b>に治めさせた。大名は、徳川家の一門である<b><ruby>親藩<rt>しんぱん</rt></ruby></b>、古くからの家臣である<b><ruby>譜代<rt>ふだい</rt></ruby></b>、関ヶ原の前後に従った<b><ruby>外様<rt>とざま</rt></ruby></b>に分けられ、外様は江戸から遠い地方に置かれた。幕府と藩がそれぞれ土地と人々を治めるこのしくみを<b><ruby>幕藩体制<rt>ばくはんたいせい</rt></ruby></b>という。幕府は1615年に<b><ruby>一国一城令<rt>いっこくいちじょうれい</rt></ruby></b>を出して大名の城を一つに限り、<b><ruby>武家諸法度<rt>ぶけしょはっと</rt></ruby></b>を定めて、城の修理や大名どうしの結婚を許可制にした。法に背いた大名は、領地を取り上げられたり減らされたりした。朝廷に対しても<b><ruby>禁中並公家諸法度<rt>きんちゅうならびにくげしょはっと</rt></ruby></b>を定め、天皇や<ruby>公家<rt>くげ</rt></ruby>の行動を厳しく制限した。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>徳川家光<rt>とくがわいえみつ</rt></ruby></span></summary><div class="nb">
+    <div class="role">3代将軍<small>1604–1651</small></div>
+    <p><ruby>参勤交代<rt>さんきんこうたい</rt></ruby>を制度として定め、キリスト教の禁止と貿易の統制を徹底した。幕府のしくみはこの時代にほぼ完成した。</p>
+  </div></details>
+  <p>3代将軍<b><ruby>徳川家光<rt>とくがわいえみつ</rt></ruby></b>は、1635年に武家諸法度を改め、大名が1年おきに江戸と領地を行き来し、妻子を江戸に住まわせる<b><ruby>参勤交代<rt>さんきんこうたい</rt></ruby></b>を制度として定めた。大名は多くの家臣を連れて移動し、江戸に屋敷を構える必要があったため、その費用は大名の財政に重くのしかかった。結果として大名は幕府に背く力を失い、一方で街道や宿場町が整えられ、江戸は人口の多い大都市へと成長していった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>関ヶ原の戦いで家康が敵対する大名を退ける</li>
+    <li>大坂の陣で豊臣氏を滅ぼし、戦乱が終わる</li>
+    <li>武家諸法度・参勤交代で大名の力を抑える</li>
+    <li class="end">幕府を頂点とする幕藩体制が固まる</li>
+  </ol>
+  <p class="next">国内の支配を固めた幕府は、次に海外との関係を管理下に置こうとする。<a href="#c4">→ 4章</a></p>
+</section>
+
+<!-- 4 -->
+<section class="chapter" id="c4">
+  <div class="chead"><span class="no">4</span><h2>「鎖国」と四つの口</h2><div class="meta">1600〜1641<span class="tag dip">外交</span><span class="tag pol">政治</span></div></div>
+  <p class="from">家康は当初、海外との貿易に積極的だった。しかし貿易とともに広がるキリスト教が、幕府の不安の種になる。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1600〜1641</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1600</span><span>オランダ船リーフデ号が豊後に漂着する</span></li>
+    <li><span class="y">1609</span><span>オランダが平戸に商館を開く。薩摩が琉球を攻める</span></li>
+    <li><span class="y">1613</span><span><ruby>禁教令<rt>きんきょうれい</rt></ruby>を全国に広げる</span></li>
+    <li><span class="y">1635</span><span>日本人の海外渡航と帰国を禁じる</span></li>
+    <li><span class="y">1637</span><span><ruby>島原・天草一揆<rt>しまばら・あまくさいっき</rt></ruby>（〜1638）</span></li>
+    <li><span class="y">1639</span><span>ポルトガル船の来航を禁じる</span></li>
+    <li><span class="y">1641</span><span>オランダ商館を長崎の<ruby>出島<rt>でじま</rt></ruby>に移す</span></li>
+  </ul></div></details>
+  <p>江戸時代の初め、家康は海外との貿易に積極的だった。東南アジアに向かう商人の船に朱印状という渡航許可証を与え（<b><ruby>朱印船貿易<rt>しゅいんせんぼうえき</rt></ruby></b>）、各地には日本人が住む日本町も生まれた。1600年に漂着したオランダ船の乗組員を外交の相談役に迎え、オランダやイギリスにも貿易を許している。</p>
+  <p>しかし、キリスト教の信者が増え続けることは、幕府にとって大きな不安だった。信者が将軍よりも神への信仰を重んじることや、スペイン・ポルトガルが布教をきっかけに領土を広げることへの警戒があったからである。幕府は1612年に直轄地で、翌1613年には全国でキリスト教を禁じ（<b><ruby>禁教令<rt>きんきょうれい</rt></ruby></b>）、宣教師や信者を国外へ追放した。さらに1635年には、日本人が海外へ渡ることも、海外から帰ってくることも禁じた。</p>
+  <p>1637年、重い年貢とキリスト教の弾圧に苦しんだ九州の島原・天草の人々が、<ruby>天草四郎<rt>あまくさしろう</rt></ruby>（<ruby>益田時貞<rt>ますだときさだ</rt></ruby>）を中心に大規模な一揆を起こした（<b><ruby>島原・天草一揆<rt>しまばら・あまくさいっき</rt></ruby></b>）。幕府は約12万の大軍を送ってようやくこれを鎮めると、1639年にポルトガル船の来航を禁じ、1641年にはオランダ商館を長崎の<b><ruby>出島<rt>でじま</rt></ruby></b>に移した。こうして、ヨーロッパの国で貿易を許されるのは、布教をしないオランダだけとなった。人々には寺の信者であることを証明させ（<ruby>寺請制度<rt>てらうけせいど</rt></ruby>）、信仰を厳しく取り締まった。</p>
+  <details class="note"><summary><span class="kind">図</span>四つの口：江戸時代の対外関係</summary><div class="nb">
+    <div class="world">
+      <div><h3>長崎口</h3><p>幕府が直接管理する。<ruby>出島<rt>でじま</rt></ruby>のオランダ商館と、<ruby>唐人屋敷<rt>とうじんやしき</rt></ruby>の中国商人とだけ貿易し、海外の情報も集めた。</p></div>
+      <div><h3>対馬口</h3><p>対馬藩の<ruby>宗氏<rt>そうし</rt></ruby>が窓口となり、朝鮮と貿易する。朝鮮からは将軍の代替わりなどに<ruby>通信使<rt>つうしんし</rt></ruby>が来日した。</p></div>
+      <div><h3>薩摩口</h3><p>1609年に薩摩藩が琉球王国を攻めて支配下に置いた。琉球は中国との<ruby>朝貢<rt>ちょうこう</rt></ruby>関係も続けた。</p></div>
+      <div><h3>松前口</h3><p><ruby>松前藩<rt>まつまえはん</rt></ruby>がアイヌとの交易を独占した。不利な交易に対し、1669年には<ruby>シャクシャイン<rt>シャクシャイン</rt></ruby>が蜂起している。</p></div>
+    </div>
+    <p class="fig-note">国を完全に閉ざしたわけではなく、幕府が外交と貿易の窓口を限って管理するしくみだった。</p>
+  </div></details>
+  <p>この状態は、のちに「<b>鎖国</b>」と呼ばれるようになる。ただし、国を完全に閉ざしたわけではない。幕府が直接管理する長崎ではオランダと中国、対馬藩を通じて朝鮮、薩摩藩を通じて琉球、<ruby>松前藩<rt>まつまえはん</rt></ruby>を通じてアイヌと、四つの窓口（<b>四つの口</b>）で外国や周辺の人々との交流が続いた。朝鮮からは将軍の代替わりなどに<b><ruby>通信使<rt>つうしんし</rt></ruby></b>が江戸を訪れている。幕府は、外交と貿易、海外の情報を自らの管理下に置くことで、国内の支配を安定させたのである。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>キリスト教の広がりが幕府の支配を脅かすと考えられる</li>
+    <li>禁教令を出し、日本人の海外渡航も禁じる</li>
+    <li>島原・天草一揆を機に、ポルトガル船を締め出す</li>
+    <li class="end">幕府が外交と貿易の窓口を四つに限って管理する</li>
+  </ol>
+  <p class="next">戦乱も対外的な緊張も遠のき、幕府は武力ではなく、法と儀礼で国を治める方向へ転じていく。<a href="#c5">→ 5章</a></p>
+</section>
+
+<!-- 5 -->
+<section class="chapter" id="c5">
+  <div class="chead"><span class="no">5</span><h2><ruby>文治政治<rt>ぶんちせいじ</rt></ruby>と経済の発展</h2><div class="meta">1651〜1716<span class="tag pol">政治</span></div></div>
+  <p class="from">大名を力で抑えつけた結果、領地を失った浪人が増え、社会の不安の種になっていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1651〜1716</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1651</span><span><ruby>家光<rt>いえみつ</rt></ruby>が亡くなる。<ruby>慶安の変<rt>けいあんのへん</rt></ruby></span></li>
+    <li><span class="y">1657</span><span>明暦の大火で江戸の大半が焼ける</span></li>
+    <li><span class="y">1685</span><span><ruby>生類憐みの令<rt>しょうるいあわれみのれい</rt></ruby>が出され始める</span></li>
+    <li><span class="y">1695</span><span>元禄の<ruby>貨幣改鋳<rt>かへいかいちゅう</rt></ruby></span></li>
+    <li><span class="y">1709</span><span><ruby>新井白石<rt>あらいはくせき</rt></ruby>が登用される（<ruby>正徳の治<rt>しょうとくのち</rt></ruby>）</span></li>
+    <li><span class="y">1715</span><span>長崎での貿易額を制限する</span></li>
+  </ul></div></details>
+  <p>1651年に<ruby>家光<rt>いえみつ</rt></ruby>が亡くなり、11歳の家綱が4代将軍になると、まもなく浪人たちによる幕府転覆の計画が発覚した（<b><ruby>慶安の変<rt>けいあんのへん</rt></ruby></b>）。大名を取りつぶすたびに、仕える先を失った浪人が増えていたのである。そこで幕府は、跡継ぎのいない大名が死の間際に養子を迎えることを認め（<b><ruby>末期養子<rt>まつごようし</rt></ruby></b>の禁止の緩和）、取りつぶしを減らした。武力で抑えつける政治から、法や儀礼、学問によって秩序を保つ政治へ。この転換を<b>文治政治</b>という。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>新井白石<rt>あらいはくせき</rt></ruby></span></summary><div class="nb">
+    <div class="role"><ruby>正徳の治<rt>しょうとくのち</rt></ruby>を進めた学者<small>1657–1725</small></div>
+    <p>6代・7代将軍に仕えた儒学者。貨幣の質を元に戻し、長崎貿易を制限して金銀の流出を抑えた。</p>
+  </div></details>
+  <p>5代将軍<b><ruby>徳川綱吉<rt>とくがわつなよし</rt></ruby></b>は、儒学を重んじて、主君への忠義や親への孝行、礼儀を大切にするよう説いた。一方で、極端な動物愛護を命じた<b><ruby>生類憐みの令<rt>しょうるいあわれみのれい</rt></ruby></b>は人々を苦しめた。財政では、寺社の建立や明暦の大火からの復興で支出がかさみ、幕府は金の含有量を減らした小判を大量に発行して差額を収入とした（<b><ruby>貨幣改鋳<rt>かへいかいちゅう</rt></ruby></b>）。その結果、物価が上がり、人々の暮らしを圧迫した。6代家宣・7代家継の時代には、儒学者の<b><ruby>新井白石<rt>あらいはくせき</rt></ruby></b>が政治にあたり、貨幣の質を元に戻すとともに、長崎貿易の額を制限して金銀が海外へ流れ出るのを抑えた（<b><ruby>正徳の治<rt>しょうとくのち</rt></ruby></b>）。</p>
+  <p>この時代、平和が続く中で経済は大きく発展した。各地で新しい田が開かれ、耕地は江戸時代の初めから100年ほどで大きく増えた。<ruby>備中ぐわ<rt>びっちゅうぐわ</rt></ruby>や<ruby>千歯こき<rt>せんばこき</rt></ruby>といった農具が広まり、木綿や菜種などの<b><ruby>商品作物<rt>しょうひんさくもつ</rt></ruby></b>も盛んに作られるようになる。江戸・大坂・京都の<b><ruby>三都<rt>さんと</rt></ruby></b>が栄え、とくに大坂は、諸藩が年貢米や特産物を売りさばく<b><ruby>蔵屋敷<rt>くらやしき</rt></ruby></b>が集まり、「天下の台所」と呼ばれた。年貢米を全国から運ぶため、<ruby>西廻り<rt>にしまわり</rt></ruby>・東廻りの航路や五街道が整えられ、物と人の流れは全国に広がった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>大名の取りつぶしで浪人が増え、社会が不安定になる</li>
+    <li>武力ではなく法と儀礼で治める文治政治に転じる</li>
+    <li>平和の中で新田開発と商品作物の栽培が進む</li>
+    <li class="end">商品経済が発展する一方、幕府の財政は苦しくなり始める</li>
+  </ol>
+  <p class="next">経済が大きくなるほど、年貢米に頼る幕府と大名の財政は苦しくなっていった。<a href="#c6">→ 6章</a></p>
+</section>
+
+<!-- 6 -->
+<section class="chapter" id="c6">
+  <div class="chead"><span class="no">6</span><h2>財政難と三つの改革</h2><div class="meta">1716〜1843<span class="tag pol">政治</span></div></div>
+  <p class="from">商品経済が発展して物価が動くようになり、米を中心とする幕府の財政は行き詰まりつつあった。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1716〜1843</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1716</span><span><ruby>徳川吉宗<rt>とくがわよしむね</rt></ruby>が8代将軍となる（<ruby>享保の改革<rt>きょうほうのかいかく</rt></ruby>）</span></li>
+    <li><span class="y">1742</span><span><ruby>公事方御定書<rt>くじかたおさだめがき</rt></ruby></span></li>
+    <li><span class="y">1772</span><span><ruby>田沼意次<rt>たぬまおきつぐ</rt></ruby>が<ruby>老中<rt>ろうじゅう</rt></ruby>となる</span></li>
+    <li><span class="y">1782</span><span><ruby>天明の飢饉<rt>てんめいのききん</rt></ruby>（〜1787）</span></li>
+    <li><span class="y">1787</span><span><ruby>松平定信<rt>まつだいらさだのぶ</rt></ruby>が老中となる（<ruby>寛政の改革<rt>かんせいのかいかく</rt></ruby>）</span></li>
+    <li><span class="y">1837</span><span><ruby>大塩平八郎<rt>おおしおへいはちろう</rt></ruby>の乱</span></li>
+    <li><span class="y">1841</span><span><ruby>水野忠邦<rt>みずのただくに</rt></ruby>が<ruby>天保の改革<rt>てんぽうのかいかく</rt></ruby>を始める（〜1843）</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>徳川吉宗<rt>とくがわよしむね</rt></ruby></span></summary><div class="nb">
+    <div class="role">8代将軍<small>1684–1751</small></div>
+    <p><ruby>享保の改革<rt>きょうほうのかいかく</rt></ruby>で質素倹約と年貢の増収を進めた。実用的な学問を奨励し、裁判の基準も整えた。</p>
+  </div></details>
+  <p>紀伊藩主から8代将軍となった<b><ruby>徳川吉宗<rt>とくがわよしむね</rt></ruby></b>は、<b><ruby>享保の改革<rt>きょうほうのかいかく</rt></ruby></b>に取り組んだ。質素倹約を命じ、大名に1万石につき100石の米を差し出させるかわりに<ruby>参勤交代<rt>さんきんこうたい</rt></ruby>の江戸滞在を半年に縮めた（<b><ruby>上げ米<rt>あげまい</rt></ruby></b>）。新田開発を進め、年貢の取り方を豊作・不作にかかわらず一定にして収入を安定させた。また、有能な人材を取り立てるための<b><ruby>足高の制<rt>たしだかのせい</rt></ruby></b>、裁判の基準となる<b><ruby>公事方御定書<rt>くじかたおさだめがき</rt></ruby></b>を定め、庶民の意見を聞くために<b><ruby>目安箱<rt>めやすばこ</rt></ruby></b>を置いた。これで財政は一時立ち直ったが、年貢を重くしたため、各地で百姓一揆が増えた。</p>
+  <details class="note"><summary><span class="kind">図</span>財政立て直しの二つの道</summary><div class="nb">
+    <div class="compare">
+      <div><h3>年貢を増やす</h3><p>吉宗・定信・忠邦。倹約と新田開発、年貢の確保で米中心の財政を立て直そうとする。</p></div>
+      <div class="to" aria-hidden="true">⇔</div>
+      <div><h3>商業から取る</h3><p><ruby>田沼意次<rt>たぬまおきつぐ</rt></ruby>。<ruby>株仲間<rt>かぶなかま</rt></ruby>を認めて税を取り、商人の力を使って収入を増やそうとする。</p></div>
+    </div>
+    <p class="fig-note">どちらの方針も長続きせず、改革と反動が繰り返された。</p>
+  </div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>田沼意次<rt>たぬまおきつぐ</rt></ruby></span></summary><div class="nb">
+    <div class="role">商業を重んじた<ruby>老中<rt>ろうじゅう</rt></ruby><small>1719–1788</small></div>
+    <p>商人の同業組合を公認して税を取り、新しい収入源を求めた。わいろが横行したと批判され、飢饉の中で失脚した。</p>
+  </div></details>
+  <p>18世紀後半に<ruby>老中<rt>ろうじゅう</rt></ruby>となった<b><ruby>田沼意次<rt>たぬまおきつぐ</rt></ruby></b>は、米に頼る財政に限界があると考え、商業の力を使おうとした。商人の同業組合である<b><ruby>株仲間<rt>かぶなかま</rt></ruby></b>を広く認めて営業税を取り、長崎貿易を広げ、<ruby>印旛沼<rt>いんばぬま</rt></ruby>の干拓や<ruby>蝦夷地<rt>えぞち</rt></ruby>の開発も計画した。しかし、役人へのわいろが広がったと批判され、1782年からの<b><ruby>天明の飢饉<rt>てんめいのききん</rt></ruby></b>で各地に百姓一揆や<ruby>打ちこわし<rt>うちこわし</rt></ruby>が起こる中、田沼は失脚した。</p>
+  <p>代わって老中となった<b><ruby>松平定信<rt>まつだいらさだのぶ</rt></ruby></b>は、<b><ruby>寛政の改革<rt>かんせいのかいかく</rt></ruby></b>で再び倹約と農村の立て直しを進めた。飢饉に備えて米を蓄えさせ、都市に流れ込んだ農民を村に帰らせ、<ruby>旗本<rt>はたもと</rt></ruby>や<ruby>御家人<rt>ごけにん</rt></ruby>の借金を帳消しにした。しかし厳しい統制は反発を招き、6年ほどで退いた。その後、1830年代に<b><ruby>天保の飢饉<rt>てんぽうのききん</rt></ruby></b>が起こると、1837年には大坂で、元幕府役人の<b><ruby>大塩平八郎<rt>おおしおへいはちろう</rt></ruby></b>が貧しい人々を救うために兵を挙げた。幕府の元役人の反乱は、幕府に大きな衝撃を与えた。老中<b><ruby>水野忠邦<rt>みずのただくに</rt></ruby></b>は<b><ruby>天保の改革<rt>てんぽうのかいかく</rt></ruby></b>で株仲間を解散させるなど強い統制を行ったが、江戸・大坂周辺を幕府の直轄地にしようとした<b><ruby>上知令<rt>あげちれい</rt></ruby></b>が大名や旗本の反対で失敗し、失脚した。一方、薩摩藩や長州藩は、借金の整理や特産物の専売で藩の財政を立て直し、のちの幕末に大きな力を持つ<b><ruby>雄藩<rt>ゆうはん</rt></ruby></b>となっていく。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>商品経済の発展で、米中心の財政が行き詰まる</li>
+    <li>年貢の増収か商業の利用か、改革の方針が揺れ動く</li>
+    <li>飢饉と一揆・打ちこわしで、改革が次々に挫折する</li>
+    <li class="end">幕府の力が弱まり、財政を立て直した雄藩が力をつける</li>
+  </ol>
+  <p class="next">幕府が国内の立て直しに苦しんでいたころ、日本の近海には外国の船が現れるようになっていた。<a href="#c7">→ 7章</a></p>
+</section>
+
+<!-- 7 -->
+<section class="chapter" id="c7">
+  <div class="chead"><span class="no">7</span><h2>外国船の来航</h2><div class="meta">1792〜1853<span class="tag dip">外交</span></div></div>
+  <p class="from">四つの口に限った対外関係は、約150年にわたって保たれていた。しかし18世紀末、北と南から新しい来訪者が現れる。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1792〜1853</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1792</span><span>ロシアのラクスマンが<ruby>根室<rt>ねむろ</rt></ruby>に来航する</span></li>
+    <li><span class="y">1804</span><span>ロシアのレザノフが長崎に来航する</span></li>
+    <li><span class="y">1808</span><span>イギリス船フェートン号が長崎に侵入する</span></li>
+    <li><span class="y">1825</span><span><ruby>異国船打払令<rt>いこくせんうちはらいれい</rt></ruby></span></li>
+    <li><span class="y">1839</span><span><ruby>蛮社の獄<rt>ばんしゃのごく</rt></ruby></span></li>
+    <li><span class="y">1842</span><span>アヘン戦争の結果を受け、<ruby>天保の薪水給与令<rt>てんぽうのしんすいきゅうよれい</rt></ruby>を出す</span></li>
+    <li><span class="y">1853</span><span>アメリカのペリーが<ruby>浦賀<rt>うらが</rt></ruby>に来航する</span></li>
+  </ul></div></details>
+  <p>18世紀後半、シベリアから太平洋岸に進出したロシアが日本に関心を向けた。1792年、ロシアの使節<b>ラクスマン</b>が漂流民を送り届けて<ruby>根室<rt>ねむろ</rt></ruby>に来航し、通商を求めた。1804年には<b>レザノフ</b>が長崎に来たが、幕府はいずれも要求を断った。これに危機感を抱いた幕府は、<ruby>蝦夷地<rt>えぞち</rt></ruby>を直接治めることにし、<ruby>間宮林蔵<rt>まみやりんぞう</rt></ruby>らに<ruby>樺太<rt>からふと</rt></ruby>などを調べさせている。1808年には、イギリスの軍艦<b>フェートン号</b>がオランダ船を追って長崎港に侵入し、物資を奪って去る事件も起こった。</p>
+  <p>外国船の接近が続くと、幕府は1825年に<b><ruby>異国船打払令<rt>いこくせんうちはらいれい</rt></ruby></b>を出し、日本に近づく外国船を砲撃して追い払うよう命じた。1837年には、漂流民を送り届けに来たアメリカの商船モリソン号がこの命令によって砲撃された。この対応を批判した蘭学者の<ruby>渡辺崋山<rt>わたなべかざん</rt></ruby>や<ruby>高野長英<rt>たかのちょうえい</rt></ruby>は、1839年に処罰されている（<b><ruby>蛮社の獄<rt>ばんしゃのごく</rt></ruby></b>）。</p>
+  <p>ところが1840年、清がイギリスとの<b>アヘン戦争</b>に敗れ、香港を奪われて不利な条約を結ばされたことが伝わると、幕府は大きな衝撃を受けた。外国船を砲撃すれば、日本も同じ目にあうおそれがある。幕府は1842年に打払令を改め、来航した外国船には燃料や水、食料を与えて帰らせる方針に転じた（<b><ruby>天保の薪水給与令<rt>てんぽうのしんすいきゅうよれい</rt></ruby></b>）。そして1853年、アメリカの<b>ペリー</b>が4隻の軍艦を率いて<ruby>浦賀<rt>うらが</rt></ruby>に来航し、開国を求める大統領の国書を差し出した。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>ロシア・イギリスの船が日本の近海に現れる</li>
+    <li>幕府は打払令で外国船を追い払おうとする</li>
+    <li>アヘン戦争で清が敗れ、欧米の軍事力を知る</li>
+    <li class="end">衝突を避ける方針に転じたところへ、ペリーが来航する</li>
+  </ol>
+  <p class="next">軍艦を背景にした開国の要求に、幕府はどう応えるのか。その判断が、幕府自身の運命を決めることになる。<a href="#c8">→ 8章</a></p>
+</section>
+
+<!-- 8 -->
+<section class="chapter" id="c8">
+  <div class="chead"><span class="no">8</span><h2>開国と幕府の滅亡</h2><div class="meta">1853〜1868<span class="tag dip">外交</span><span class="tag pol">政治</span></div></div>
+  <p class="from">ペリーは開国を求める国書を置いて去り、翌年に返事を聞きに来ると告げた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1853〜1868</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1854</span><span>日米和親条約</span></li>
+    <li><span class="y">1858</span><span><ruby>日米修好通商条約<rt>にちべいしゅうこうつうしょうじょうやく</rt></ruby>。<ruby>安政の大獄<rt>あんせいのたいごく</rt></ruby>（〜1859）</span></li>
+    <li><span class="y">1860</span><span><ruby>桜田門外の変<rt>さくらだもんがいのへん</rt></ruby></span></li>
+    <li><span class="y">1863</span><span><ruby>薩英戦争<rt>さつえいせんそう</rt></ruby>。長州藩が外国船を砲撃する</span></li>
+    <li><span class="y">1866</span><span><ruby>薩長同盟<rt>さっちょうどうめい</rt></ruby></span></li>
+    <li><span class="y">1867</span><span><ruby>大政奉還<rt>たいせいほうかん</rt></ruby>。<ruby>王政復古の大号令<rt>おうせいふっこのだいごうれい</rt></ruby></span></li>
+    <li><span class="y">1868</span><span><ruby>戊辰戦争<rt>ぼしんせんそう</rt></ruby>が始まる（〜1869）</span></li>
+  </ul></div></details>
+  <p><ruby>老中<rt>ろうじゅう</rt></ruby>の<b><ruby>阿部正弘<rt>あべまさひろ</rt></ruby></b>は、これまでの慣例を破って朝廷に報告し、大名や幕臣にも意見を求めた。幕府だけで決めず、広く意見を聞いたことは、朝廷や大名が政治に関わるきっかけにもなった。1854年、再び来航したペリーとの間で<b>日米和親条約</b>が結ばれ、<ruby>下田<rt>しもだ</rt></ruby>と<ruby>箱館<rt>はこだて</rt></ruby>の2港が開かれた。約200年続いた対外関係のしくみは、ここで終わる。</p>
+  <details class="note"><summary><span class="kind">図</span>二つの条約</summary><div class="nb">
+    <div class="compare">
+      <div><h3>日米和親条約（1854）</h3><p><ruby>下田<rt>しもだ</rt></ruby>・<ruby>箱館<rt>はこだて</rt></ruby>を開き、アメリカ船に燃料や食料を与える。貿易は認めない。</p></div>
+      <div class="to" aria-hidden="true">▶</div>
+      <div><h3><ruby>日米修好通商条約<rt>にちべいしゅうこうつうしょうじょうやく</rt></ruby>（1858）</h3><p>神奈川・長崎など5港を開き、自由な貿易を認める。<ruby>領事裁判権<rt>りょうじさいばんけん</rt></ruby>を認め、<ruby>関税自主権<rt>かんぜいじしゅけん</rt></ruby>がない。</p></div>
+    </div>
+    <p class="fig-note">外国人が日本で罪を犯しても日本の法で裁けず（領事裁判権）、輸入品にかける税率を日本が自由に決められない（関税自主権がない）。この不平等を改めることが、明治政府の大きな課題になる。</p>
+  </div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>井伊直弼<rt>いいなおすけ</rt></ruby></span></summary><div class="nb">
+    <div class="role">開国を決めた<ruby>大老<rt>たいろう</rt></ruby><small>1815–1860</small></div>
+    <p>天皇の許しを得ないまま通商条約を結び、反対派を厳しく処罰した。そのため桜田門外で暗殺された。</p>
+  </div></details>
+  <p>続いてアメリカ総領事のハリスが貿易を求めると、<ruby>大老<rt>たいろう</rt></ruby>の<b><ruby>井伊直弼<rt>いいなおすけ</rt></ruby></b>は1858年、天皇の許しを得ないまま<b><ruby>日米修好通商条約<rt>にちべいしゅうこうつうしょうじょうやく</rt></ruby></b>を結んだ。この条約は、日本で罪を犯した外国人を日本の法で裁けない<b><ruby>領事裁判権<rt>りょうじさいばんけん</rt></ruby></b>を認め、輸入品の関税を日本が自由に決める<b><ruby>関税自主権<rt>かんぜいじしゅけん</rt></ruby></b>もない、不平等な内容だった。同じような条約をオランダ・ロシア・イギリス・フランスとも結んだ。井伊は、条約や将軍の跡継ぎをめぐって反対した大名や<ruby>公家<rt>くげ</rt></ruby>、武士を厳しく処罰したが（<b><ruby>安政の大獄<rt>あんせいのたいごく</rt></ruby></b>）、1860年に江戸城の桜田門外で暗殺された（<b><ruby>桜田門外の変<rt>さくらだもんがいのへん</rt></ruby></b>）。</p>
+  <p>貿易が始まると、生糸などが大量に輸出されて国内の品不足と物価の上昇が起こり、人々の暮らしは苦しくなった。外国を追い払えという<b><ruby>攘夷<rt>じょうい</rt></ruby></b>の主張は、天皇を尊ぶ<b><ruby>尊王<rt>そんのう</rt></ruby></b>の考えと結びついて広がり、外国人を襲う事件も相次いだ。しかし、1863年の<b><ruby>薩英戦争<rt>さつえいせんそう</rt></ruby></b>や、翌年に長州藩が4か国の艦隊に砲台を占領された事件を通じて、薩摩藩と長州藩は攘夷が不可能であることを悟る。両藩はやがて、外国と対抗できる強い国をつくるには幕府を倒すしかないと考えるようになり、1866年、土佐藩出身の<ruby>坂本龍馬<rt>さかもとりょうま</rt></ruby>らの仲立ちで<b><ruby>薩長同盟<rt>さっちょうどうめい</rt></ruby></b>を結んだ。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>徳川慶喜<rt>とくがわよしのぶ</rt></ruby></span></summary><div class="nb">
+    <div class="role">最後の将軍<small>1837–1913</small></div>
+    <p>15代将軍として幕府の立て直しを図ったが、武力による倒幕を避けるため、政権を朝廷に返した。</p>
+  </div></details>
+  <p>幕府が長州藩を攻めて失敗すると、その権威は大きく揺らいだ。15代将軍<b><ruby>徳川慶喜<rt>とくがわよしのぶ</rt></ruby></b>は、武力による倒幕を避けるため、1867年に政権を朝廷に返した（<b><ruby>大政奉還<rt>たいせいほうかん</rt></ruby></b>）。慶喜は、朝廷のもとでも徳川家が中心になれると考えていたが、薩摩・長州両藩と公家の<ruby>岩倉具視<rt>いわくらともみ</rt></ruby>らは<b><ruby>王政復古の大号令<rt>おうせいふっこのだいごうれい</rt></ruby></b>を出し、天皇を中心とする新政府をつくって慶喜を政治から締め出した。1868年、旧幕府軍と新政府軍の間で<b><ruby>戊辰戦争<rt>ぼしんせんそう</rt></ruby></b>が始まり、新政府軍が勝利を重ねて江戸城を明け渡させた。こうして、約260年続いた江戸幕府の支配は終わった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>ペリーの来航で開国し、不平等な条約を結ぶ</li>
+    <li>物価の上昇と条約への反発から、尊王攘夷の運動が広がる</li>
+    <li>攘夷の失敗から、薩摩・長州が倒幕へ転じる</li>
+    <li class="end">大政奉還と王政復古で、幕府が政権を失う</li>
+  </ol>
+</section>
+
+<!-- 次の時代へ -->
+<section class="why">
+  <div class="label">なぜ近代へ移ったのか</div>
+  <ol class="chain" aria-label="近世から近代への因果の流れ" style="margin-top:12px">
+    <li><ruby>幕藩体制<rt>ばくはんたいせい</rt></ruby>は、欧米諸国の軍事力を想定していなかった</li>
+    <li>開国と不平等条約で、幕府の権威が失われる</li>
+    <li>藩の改革で力をつけた薩摩・長州が倒幕に動く</li>
+    <li><ruby>大政奉還<rt>たいせいほうかん</rt></ruby>と王政復古で、天皇中心の新政府ができる</li>
+    <li class="end">欧米に対抗できる中央集権の近代国家づくりが始まる</li>
+  </ol>
+</section>
+
+<nav class="next-era" aria-label="前後の区分">
+  <a href="../medieval/">← 中世</a>
+  <a href="../modern/">近代 →</a>
+</nav>
+
+<p class="foot">年代は主な通説に従う。近世の始まりは、織田信長が室町幕府を滅ぼした1573年とする。「鎖国」は19世紀初めに生まれた言葉で、当時の幕府が自らこう呼んでいたわけではない。図中の帯は、理解のための目安である。</p>
+</div>
+<button class="furi" type="button" aria-pressed="true">ふりがな<span>あり</span></button>
+<script>
+(function(){
+  // 補足（図・人物・年表）：狭い画面ではすべて折りたたむ。
+  // 広い画面では章ごとに、本文の高さに収まる分だけ開く（背の高い図 → 年表 → 人物 の順に閉じていく）
+  var wide=matchMedia('(min-width:1180px)');
+  function fit(){
+    document.querySelectorAll('.chapter').forEach(function(ch){
+      var notes=[].slice.call(ch.querySelectorAll('details.note'));
+      notes.forEach(function(d){ d.open=wide.matches; });
+      if(!wide.matches) return;
+      var text=[].slice.call(ch.children).filter(function(e){ return e.tagName!=='DETAILS'; }).pop();
+      function over(){
+        var bottom=Math.max.apply(null,notes.map(function(d){ return d.getBoundingClientRect().bottom; }));
+        return bottom > text.getBoundingClientRect().bottom + 24;
+      }
+      function rank(d){ return d.classList.contains('person')?2:d.classList.contains('years')?1:0; }
+      notes.slice().sort(function(a,b){ return rank(a)-rank(b) || b.offsetHeight-a.offsetHeight; })
+        .forEach(function(d){ if(over()) d.open=false; });
+    });
+  }
+  // 狭い画面どうしのリサイズでは、読者が開いた補足を閉じ直さない
+  var lastWide=null, timer;
+  function refit(){ if(wide.matches||lastWide!==false) fit(); lastWide=wide.matches; }
+  refit();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(refit);
+  addEventListener('resize',function(){ clearTimeout(timer); timer=setTimeout(refit,200); });
+
+  // ふりがなの表示切り替え（設定はブラウザに保存）
+  var KEY='kyoyo-ruby', root=document.documentElement, btn=document.querySelector('.furi');
+  function apply(on){
+    root.classList.toggle('no-ruby',!on);
+    btn.setAttribute('aria-pressed',String(on));
+    btn.lastChild.textContent=on?'あり':'なし';
+  }
+  var on=true;
+  try{on=localStorage.getItem(KEY)!=='off'}catch(e){}
+  apply(on);
+  btn.addEventListener('click',function(){
+    on=!on; apply(on); nudge();
+    try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}
+  });
+
+  // 長い読みが行の端で画面からはみ出す場合は、内側へずらす
+  function nudge(){
+    var edge=8, w=document.documentElement.clientWidth;
+    document.querySelectorAll('rt').forEach(function(rt){
+      rt.style.transform='';
+      var r=rt.getBoundingClientRect();
+      if(!r.width) return;
+      var dx=r.right>w-edge ? r.right-(w-edge) : r.left<edge ? r.left-edge : 0;
+      if(dx) rt.style.transform='translateX(calc(-50% - '+dx+'px))';
+    });
+  }
+  nudge();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(nudge);
+  addEventListener('resize',function(){ clearTimeout(nudge.t); nudge.t=setTimeout(nudge,250); });
+  document.addEventListener('toggle',nudge,true);
+})();
+</script>
+</body>
+</html>

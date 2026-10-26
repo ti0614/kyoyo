@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="明治維新から敗戦まで。中央集権の近代国家が生まれ、立憲政治と対外膨張を経て戦争に至るまでを、政治と外交の流れで読む。">
+<title>近代の日本史</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 本文は「前の章から → 本文 → 因果の流れ → 次の章へ」の一本道。
+   図・人物・年表は .note（details）にまとめ、広い画面では本文右の余白に浮かせ、狭い画面では本文中に折りたたむ */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
+  --ai:#2f5d4e;            /* 補助色：区分色が藍のため緑にする */
+  --c:#24476b; --cbg:#dbe4ee; /* 近代の日本史の区分色（流れ図の g4 と同じ） */
+  --c2:#667e97; --c3:#9cacbc; --c4:#c2cbd6;
+  --side:340px; --gap:40px;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fcfb6;
+  --c:#8fb4dc; --cbg:#1b2533; --c2:#6a86a2; --c3:#4c5f72; --c4:#374451; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fcfb6;
+  --c:#8fb4dc; --cbg:#1b2533; --c2:#6a86a2; --c3:#4c5f72; --c4:#374451; color-scheme:dark}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.85;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:2.4rem;font-weight:800}
+h1 small{font-family:var(--body);font-size:1rem;color:var(--muted);font-weight:500;margin-left:10px}
+.lead{color:var(--muted);margin:8px 0 0;max-width:40em}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+a{color:inherit}
+p{margin:0}
+b{color:var(--c)}
+.crumbs{margin:0;font-size:.85rem;display:flex;gap:16px;flex-wrap:wrap}
+
+/* 問い */
+.question{border-left:4px solid var(--c);background:var(--surface);padding:12px 16px;margin-top:20px;max-width:46em}
+.question p{font-family:var(--display);font-size:1.15rem;font-weight:600}
+
+/* 実権の推移バー（幅は年数に比例） */
+.band{display:flex;margin-top:12px;border:1px solid var(--line);background:var(--surface)}
+.band div{flex:var(--y) 1 0;min-width:30px;padding:8px 6px;border-right:1px solid var(--paper);background:var(--bg);color:var(--fg,var(--ink));display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.band div:last-child{border-right:0}
+.band b{color:inherit;font-size:.85rem;line-height:1.35}
+.band span{font-size:.72rem;line-height:1.35;font-variant-numeric:tabular-nums;opacity:.85}
+.band .thin b,.band .thin span{writing-mode:vertical-rl;letter-spacing:.05em}
+.s1{--bg:var(--c4)}.s2{--bg:var(--c3)}.s3{--bg:var(--c);--fg:var(--paper)}.s4{--bg:var(--c2);--fg:var(--paper)}.s5{--bg:var(--c3)}.s6{--bg:var(--c4)}
+.band-note{font-size:.8rem;color:var(--muted);margin-top:6px}
+@media (max-width:640px){
+  .band{flex-direction:column}
+  .band div{flex:none;flex-direction:row;align-items:baseline;gap:10px;border-right:0;border-bottom:1px solid var(--paper)}
+  .band .thin b,.band .thin span{writing-mode:horizontal-tb}
+  .pc-only{display:none}
+}
+
+/* 全体の流れ（目次を兼ねる） */
+.overview{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:0}
+.overview li{position:relative;padding-left:28px}
+.overview li::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--c)}
+.overview li:first-child::before{top:18px}.overview li:last-child::before{bottom:calc(100% - 18px)}
+.overview li::after{content:"";position:absolute;left:3px;top:12px;width:8px;height:8px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+.overview a{display:grid;grid-template-columns:1.4em 13em 1fr auto;gap:0 12px;align-items:baseline;text-decoration:none;padding:6px 10px;border-radius:2px}
+.overview a:hover,.overview a:focus-visible{background:var(--surface);outline:none}
+.overview .n{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+.overview .t{font-family:var(--display);font-weight:600;font-size:1.02rem}
+.overview .d{font-size:.88rem;color:var(--muted)}
+.overview .yr{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:640px){
+  .overview a{grid-template-columns:1.4em 1fr auto}
+  .overview .d{grid-column:2 / 4}
+}
+
+/* 章 */
+.chapter{display:flow-root;scroll-margin-top:16px}
+.chead{border-bottom:2px solid var(--c);padding-bottom:8px;margin-bottom:16px;display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:baseline}
+.chead .no{font-family:var(--display);font-size:2rem;color:var(--c);line-height:1;grid-row:span 2}
+.chead h2{font-size:1.5rem}
+.chead .meta{font-size:.8rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{font-size:.7rem;font-weight:700;padding:0 6px;border:1px solid currentColor;border-radius:2px}
+.tag.pol{color:var(--c)}.tag.dip{color:var(--ai)}
+.chapter > p{margin-bottom:14px}
+.from,.next{font-size:.9rem;color:var(--muted)}
+.from{margin-bottom:14px}
+.from::before,.next::before{display:inline-block;margin-right:10px;vertical-align:.1em;line-height:1.6;font-size:.7rem;letter-spacing:.08em;font-weight:700;white-space:nowrap;color:var(--c);border:1px solid var(--c);padding:0 6px;border-radius:2px}
+.from::before{content:"前の章から"}
+.next::before{content:"次の章へ"}
+.next{margin-top:16px}
+.next a{color:var(--ink)}
+
+/* 因果の流れ */
+.chain{list-style:none;margin:20px 0 0;padding:0;display:flex;gap:22px}
+.chain li{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c);padding:8px 10px;font-size:.85rem;line-height:1.6;position:relative}
+.chain li+li::before{content:"▶";position:absolute;left:-17px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--c)}
+.chain li.end{background:var(--cbg)}
+@media (max-width:640px){
+  .chain{flex-direction:column;gap:18px}
+  .chain li+li::before{content:"▼";left:50%;top:-16px;transform:translateX(-50%)}
+}
+
+/* 補足（図・人物・年表）。狭い画面では本文中の折りたたみ */
+.note{margin:0 0 14px;background:var(--surface);border:1px solid var(--line)}
+.note summary{cursor:pointer;list-style:none;display:flex;gap:10px;align-items:baseline;padding:7px 12px;font-size:.85rem;font-weight:500}
+.note summary::-webkit-details-marker{display:none}
+.note summary::after{content:"▸";margin-left:auto;color:var(--muted);transition:transform .15s}
+.note[open] summary::after{transform:rotate(90deg)}
+.note summary:focus-visible{outline:2px solid var(--c);outline-offset:-2px}
+.kind{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--paper);background:var(--k,var(--c));padding:0 6px;border-radius:2px;white-space:nowrap}
+.note.person{--k:var(--ai)}.note.years{--k:var(--muted)}
+.nb{padding:4px 14px 14px;container-type:inline-size}
+.fig-note{font-size:.8rem;color:var(--muted);margin-top:10px;line-height:1.7}
+
+/* 広い画面：補足を本文の右の余白へ。置いた段落の横に並び、重なるときは下へ送る */
+@media (min-width:1180px){
+  .wrap{max-width:calc(780px + var(--side) + var(--gap))}
+  .chapter{padding-right:calc(var(--side) + var(--gap))}
+  .chapter > .chead{margin-right:calc(-1 * (var(--side) + var(--gap)))}
+  .note{float:right;clear:right;width:var(--side);margin:0 calc(-1 * (var(--side) + var(--gap))) 14px 0}
+  .why,.next-era{max-width:780px}
+}
+
+/* 年表 */
+.ev{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:.85rem;line-height:1.65}
+.ev li{display:grid;grid-template-columns:4.4em 1fr;gap:8px}
+.ev .y{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+
+/* 人物 */
+.person .nm{font-family:var(--display);font-weight:600;font-size:1.05rem}
+.person .role small{color:var(--muted);font-weight:500;margin-left:8px;font-variant-numeric:tabular-nums}
+.person .role{font-size:.78rem;color:var(--ai);font-weight:700}
+.person .nb p{font-size:.86rem;line-height:1.7;margin-top:2px}
+
+/* 権力構造図 */
+.org{display:flex;flex-direction:column;align-items:center;gap:0}
+.box{border:1px solid var(--c);background:var(--paper);padding:6px 10px;text-align:center;font-size:.82rem;line-height:1.5;min-width:0}
+.box strong{display:block;font-family:var(--display);font-size:.98rem}
+.box small{color:var(--muted);font-size:.72rem;display:block}
+.box.top{background:var(--c);color:var(--paper);border-color:var(--c)}
+.box.top small{color:inherit;opacity:.85}
+.box.mid{border-width:2px}
+.vline{width:2px;height:14px;background:var(--c)}
+.branches{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;border-top:2px solid var(--c);padding-top:10px}
+.branch{display:flex;flex-direction:column;gap:6px}
+.branch > .label{text-align:center}
+.branch .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+@container (max-width:560px){.branches{grid-template-columns:1fr}}
+
+/* 相互関係図（御恩と奉公・朝貢） */
+.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr);gap:12px;align-items:center}
+.duo .box{padding:12px 6px}
+.arrows{display:flex;flex-direction:column;gap:10px;font-size:.8rem;line-height:1.6}
+.arr{display:flex;flex-direction:column;gap:2px}
+.arr .line{height:2px;background:var(--c);position:relative}
+.arr.r .line::after,.arr.l .line::before{content:"";position:absolute;top:-5px;border:6px solid transparent}
+.arr.r .line::after{right:-2px;border-left:9px solid var(--c);border-right:0}
+.arr.l .line::before{left:-2px;border-right:9px solid var(--c);border-left:0}
+.arr.l .line{background:var(--ai)}.arr.l .line::before{border-right-color:var(--ai)}
+.arr b{font-size:.85rem}.arr.l b{color:var(--ai)}
+.arr span{color:var(--muted)}
+@container (max-width:420px){.duo{grid-template-columns:minmax(0,.7fr) minmax(0,1.6fr) minmax(0,.7fr);gap:8px}.duo .box{padding:8px 2px}.arrows{font-size:.76rem}}
+
+/* 比較（承久の乱の前後） */
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.compare > div{border:1px solid var(--line);background:var(--paper);padding:10px;font-size:.84rem;line-height:1.7}
+.compare h3{font-size:.98rem;margin-bottom:4px}
+.compare .to{align-self:center;color:var(--c);font-weight:700;border:0;background:none;padding:0}
+.scale{display:flex;height:10px;margin:6px 0;border:1px solid var(--line)}
+.scale i{display:block}
+.scale .k{background:var(--ai)}.scale .b{background:var(--c)}
+.legend{display:flex;gap:12px;font-size:.72rem;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:4px;vertical-align:-1px}
+@container (max-width:420px){.compare{grid-template-columns:1fr}.compare .to{transform:rotate(90deg);justify-self:center}}
+
+/* 四方との関係 */
+.world{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.world div{border:1px solid var(--line);background:var(--paper);padding:8px 10px;font-size:.84rem;line-height:1.7;border-top:3px solid var(--ai)}
+.world h3{font-size:.98rem;margin-bottom:2px}
+@container (max-width:420px){.world{grid-template-columns:1fr}}
+
+.why{border:1px dashed var(--c);padding:16px}
+.next-era{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem}
+.next-era a{text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:8px 14px}
+.next-era a:hover,.next-era a:focus-visible{border-color:var(--c);outline:none}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+
+/* ふりがな（各章の本文・各補足で初出のみ）。読みが長くても漢字の間が空かないよう、rt は語の中央上に重ねて置く */
+ruby{position:relative;display:inline}
+rt{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);white-space:nowrap;line-height:1;margin-bottom:.1em;font-family:var(--body);font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:0;text-indent:0}
+b rt{color:var(--c);opacity:.8}
+.box.top rt{color:inherit;opacity:.85}
+.no-ruby rt{display:none}
+/* 行間の狭い図・カードでは、ふりがなを含む行だけ行間を広げて上の行に重ならないようにする */
+:root:not(.no-ruby) .wrap :is(p,li,span,small,strong,h3,summary):has(> ruby){line-height:2.2}
+:root:not(.no-ruby) .wrap .chapter > p{line-height:1.85}
+.furi{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:10;
+  font:inherit;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
+.furi span{color:var(--c);margin-left:6px}
+.furi:hover,.furi:focus-visible{border-color:var(--c);outline:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="crumbs"><a href="../../">← kyoyo 目次</a><a href="../#meiji">← 日本史の流れ図</a></p>
+
+<header>
+  <div class="label">日本史の流れ図　詳説 4／5</div>
+  <h1>近代<small>1868〜1945</small></h1>
+  <p class="lead">明治維新で生まれた新政府が、欧米に追いつくために中央集権の国家と憲法、議会をつくり、やがて大陸への進出と戦争の道をたどって敗戦に至るまで。政治と外交の動きを軸に、出来事どうしの因果関係に注目して読んでいく。</p>
+  <div class="question"><div class="label">この時代の問い</div><p>欧米に対抗するためにつくられた近代国家は、なぜ破局的な戦争へと向かったのか。</p></div>
+</header>
+
+<section>
+  <div class="label">実権を握っていたのは誰か</div>
+  <div class="band" role="img" aria-label="近代の実権の推移。薩摩・長州出身者による藩閥政府1868〜1890年、藩閥と議会1890〜1918年、政党内閣1918〜1932年、軍部1932〜1945年。">
+    <div class="s1" style="--y:22"><b>藩閥政府</b><span>1868–1890</span></div>
+    <div class="s2" style="--y:28"><b>藩閥と議会</b><span>1890–1918</span></div>
+    <div class="s4" style="--y:14"><b>政党内閣</b><span>1918–1932</span></div>
+    <div class="s3" style="--y:13"><b>軍部</b><span>1932–1945</span></div>
+  </div>
+  <p class="band-note"><span class="pc-only">各区間の幅は年数に比例する。</span>維新を担った薩摩・長州の出身者が政府を動かし、議会の開設後は政党がしだいに力を増した。しかし政党内閣は十数年で終わり、軍部が政治を左右するようになる。</p>
+</section>
+
+<section>
+  <div class="label">近代の流れ（各章へのリンクを兼ねる）</div>
+  <ol class="overview">
+    <li><a href="#c1"><span class="n">1</span><span class="t">明治維新</span><span class="d">藩をなくし、税・軍隊・教育を国が一手に握る</span><span class="yr">1868–1877</span></a></li>
+    <li><a href="#c2"><span class="n">2</span><span class="t">立憲国家の形成</span><span class="d">自由民権運動に押され、憲法と議会がつくられる</span><span class="yr">1874–1890</span></a></li>
+    <li><a href="#c3"><span class="n">3</span><span class="t">条約改正と<ruby>日清戦争<rt>にっしんせんそう</rt></ruby></span><span class="d">不平等条約の改正を進め、朝鮮をめぐって清と戦う</span><span class="yr">1871–1895</span></a></li>
+    <li><a href="#c4"><span class="n">4</span><span class="t"><ruby>日露戦争<rt>にちろせんそう</rt></ruby>と<ruby>韓国併合<rt>かんこくへいごう</rt></ruby></span><span class="d">ロシアに勝って列強に並び、大陸に支配を広げる</span><span class="yr">1895–1911</span></a></li>
+    <li><a href="#c5"><span class="n">5</span><span class="t">大正デモクラシー</span><span class="d">政党内閣が生まれ、普通選挙が実現する</span><span class="yr">1912–1925</span></a></li>
+    <li><a href="#c6"><span class="n">6</span><span class="t">恐慌と軍部の台頭</span><span class="d">恐慌の中で<ruby>満州事変<rt>まんしゅうじへん</rt></ruby>が起こり、政党内閣が終わる</span><span class="yr">1927–1936</span></a></li>
+    <li><a href="#c7"><span class="n">7</span><span class="t">日中戦争と太平洋戦争</span><span class="d">中国との戦争が長引き、アメリカ・イギリスとの戦争に至る</span><span class="yr">1937–1945</span></a></li>
+  </ol>
+</section>
+
+<!-- 1 -->
+<section class="chapter" id="c1">
+  <div class="chead"><span class="no">1</span><h2>明治維新</h2><div class="meta">1868〜1877<span class="tag pol">政治</span></div></div>
+  <p class="from"><ruby>戊辰戦争<rt>ぼしんせんそう</rt></ruby>に勝った新政府は、天皇を中心に、欧米に対抗できる国づくりを急いでいた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1868〜1877</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1868</span><span><ruby>五箇条の御誓文<rt>ごかじょうのごせいもん</rt></ruby>。元号を明治と改める</span></li>
+    <li><span class="y">1869</span><span><ruby>版籍奉還<rt>はんせきほうかん</rt></ruby></span></li>
+    <li><span class="y">1871</span><span><ruby>廃藩置県<rt>はいはんちけん</rt></ruby>。<ruby>岩倉使節団<rt>いわくらしせつだん</rt></ruby>が出発する（〜1873）</span></li>
+    <li><span class="y">1872</span><span><ruby>学制<rt>がくせい</rt></ruby>。新橋・横浜間に鉄道が開通する</span></li>
+    <li><span class="y">1873</span><span><ruby>徴兵令<rt>ちょうへいれい</rt></ruby>・<ruby>地租改正<rt>ちそかいせい</rt></ruby>。<ruby>征韓論<rt>せいかんろん</rt></ruby>をめぐって政府が分裂する</span></li>
+    <li><span class="y">1877</span><span><ruby>西南戦争<rt>せいなんせんそう</rt></ruby></span></li>
+  </ul></div></details>
+  <p>1868年、新政府は<b><ruby>五箇条の御誓文<rt>ごかじょうのごせいもん</rt></ruby></b>を出し、広く会議を開いて政治を決めることや、世界から知識を学ぶことを新しい政治の方針として示した。江戸を東京と改めて天皇を迎え、元号を明治とした。しかし、全国はまだ大名の治める藩に分かれていた。そこで政府は、1869年に大名に土地（版）と人々（籍）を天皇に返させ（<b><ruby>版籍奉還<rt>はんせきほうかん</rt></ruby></b>）、1871年には藩そのものを廃止して府と県を置き、政府が任命した役人に治めさせた（<b><ruby>廃藩置県<rt>はいはんちけん</rt></ruby></b>）。こうして、政府が全国を直接治める中央集権の体制ができあがった。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>大久保利通<rt>おおくぼとしみち</rt></ruby></span></summary><div class="nb">
+    <div class="role">維新政府の中心<small>1830–1878</small></div>
+    <p>薩摩藩出身。<ruby>岩倉使節団<rt>いわくらしせつだん</rt></ruby>で欧米を見たあと、<ruby>殖産興業<rt>しょくさんこうぎょう</rt></ruby>を進めて政府の実権を握った。<ruby>西南戦争<rt>せいなんせんそう</rt></ruby>の翌年に暗殺された。</p>
+  </div></details>
+  <details class="note"><summary><span class="kind">図</span>年貢から地租へ</summary><div class="nb">
+    <div class="compare">
+      <div><h3>江戸時代の年貢</h3><p>収穫高に応じて、米で納める。村ごとにまとめて納め、豊作・不作で収入が変わる。</p></div>
+      <div class="to" aria-hidden="true">▶</div>
+      <div><h3><ruby>地租改正<rt>ちそかいせい</rt></ruby>（1873）</h3><p>土地の値段（地価）の3％を、土地の持ち主が現金で納める。収穫に左右されない。</p></div>
+    </div>
+    <p class="fig-note">政府は毎年決まった額の収入を得られるようになった。一方、負担は江戸時代とほとんど変わらなかったため、各地で反対の一揆が起こり、1877年に税率は2.5％に下げられた。</p>
+  </div></details>
+  <p>政府は、欧米の強国に並ぶための改革を次々に進めた。身分制度を改めて、武士と農民・町人の区別をなくした（<b><ruby>四民平等<rt>しみんびょうどう</rt></ruby></b>）。1872年には<b><ruby>学制<rt>がくせい</rt></ruby></b>を定めて全国に小学校をつくり、1873年には満20歳の男子に兵役の義務を課す<b><ruby>徴兵令<rt>ちょうへいれい</rt></ruby></b>を出して、武士ではなく国民からなる軍隊をつくった。さらに同じ年の<b><ruby>地租改正<rt>ちそかいせい</rt></ruby></b>で、土地の値段に応じた税を現金で納めさせ、政府の収入を安定させた。<ruby>富岡製糸場<rt>とみおかせいしじょう</rt></ruby>のような官営の工場を建て、鉄道や郵便を整える<b><ruby>殖産興業<rt>しょくさんこうぎょう</rt></ruby></b>の政策も進められた。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>西郷隆盛<rt>さいごうたかもり</rt></ruby></span></summary><div class="nb">
+    <div class="role">維新の功労者<small>1828–1877</small></div>
+    <p>薩摩藩出身。倒幕と江戸城の明け渡しに力を尽くしたが、<ruby>征韓論<rt>せいかんろん</rt></ruby>で政府を去り、<ruby>西南戦争<rt>せいなんせんそう</rt></ruby>で敗れて自害した。</p>
+  </div></details>
+  <p>この間、<b><ruby>岩倉具視<rt>いわくらともみ</rt></ruby></b>や<b><ruby>大久保利通<rt>おおくぼとしみち</rt></ruby></b>らは<b><ruby>岩倉使節団<rt>いわくらしせつだん</rt></ruby></b>として欧米を視察し、不平等条約の改正を打診したが、相手にされなかった。使節団が留守のあいだ、政府に残った<b><ruby>西郷隆盛<rt>さいごうたかもり</rt></ruby></b>や<ruby>板垣退助<rt>いたがきたいすけ</rt></ruby>らは、開国を拒む朝鮮に武力を背景に開国を迫るべきだと主張した（<b><ruby>征韓論<rt>せいかんろん</rt></ruby></b>）。帰国した大久保らは、国内の改革を優先すべきだとしてこれに反対し、1873年に西郷らは政府を去った。改革で特権を失った<ruby>士族<rt>しぞく</rt></ruby>たちの不満は高まり、各地で反乱が起こる。1877年、鹿児島の士族が西郷を擁して起こした<b><ruby>西南戦争<rt>せいなんせんそう</rt></ruby></b>は、徴兵による政府軍に鎮圧された。これ以降、武力で政府に抵抗する動きは終わる。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>欧米に対抗するため、政府に力を集める必要がある</li>
+    <li>版籍奉還・廃藩置県で藩をなくす</li>
+    <li>徴兵令・地租改正で、軍隊と税を国が握る</li>
+    <li class="end">特権を失った士族が反乱を起こすが、西南戦争で鎮圧される</li>
+  </ol>
+  <p class="next">武力による抵抗は終わった。政府への批判は、言論によって議会の開設を求める運動へと形を変える。<a href="#c2">→ 2章</a></p>
+</section>
+
+<!-- 2 -->
+<section class="chapter" id="c2">
+  <div class="chead"><span class="no">2</span><h2>立憲国家の形成</h2><div class="meta">1874〜1890<span class="tag pol">政治</span></div></div>
+  <p class="from">政府は薩摩・長州など一部の藩の出身者が動かしており、「<ruby>藩閥<rt>はんばつ</rt></ruby>政府」と批判されていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1874〜1890</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1874</span><span><ruby>民撰議院設立建白書<rt>みんせんぎいんせつりつけんぱくしょ</rt></ruby></span></li>
+    <li><span class="y">1880</span><span><ruby>国会期成同盟<rt>こっかいきせいどうめい</rt></ruby>が結成される</span></li>
+    <li><span class="y">1881</span><span><ruby>明治十四年の政変<rt>めいじじゅうよねんのせいへん</rt></ruby>。<ruby>国会開設の勅諭<rt>こっかいかいせつのちょくゆ</rt></ruby></span></li>
+    <li><span class="y">1885</span><span>内閣制度ができる。<ruby>伊藤博文<rt>いとうひろぶみ</rt></ruby>が初代の内閣総理大臣となる</span></li>
+    <li><span class="y">1889</span><span>大日本帝国憲法の発布</span></li>
+    <li><span class="y">1890</span><span>第1回衆議院議員総選挙。第1回帝国議会</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>板垣退助<rt>いたがきたいすけ</rt></ruby></span></summary><div class="nb">
+    <div class="role">自由民権運動の指導者<small>1837–1919</small></div>
+    <p>土佐藩出身。<ruby>征韓論<rt>せいかんろん</rt></ruby>で政府を去ったあと、議会の開設を求める運動を率い、自由党をつくった。</p>
+  </div></details>
+  <p>1874年、政府を去った<b><ruby>板垣退助<rt>いたがきたいすけ</rt></ruby></b>らは、国民が選んだ議員による議会を開くよう求める<b><ruby>民撰議院設立建白書<rt>みんせんぎいんせつりつけんぱくしょ</rt></ruby></b>を政府に出した。これをきっかけに、憲法を定め、議会を開いて国民を政治に参加させるよう求める<b>自由民権運動</b>が広がる。運動は、はじめは<ruby>士族<rt>しぞく</rt></ruby>が中心だったが、やがて地租の負担を軽くしたい地主や農民にも広がり、1880年には全国の代表が集まって<b><ruby>国会期成同盟<rt>こっかいきせいどうめい</rt></ruby></b>を結成した。</p>
+  <p>1881年、北海道の開拓のために政府が築いた施設を、関係の深い商人に安く払い下げようとしたことが明るみに出ると、政府への批判は一気に高まった。政府は払い下げを中止するとともに、早期の国会開設を主張していた<b><ruby>大隈重信<rt>おおくましげのぶ</rt></ruby></b>を政府から追い出し、1890年に国会を開くことを約束した（<b><ruby>明治十四年の政変<rt>めいじじゅうよねんのせいへん</rt></ruby></b>・<b><ruby>国会開設の勅諭<rt>こっかいかいせつのちょくゆ</rt></ruby></b>）。これを受けて、板垣は自由党を、大隈は立憲改進党をつくり、国会の開設に備えた。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>伊藤博文<rt>いとうひろぶみ</rt></ruby></span></summary><div class="nb">
+    <div class="role">初代の内閣総理大臣<small>1841–1909</small></div>
+    <p>長州藩出身。ヨーロッパで憲法を調べ、内閣制度と大日本帝国憲法をつくった。のちに韓国<ruby>統監<rt>とうかん</rt></ruby>となり、暗殺された。</p>
+  </div></details>
+  <details class="note"><summary><span class="kind">図</span>大日本帝国憲法のもとでのしくみ</summary><div class="nb">
+    <div class="org">
+      <div class="box top"><strong>天皇</strong><small>国を治める権限をすべて持つ。軍を指揮する権限（<ruby>統帥権<rt>とうすいけん</rt></ruby>）、条約を結ぶ権限なども持つ</small></div>
+      <div class="vline"></div>
+      <div class="box mid"><strong>天皇を助ける機関</strong><small>それぞれが天皇に対して責任を負い、互いに独立している</small></div>
+      <div class="vline"></div>
+      <div class="branches">
+        <div class="branch"><div class="label">政府</div><div class="row">
+          <div class="box"><strong>内閣</strong><small>各大臣が天皇を補佐する（<ruby>輔弼<rt>ほひつ</rt></ruby>）</small></div>
+          <div class="box"><strong><ruby>枢密院<rt>すうみついん</rt></ruby></strong><small>天皇の相談に応じる</small></div>
+        </div></div>
+        <div class="branch"><div class="label">議会・裁判・軍</div><div class="row">
+          <div class="box"><strong>帝国議会</strong><small><ruby>貴族院<rt>きぞくいん</rt></ruby>と衆議院。法律と予算に同意を与える</small></div>
+          <div class="box"><strong>裁判所</strong><small>天皇の名で裁判をする</small></div>
+          <div class="box"><strong>陸軍・海軍</strong><small>天皇が直接指揮し、内閣から独立する</small></div>
+        </div></div>
+      </div>
+    </div>
+    <p class="fig-note">軍を指揮する権限（統帥権）が内閣や議会から独立していたことは、のちに軍部が政府の方針に従わない根拠にされた。</p>
+  </div></details>
+  <p>一方、政府では<b><ruby>伊藤博文<rt>いとうひろぶみ</rt></ruby></b>がヨーロッパへ渡り、君主の権限が強いドイツの憲法を中心に学んだ。帰国後、1885年に<b>内閣制度</b>をつくって自ら初代の内閣総理大臣となり、1889年に天皇が国民に与える形で<b>大日本帝国憲法</b>を発布した。この憲法では、国を治める権限は天皇にあり、軍を指揮する<b><ruby>統帥権<rt>とうすいけん</rt></ruby></b>も天皇が持つとされた。国民は法律の範囲内で言論や信仰の自由などを認められた。1890年には最初の選挙が行われ、<b>帝国議会</b>が開かれた。ただし、選挙権を持つのは一定の税を納める25歳以上の男子に限られ、人口の約1％にすぎなかった。こうして日本は、アジアでいち早く憲法と議会を持つ国となった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>藩閥政府への批判から、自由民権運動が広がる</li>
+    <li>政府が国会の開設を約束し、政党がつくられる</li>
+    <li>君主の権限が強いドイツの憲法を手本にする</li>
+    <li class="end">天皇に大きな権限を残した憲法と議会が生まれる</li>
+  </ol>
+  <p class="next">憲法と議会を備えたことは、欧米諸国と対等の国として認められるための条件でもあった。<a href="#c3">→ 3章</a></p>
+</section>
+
+<!-- 3 -->
+<section class="chapter" id="c3">
+  <div class="chead"><span class="no">3</span><h2>条約改正と<ruby>日清戦争<rt>にっしんせんそう</rt></ruby></h2><div class="meta">1871〜1895<span class="tag dip">外交</span><span class="tag pol">政治</span></div></div>
+  <p class="from">幕末に結んだ不平等条約は、日本が欧米と対等な国ではないことを示すものだった。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1871〜1895</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1876</span><span><ruby>日朝修好条規<rt>にっちょうしゅうこうじょうき</rt></ruby></span></li>
+    <li><span class="y">1883</span><span><ruby>鹿鳴館<rt>ろくめいかん</rt></ruby>が完成する</span></li>
+    <li><span class="y">1886</span><span>ノルマントン号事件</span></li>
+    <li><span class="y">1894</span><span><ruby>領事裁判権<rt>りょうじさいばんけん</rt></ruby>の撤廃（<ruby>日英通商航海条約<rt>にちえいつうしょうこうかいじょうやく</rt></ruby>）。<ruby>日清戦争<rt>にっしんせんそう</rt></ruby>（〜1895）</span></li>
+    <li><span class="y">1895</span><span><ruby>下関条約<rt>しものせきじょうやく</rt></ruby>。<ruby>三国干渉<rt>さんごくかんしょう</rt></ruby></span></li>
+  </ul></div></details>
+  <p>不平等条約の改正は、明治政府にとって最大の外交課題だった。外務大臣の<ruby>井上馨<rt>いのうえかおる</rt></ruby>は、欧米の制度や習慣を積極的に取り入れて日本の近代化を示そうとし、東京に洋風の社交場である<b><ruby>鹿鳴館<rt>ろくめいかん</rt></ruby></b>を建てて舞踏会を開いた。しかし、外国人を裁判官に採用するなどの改正案は、国の独立を損なうとして強い反対を受けた。1886年には、イギリス船<b>ノルマントン号</b>が沈没した際、イギリス人の船長が日本人の乗客を見捨てたにもかかわらず、領事裁判で軽い罰しか受けなかった。この事件で、条約の改正を求める世論は一層高まった。</p>
+  <details class="note"><summary><span class="kind">図</span>条約改正の歩み</summary><div class="nb">
+    <div class="compare">
+      <div><h3>1894年 <ruby>陸奥宗光<rt>むつむねみつ</rt></ruby></h3><p>イギリスと<ruby>日英通商航海条約<rt>にちえいつうしょうこうかいじょうやく</rt></ruby>を結び、<ruby>領事裁判権<rt>りょうじさいばんけん</rt></ruby>を撤廃する。他の国も続く。</p></div>
+      <div class="to" aria-hidden="true">▶</div>
+      <div><h3>1911年 <ruby>小村寿太郎<rt>こむらじゅたろう</rt></ruby></h3><p>アメリカなどと条約を改め、<ruby>関税自主権<rt>かんぜいじしゅけん</rt></ruby>を完全に回復する。</p></div>
+    </div>
+    <p class="fig-note">幕末の条約から50年あまりで、日本は欧米諸国と対等の条約を結ぶことができた。</p>
+  </div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>陸奥宗光<rt>むつむねみつ</rt></ruby></span></summary><div class="nb">
+    <div class="role">外務大臣<small>1844–1897</small></div>
+    <p><ruby>領事裁判権<rt>りょうじさいばんけん</rt></ruby>の撤廃を実現した。<ruby>日清戦争<rt>にっしんせんそう</rt></ruby>の開戦と<ruby>下関条約<rt>しものせきじょうやく</rt></ruby>の交渉にもあたった。</p>
+  </div></details>
+  <p>ロシアが東アジアへの進出を強めると、それを警戒するイギリスは日本に好意的になった。1894年、外務大臣の<b><ruby>陸奥宗光<rt>むつむねみつ</rt></ruby></b>はイギリスと<b><ruby>日英通商航海条約<rt>にちえいつうしょうこうかいじょうやく</rt></ruby></b>を結び、<b><ruby>領事裁判権<rt>りょうじさいばんけん</rt></ruby></b>の撤廃に成功する。他の国々もこれに続いた。</p>
+  <p>同じころ、日本は朝鮮をめぐって清と対立を深めていた。日本は1876年に<b><ruby>日朝修好条規<rt>にっちょうしゅうこうじょうき</rt></ruby></b>を結んで朝鮮を開国させたが、朝鮮を属国とみなす清はこれを認めなかった。1894年、朝鮮で<b><ruby>甲午農民戦争<rt>こうごのうみんせんそう</rt></ruby></b>が起こると、日清両国が出兵し、そのまま<b>日清戦争</b>が始まった。近代的な軍備を整えていた日本は勝利し、1895年の<b><ruby>下関条約<rt>しものせきじょうやく</rt></ruby></b>で、清に朝鮮の独立を認めさせ、<b><ruby>遼東半島<rt>りょうとうはんとう</rt></ruby></b>と台湾などを譲り受け、多額の賠償金を得た。しかし直後に、ロシアがフランス・ドイツとともに遼東半島を清に返すよう求めた（<b><ruby>三国干渉<rt>さんごくかんしょう</rt></ruby></b>）。日本はこれを受け入れざるを得ず、国民の間ではロシアへの反感が強まった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>欧化政策による条約改正は国内の反対で失敗する</li>
+    <li>ロシアを警戒するイギリスが日本に歩み寄る</li>
+    <li>領事裁判権を撤廃し、朝鮮をめぐって清と戦う</li>
+    <li class="end">日清戦争に勝つが、三国干渉でロシアとの対立が深まる</li>
+  </ol>
+  <p class="next">三国干渉のあと、ロシアは遼東半島を自ら借り受け、<ruby>満州<rt>まんしゅう</rt></ruby>と朝鮮へ勢力を伸ばしていく。<a href="#c4">→ 4章</a></p>
+</section>
+
+<!-- 4 -->
+<section class="chapter" id="c4">
+  <div class="chead"><span class="no">4</span><h2><ruby>日露戦争<rt>にちろせんそう</rt></ruby>と<ruby>韓国併合<rt>かんこくへいごう</rt></ruby></h2><div class="meta">1895〜1911<span class="tag dip">外交</span><span class="tag pol">政治</span></div></div>
+  <p class="from"><ruby>日清戦争<rt>にっしんせんそう</rt></ruby>に勝った日本は、<ruby>三国干渉<rt>さんごくかんしょう</rt></ruby>によって大陸での利益の一部を手放し、ロシアへの警戒を強めていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1895〜1911</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1900</span><span><ruby>義和団<rt>ぎわだん</rt></ruby>事件。ロシアが<ruby>満州<rt>まんしゅう</rt></ruby>を占領する</span></li>
+    <li><span class="y">1901</span><span><ruby>八幡製鉄所<rt>やはたせいてつしょ</rt></ruby>が操業を始める</span></li>
+    <li><span class="y">1902</span><span><ruby>日英同盟<rt>にちえいどうめい</rt></ruby></span></li>
+    <li><span class="y">1904</span><span><ruby>日露戦争<rt>にちろせんそう</rt></ruby>（〜1905）</span></li>
+    <li><span class="y">1905</span><span>ポーツマス条約。<ruby>日比谷焼打ち事件<rt>ひびややきうちじけん</rt></ruby></span></li>
+    <li><span class="y">1910</span><span><ruby>韓国併合<rt>かんこくへいごう</rt></ruby></span></li>
+    <li><span class="y">1911</span><span><ruby>関税自主権<rt>かんぜいじしゅけん</rt></ruby>を回復する</span></li>
+  </ul></div></details>
+  <p>日清戦争のあと、欧米の列強は弱った清から港や鉄道の権利を次々に奪い、中国の分割を進めた。1900年、外国の勢力を追い出そうとする<b><ruby>義和団<rt>ぎわだん</rt></ruby></b>の運動が広がると、日本を含む8か国が出兵してこれを鎮めた。ところがロシアは、その後も大軍を<b><ruby>満州<rt>まんしゅう</rt></ruby></b>（中国東北部）にとどめ、朝鮮半島にも影響を及ぼそうとした。</p>
+  <details class="note"><summary><span class="kind">図</span>日露戦争をめぐる国際関係</summary><div class="nb">
+    <div class="world">
+      <div><h3>イギリス</h3><p>ロシアの南下を警戒し、1902年に<ruby>日英同盟<rt>にちえいどうめい</rt></ruby>を結ぶ。戦費の調達でも日本を支えた。</p></div>
+      <div><h3>アメリカ</h3><p><ruby>満州<rt>まんしゅう</rt></ruby>の市場に関心を持ち、日本を支持。大統領のセオドア・ローズベルトが講和を仲立ちした。</p></div>
+      <div><h3>ロシア</h3><p>満州を占領し、朝鮮半島にも進出しようとする。戦争中に国内で革命運動が起こった。</p></div>
+      <div><h3>清・韓国</h3><p>戦場となった満州は清の領土だった。韓国（1897年に朝鮮から改称）は戦後、日本の保護国とされた。</p></div>
+    </div>
+  </div></details>
+  <p>ロシアの南下を警戒していたイギリスは、1902年に日本と<b><ruby>日英同盟<rt>にちえいどうめい</rt></ruby></b>を結んだ。これを後ろ盾に、日本は1904年にロシアと開戦する（<b>日露戦争</b>）。日本軍は<ruby>旅順<rt>りょじゅん</rt></ruby>や<ruby>奉天<rt>ほうてん</rt></ruby>での激戦に勝ち、1905年の日本海海戦でロシアの艦隊を破ったが、兵力も戦費も限界に近づいていた。一方のロシアも国内で革命運動が起こり、両国はアメリカの仲立ちで<b>ポーツマス条約</b>を結んだ。日本は韓国を指導する権利、旅順・大連の<ruby>租借権<rt>そしゃくけん</rt></ruby>、南満州の鉄道の権利、<ruby>樺太<rt>からふと</rt></ruby>の南半分を得た。しかし賠償金は得られず、重い税に耐えてきた国民は不満を爆発させ、東京では<b><ruby>日比谷焼打ち事件<rt>ひびややきうちじけん</rt></ruby></b>が起こった。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>小村寿太郎<rt>こむらじゅたろう</rt></ruby></span></summary><div class="nb">
+    <div class="role">外務大臣<small>1855–1911</small></div>
+    <p><ruby>日英同盟<rt>にちえいどうめい</rt></ruby>を結び、ポーツマス条約の交渉にあたった。1911年に<ruby>関税自主権<rt>かんぜいじしゅけん</rt></ruby>の回復を実現した。</p>
+  </div></details>
+  <p>戦後、日本は韓国を保護国として外交権を奪い、<ruby>伊藤博文<rt>いとうひろぶみ</rt></ruby>を初代の<ruby>統監<rt>とうかん</rt></ruby>として送り込んだ。韓国では日本に抵抗する運動が広がり、1909年には伊藤がハルビンで韓国の独立運動家に暗殺される。翌1910年、日本は<b>韓国併合</b>を行い、<ruby>朝鮮総督府<rt>ちょうせんそうとくふ</rt></ruby>を置いて植民地として支配した。1911年には外務大臣の<b><ruby>小村寿太郎<rt>こむらじゅたろう</rt></ruby></b>が<b><ruby>関税自主権<rt>かんぜいじしゅけん</rt></ruby></b>の回復を実現し、幕末以来の条約改正が完成する。国内では、日清戦争の賠償金をもとに建てられた官営の<b><ruby>八幡製鉄所<rt>やはたせいてつしょ</rt></ruby></b>が操業を始め、軽工業に続いて重工業も育ち始めていた。日本は、欧米の列強と並ぶ国として認められるようになった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>ロシアが満州を占領し、朝鮮半島に迫る</li>
+    <li>日英同盟を後ろ盾に、日露戦争に踏み切る</li>
+    <li>辛うじて勝利し、韓国と南満州での権益を得る</li>
+    <li class="end">韓国を併合し、列強の一員として大陸に支配を広げる</li>
+  </ol>
+  <p class="next">列強の一員となった日本では、戦争の負担を背負った国民の間に、政治に参加する権利を求める声が高まっていく。<a href="#c5">→ 5章</a></p>
+</section>
+
+<!-- 5 -->
+<section class="chapter" id="c5">
+  <div class="chead"><span class="no">5</span><h2>大正デモクラシー</h2><div class="meta">1912〜1925<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from"><ruby>日露戦争<rt>にちろせんそう</rt></ruby>の後も、政府は<ruby>藩閥<rt>はんばつ</rt></ruby>と軍の出身者が中心で、議会の政党は一部の権力を分け合うにとどまっていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1912〜1925</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1913</span><span><ruby>護憲運動<rt>ごけんうんどう</rt></ruby>で<ruby>桂太郎<rt>かつらたろう</rt></ruby>内閣が倒れる（<ruby>大正政変<rt>たいしょうせいへん</rt></ruby>）</span></li>
+    <li><span class="y">1914</span><span>第一次世界大戦に参戦する</span></li>
+    <li><span class="y">1915</span><span>中国に<ruby>二十一か条の要求<rt>にじゅういっかじょうのようきゅう</rt></ruby>を出す</span></li>
+    <li><span class="y">1918</span><span><ruby>米騒動<rt>こめそうどう</rt></ruby>。<ruby>原敬<rt>はらたかし</rt></ruby>内閣が成立する</span></li>
+    <li><span class="y">1920</span><span>国際連盟に加盟する</span></li>
+    <li><span class="y">1922</span><span>ワシントン会議の諸条約を結ぶ</span></li>
+    <li><span class="y">1923</span><span>関東大震災</span></li>
+    <li><span class="y">1925</span><span>普通選挙法・治安維持法</span></li>
+  </ul></div></details>
+  <p>1912年に大正の時代が始まると、陸軍の要求で内閣が倒れ、藩閥の長老である<ruby>桂太郎<rt>かつらたろう</rt></ruby>が首相となった。これに対し、政党の政治家や新聞、都市の民衆は「憲政を守れ」と訴えて大規模な運動を起こし（<b><ruby>護憲運動<rt>ごけんうんどう</rt></ruby></b>）、1913年に桂内閣を退陣に追い込んだ（<b><ruby>大正政変<rt>たいしょうせいへん</rt></ruby></b>）。民衆の運動が内閣を倒したのは、これが初めてだった。同じころ、政治学者の<b><ruby>吉野作造<rt>よしのさくぞう</rt></ruby></b>は、主権がどこにあるかを問わず、政治は民衆の幸福のために、民衆の意向に基づいて行われるべきだとする<b><ruby>民本主義<rt>みんぽんしゅぎ</rt></ruby></b>を説いた。こうした民主主義を求める風潮を<b>大正デモクラシー</b>という。</p>
+  <p>1914年に第一次世界大戦が始まると、日本は<ruby>日英同盟<rt>にちえいどうめい</rt></ruby>を理由に参戦し、中国にあったドイツの拠点や太平洋の島々を占領した。1915年には中国に<b><ruby>二十一か条の要求<rt>にじゅういっかじょうのようきゅう</rt></ruby></b>を突きつけ、その大部分を認めさせたが、中国では激しい反日感情を招いた。戦場から遠い日本は、ヨーロッパに代わってアジアへの輸出を大きく伸ばし、空前の好景気を迎えた（<b><ruby>大戦景気<rt>たいせんけいき</rt></ruby></b>）。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>原敬<rt>はらたかし</rt></ruby></span></summary><div class="nb">
+    <div class="role">初の本格的な政党内閣の首相<small>1856–1921</small></div>
+    <p><ruby>立憲政友会<rt>りっけんせいゆうかい</rt></ruby>の総裁。爵位を持たない「平民宰相」として、大臣の多くを党員で固めた内閣をつくった。1921年に暗殺された。</p>
+  </div></details>
+  <p>しかし好景気は物価の急上昇をもたらし、1918年には米の値段の高騰に怒った民衆が全国で米屋などを襲う<b><ruby>米騒動<rt>こめそうどう</rt></ruby></b>が起こった。当時の内閣はこの責任をとって退陣し、衆議院で最も多くの議席を持つ<ruby>立憲政友会<rt>りっけんせいゆうかい</rt></ruby>の総裁<b><ruby>原敬<rt>はらたかし</rt></ruby></b>が首相となった。大臣の大半を政党員が占める、初めての本格的な<b>政党内閣</b>である。大戦後、日本は戦勝国の一つとして国際連盟の常任理事国となり、1921年から開かれた<b>ワシントン会議</b>では、海軍の主力艦を制限する条約や、中国の主権を尊重する条約を結んで、列強と協調する外交を進めた。</p>
+  <details class="note"><summary><span class="kind">図</span>同じ年に成立した二つの法律（1925）</summary><div class="nb">
+    <div class="compare">
+      <div><h3>普通選挙法</h3><p>税の額による制限をなくし、満25歳以上の男子すべてに衆議院の選挙権を与える。</p></div>
+      <div class="to" aria-hidden="true">＋</div>
+      <div><h3>治安維持法</h3><p>天皇を中心とする国のあり方を変えたり、私有財産を否定したりする運動を取り締まる。</p></div>
+    </div>
+    <p class="fig-note">選挙権を広げると同時に、社会主義の運動が広がることを抑えようとした。治安維持法はのちに改正されて、取り締まりの対象が広げられていく。</p>
+  </div></details>
+  <p>1923年の<b>関東大震災</b>は首都圏に大きな被害をもたらし、経済にも深い傷を残した。翌1924年、政党が再び護憲運動を起こし、選挙で勝った政党による内閣が生まれる。以後、衆議院で多数を占める政党が内閣をつくることが慣例となった。1925年には<b>普通選挙法</b>が成立し、納める税の額にかかわらず、満25歳以上の男子が選挙権を持つことになった。ただし、同じ年に<b>治安維持法</b>も成立し、社会主義などの運動は厳しく取り締まられるようになった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>藩閥政治への反発から護憲運動が起こる</li>
+    <li>大戦景気のあとの物価上昇で米騒動が起こる</li>
+    <li>原敬が本格的な政党内閣をつくる</li>
+    <li class="end">政党内閣が慣例となり、普通選挙が実現する</li>
+  </ol>
+  <p class="next">しかし、政党内閣が安定する前に、日本経済は相次ぐ恐慌に見舞われる。<a href="#c6">→ 6章</a></p>
+</section>
+
+<!-- 6 -->
+<section class="chapter" id="c6">
+  <div class="chead"><span class="no">6</span><h2>恐慌と軍部の台頭</h2><div class="meta">1927〜1936<span class="tag pol">政治</span><span class="tag dip">外交</span></div></div>
+  <p class="from">政党内閣が慣例となり、普通選挙も実現した。しかし経済は震災の傷から立ち直れずにいた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1927〜1936</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1927</span><span>金融恐慌</span></li>
+    <li><span class="y">1929</span><span>世界恐慌が始まる</span></li>
+    <li><span class="y">1930</span><span>昭和恐慌。ロンドン海軍軍縮条約</span></li>
+    <li><span class="y">1931</span><span><ruby>満州事変<rt>まんしゅうじへん</rt></ruby></span></li>
+    <li><span class="y">1932</span><span><ruby>満州国<rt>まんしゅうこく</rt></ruby>の建国。<ruby>五・一五事件<rt>ご・いちごじけん</rt></ruby></span></li>
+    <li><span class="y">1933</span><span>国際連盟を脱退する</span></li>
+    <li><span class="y">1936</span><span><ruby>二・二六事件<rt>に・にろくじけん</rt></ruby></span></li>
+  </ul></div></details>
+  <p>1927年、震災の後始末で弱っていた銀行に預金者が殺到し、多くの銀行が休業した（<b>金融恐慌</b>）。1929年にアメリカで始まった<b>世界恐慌</b>は日本にも及び、生糸の輸出が激減して農村は深刻な不況に陥った（<b>昭和恐慌</b>）。娘を身売りに出す家も現れ、政党と結びついた<ruby>財閥<rt>ざいばつ</rt></ruby>への批判が高まった。</p>
+  <p>外交では、政党内閣は列強との協調を続けた。1930年、<ruby>浜口雄幸<rt>はまぐちおさち</rt></ruby>内閣は<b>ロンドン海軍軍縮条約</b>を結んだが、海軍の一部や野党は、軍の指揮に関わる兵力の問題を政府が勝手に決めたのは天皇の<b><ruby>統帥権<rt>とうすいけん</rt></ruby></b>を侵すものだと激しく批判した（<b><ruby>統帥権干犯問題<rt>とうすいけんかんぱんもんだい</rt></ruby></b>）。浜口首相は右翼の青年に撃たれ、のちに亡くなった。こうした中で、軍の一部には、政党や財閥を倒して軍を中心に国を立て直すべきだという考えが広がっていった。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>犬養毅<rt>いぬかいつよし</rt></ruby></span></summary><div class="nb">
+    <div class="role">首相<small>1855–1932</small></div>
+    <p><ruby>護憲運動<rt>ごけんうんどう</rt></ruby>以来の政党政治家。<ruby>満州国<rt>まんしゅうこく</rt></ruby>の承認に慎重だったが、<ruby>五・一五事件<rt>ご・いちごじけん</rt></ruby>で海軍の青年将校らに暗殺された。</p>
+  </div></details>
+  <p>1931年、<ruby>満州<rt>まんしゅう</rt></ruby>に駐屯していた日本の陸軍（<b><ruby>関東軍<rt>かんとうぐん</rt></ruby></b>）は、<ruby>奉天<rt>ほうてん</rt></ruby>郊外の<b><ruby>柳条湖<rt>りゅうじょうこ</rt></ruby></b>で南満州鉄道の線路を爆破し、これを中国軍の仕業として軍事行動を始めた（<b><ruby>満州事変<rt>まんしゅうじへん</rt></ruby></b>）。政府は戦線を広げない方針を示したが、関東軍はこれに従わず、満州の主要な地域を占領し、1932年には<b><ruby>満州国<rt>まんしゅうこく</rt></ruby></b>を建国させた。同じ年、海軍の青年将校らが首相官邸を襲い、<b><ruby>犬養毅<rt>いぬかいつよし</rt></ruby></b>首相を殺害した（<b><ruby>五・一五事件<rt>ご・いちごじけん</rt></ruby></b>）。これ以後、政党の総裁が首相となる内閣は戦後まで現れず、政党内閣の時代は終わる。</p>
+  <p>国際連盟は調査団を送り、満州国を認めない報告書を採択した。日本はこれに反発して、1933年に<b>国際連盟</b>を脱退し、国際的に孤立していく。1936年には陸軍の青年将校らが約1400人の兵を率いて首相官邸などを襲い、大臣らを殺害した（<b><ruby>二・二六事件<rt>に・にろくじけん</rt></ruby></b>）。反乱は鎮圧されたが、事件のあと軍部はその影響力を背景に、政治に対する発言力を一段と強めた。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>恐慌で農村が困窮し、政党と財閥への不満が高まる</li>
+    <li>軍縮条約が統帥権を侵すと批判される</li>
+    <li>関東軍が政府の方針を無視して満州を占領する</li>
+    <li>五・一五事件で政党内閣が終わる</li>
+    <li class="end">国際連盟を脱退し、軍部が政治を左右するようになる</li>
+  </ol>
+  <p class="next">国際的に孤立し、軍部の発言力が強まる中、中国との本格的な戦争が始まる。<a href="#c7">→ 7章</a></p>
+</section>
+
+<!-- 7 -->
+<section class="chapter" id="c7">
+  <div class="chead"><span class="no">7</span><h2>日中戦争と太平洋戦争</h2><div class="meta">1937〜1945<span class="tag dip">外交</span><span class="tag pol">政治</span></div></div>
+  <p class="from"><ruby>満州国<rt>まんしゅうこく</rt></ruby>の建国後も、日本の軍は中国北部へ勢力を広げようとしており、中国では抗日の動きが強まっていた。</p>
+  <details class="note years"><summary><span class="kind">年表</span>1937〜1945</summary><div class="nb"><ul class="ev">
+    <li><span class="y">1937</span><span><ruby>盧溝橋<rt>ろこうきょう</rt></ruby>事件をきっかけに日中戦争が始まる</span></li>
+    <li><span class="y">1938</span><span><ruby>国家総動員法<rt>こっかそうどういんほう</rt></ruby></span></li>
+    <li><span class="y">1940</span><span><ruby>日独伊三国同盟<rt>にちどくいさんごくどうめい</rt></ruby>。<ruby>大政翼賛会<rt>たいせいよくさんかい</rt></ruby></span></li>
+    <li><span class="y">1941</span><span>南部<ruby>仏印<rt>ふついん</rt></ruby>進駐。12月、太平洋戦争が始まる</span></li>
+    <li><span class="y">1942</span><span>ミッドウェー海戦で敗れる</span></li>
+    <li><span class="y">1945</span><span>沖縄戦。広島・長崎に原爆が投下される。ポツダム宣言を受け入れる</span></li>
+  </ul></div></details>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>近衛文麿<rt>このえふみまろ</rt></ruby></span></summary><div class="nb">
+    <div class="role">首相<small>1891–1945</small></div>
+    <p>日中戦争の開始時と、三国同盟の締結時の首相。政党を解散させて<ruby>大政翼賛会<rt>たいせいよくさんかい</rt></ruby>をつくった。戦後、戦犯として逮捕される前に自殺した。</p>
+  </div></details>
+  <p>1937年7月、北京郊外の<b><ruby>盧溝橋<rt>ろこうきょう</rt></ruby></b>で日中両軍が衝突すると、戦いは中国全土に広がった（<b>日中戦争</b>）。日本軍は首都の南京を占領したが、その際、捕虜や住民を殺害する事件も起こした。中国の国民政府は首都を内陸の<ruby>重慶<rt>じゅうけい</rt></ruby>に移し、アメリカやイギリスの援助を受けて抵抗を続けたため、戦争は長期化した。政府は1938年に<b><ruby>国家総動員法<rt>こっかそうどういんほう</rt></ruby></b>を定め、議会の承認なしに国民や物資を戦争のために動員できるようにした。1940年には、ほとんどの政党が解散して<b><ruby>大政翼賛会<rt>たいせいよくさんかい</rt></ruby></b>に合流し、政党政治は姿を消した。</p>
+  <p>戦争の長期化で石油やゴムなどの資源が不足すると、日本は東南アジアの資源を求めて南へ進もうとした。1940年、ヨーロッパで勢力を広げていたドイツ、イタリアと<b><ruby>日独伊三国同盟<rt>にちどくいさんごくどうめい</rt></ruby></b>を結び、フランス領インドシナ（<b><ruby>仏印<rt>ふついん</rt></ruby></b>）の北部に、翌1941年には南部に軍を進めた。アメリカはこれに対抗して、日本への石油の輸出を全面的に禁止した。日米の交渉はまとまらず、<b><ruby>東条英機<rt>とうじょうひでき</rt></ruby></b>内閣は開戦を決める。</p>
+  <details class="note person"><summary><span class="kind">人物</span><span class="nm"><ruby>東条英機<rt>とうじょうひでき</rt></ruby></span></summary><div class="nb">
+    <div class="role">首相・陸軍大将<small>1884–1948</small></div>
+    <p>陸軍大臣から首相となり、太平洋戦争の開戦を決めた。サイパン島の陥落後に退陣し、戦後の<ruby>極東国際軍事裁判<rt>きょくとうこくさいぐんじさいばん</rt></ruby>で死刑となった。</p>
+  </div></details>
+  <p>1941年12月8日、日本はハワイの<b><ruby>真珠湾<rt>しんじゅわん</rt></ruby></b>にあるアメリカ海軍の基地を攻撃し、イギリス領のマレー半島にも上陸した（<b>太平洋戦争</b>）。日本は開戦から半年ほどで東南アジアと太平洋の広い地域を占領したが、1942年6月の<b>ミッドウェー海戦</b>で主力の空母を失うと、戦局は不利に転じた。1944年にサイパン島が陥落すると、日本の本土は大型爆撃機の空襲を受けるようになり、1945年3月の東京大空襲では一夜で約10万人が亡くなった。4月から6月にかけての<b>沖縄戦</b>では、住民を巻き込んだ激しい地上戦が行われた。</p>
+  <p>1945年7月、アメリカ・イギリス・中国は日本に無条件降伏を求める<b>ポツダム宣言</b>を発表した。日本政府がこれに応じないでいると、8月6日に広島、9日に長崎へ<b>原子爆弾</b>が投下され、8日にはソ連が日ソ中立条約を破って参戦した。日本は8月14日にポツダム宣言の受け入れを決め、15日に天皇がラジオ放送でこれを国民に伝えた。9月2日、日本は降伏文書に調印し、戦争は終わった。</p>
+  <ol class="chain" aria-label="因果の流れ">
+    <li>日中戦争が長引き、国民と資源を総動員する</li>
+    <li>資源を求めて東南アジアに進み、ドイツ・イタリアと結ぶ</li>
+    <li>アメリカが石油の輸出を止め、交渉が行き詰まる</li>
+    <li>太平洋戦争を始めるが、戦局は不利に転じる</li>
+    <li class="end">本土への空襲、沖縄戦、原爆投下を経て降伏する</li>
+  </ol>
+</section>
+
+<!-- 次の時代へ -->
+<section class="why">
+  <div class="label">なぜ現代へ移ったのか</div>
+  <ol class="chain" aria-label="近代から現代への因果の流れ" style="margin-top:12px">
+    <li>軍部が政治を左右し、戦争を止められなくなる</li>
+    <li>太平洋戦争に敗れ、国土の多くが焼け野原となる</li>
+    <li>ポツダム宣言を受け入れ、連合国の占領下に入る</li>
+    <li>軍の解体と民主化で、明治以来の国家のしくみが改められる</li>
+    <li class="end">国民主権と平和主義を柱とする新しい国づくりが始まる</li>
+  </ol>
+</section>
+
+<nav class="next-era" aria-label="前後の区分">
+  <a href="../early-modern/">← 近世</a>
+  <a href="../contemporary/">現代 →</a>
+</nav>
+
+<p class="foot">年代は主な通説に従う。南京での事件の犠牲者の数や、東京大空襲の死者の数には諸説がある。「藩閥」「軍部」は特定の組織の名ではなく、政治を動かした勢力をまとめて呼んだものである。図中の帯は、理解のための目安である。</p>
+</div>
+<button class="furi" type="button" aria-pressed="true">ふりがな<span>あり</span></button>
+<script>
+(function(){
+  // 補足（図・人物・年表）：狭い画面ではすべて折りたたむ。
+  // 広い画面では章ごとに、本文の高さに収まる分だけ開く（背の高い図 → 年表 → 人物 の順に閉じていく）
+  var wide=matchMedia('(min-width:1180px)');
+  function fit(){
+    document.querySelectorAll('.chapter').forEach(function(ch){
+      var notes=[].slice.call(ch.querySelectorAll('details.note'));
+      notes.forEach(function(d){ d.open=wide.matches; });
+      if(!wide.matches) return;
+      var text=[].slice.call(ch.children).filter(function(e){ return e.tagName!=='DETAILS'; }).pop();
+      function over(){
+        var bottom=Math.max.apply(null,notes.map(function(d){ return d.getBoundingClientRect().bottom; }));
+        return bottom > text.getBoundingClientRect().bottom + 24;
+      }
+      function rank(d){ return d.classList.contains('person')?2:d.classList.contains('years')?1:0; }
+      notes.slice().sort(function(a,b){ return rank(a)-rank(b) || b.offsetHeight-a.offsetHeight; })
+        .forEach(function(d){ if(over()) d.open=false; });
+    });
+  }
+  // 狭い画面どうしのリサイズでは、読者が開いた補足を閉じ直さない
+  var lastWide=null, timer;
+  function refit(){ if(wide.matches||lastWide!==false) fit(); lastWide=wide.matches; }
+  refit();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(refit);
+  addEventListener('resize',function(){ clearTimeout(timer); timer=setTimeout(refit,200); });
+
+  // ふりがなの表示切り替え（設定はブラウザに保存）
+  var KEY='kyoyo-ruby', root=document.documentElement, btn=document.querySelector('.furi');
+  function apply(on){
+    root.classList.toggle('no-ruby',!on);
+    btn.setAttribute('aria-pressed',String(on));
+    btn.lastChild.textContent=on?'あり':'なし';
+  }
+  var on=true;
+  try{on=localStorage.getItem(KEY)!=='off'}catch(e){}
+  apply(on);
+  btn.addEventListener('click',function(){
+    on=!on; apply(on); nudge();
+    try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}
+  });
+
+  // 長い読みが行の端で画面からはみ出す場合は、内側へずらす
+  function nudge(){
+    var edge=8, w=document.documentElement.clientWidth;
+    document.querySelectorAll('rt').forEach(function(rt){
+      rt.style.transform='';
+      var r=rt.getBoundingClientRect();
+      if(!r.width) return;
+      var dx=r.right>w-edge ? r.right-(w-edge) : r.left<edge ? r.left-edge : 0;
+      if(dx) rt.style.transform='translateX(calc(-50% - '+dx+'px))';
+    });
+  }
+  nudge();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(nudge);
+  addEventListener('resize',function(){ clearTimeout(nudge.t); nudge.t=setTimeout(nudge,250); });
+  document.addEventListener('toggle',nudge,true);
+})();
+</script>
+</body>
+</html>
