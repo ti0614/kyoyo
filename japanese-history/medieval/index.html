@@ -553,8 +553,8 @@ b rt{color:var(--c);opacity:.8}
 </section>
 
 <nav class="next-era" aria-label="前後の区分">
-  <a href="../#heian">← 原始・古代（流れ図）</a>
-  <a href="../#azuchi">近世（流れ図）→</a>
+  <a href="../ancient/">← 原始・古代</a>
+  <a href="../early-modern/">近世 →</a>
 </nav>
 
 <p class="foot">年代は主な通説に従う。鎌倉幕府の成立には1185年説・1192年説などがあるが、ここでは守護・地頭の設置が認められた1185年を区切りとする。鉄砲伝来には1542年説もある。図中の力関係を示す帯は、理解のための目安である。</p>
@@ -598,9 +598,25 @@ b rt{color:var(--c);opacity:.8}
   try{on=localStorage.getItem(KEY)!=='off'}catch(e){}
   apply(on);
   btn.addEventListener('click',function(){
-    on=!on; apply(on);
+    on=!on; apply(on); nudge();
     try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}
   });
+
+  // 長い読みが行の端で画面からはみ出す場合は、内側へずらす
+  function nudge(){
+    var edge=8, w=document.documentElement.clientWidth;
+    document.querySelectorAll('rt').forEach(function(rt){
+      rt.style.transform='';
+      var r=rt.getBoundingClientRect();
+      if(!r.width) return;
+      var dx=r.right>w-edge ? r.right-(w-edge) : r.left<edge ? r.left-edge : 0;
+      if(dx) rt.style.transform='translateX(calc(-50% - '+dx+'px))';
+    });
+  }
+  nudge();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(nudge);
+  addEventListener('resize',function(){ clearTimeout(nudge.t); nudge.t=setTimeout(nudge,250); });
+  document.addEventListener('toggle',nudge,true);
 })();
 </script>
 </body>

@@ -5,7 +5,11 @@
 ```
 index.html                    目次
 japanese-history/index.html   日本史の流れ図（全時代の通史）
-japanese-history/medieval/    区分詳説：中世（他の区分を作るときの見本）
+japanese-history/ancient/     区分詳説：原始・古代
+japanese-history/medieval/    区分詳説：中世（構成の見本）
+japanese-history/early-modern/ 区分詳説：近世
+japanese-history/modern/      区分詳説：近代
+japanese-history/contemporary/ 区分詳説：現代（2020年代前半まで）
 tools/ruby.py                 ふりがなを付けるスクリプト
 tools/ruby-dict.txt           ふりがな辞書
 ```
@@ -13,7 +17,7 @@ tools/ruby-dict.txt           ふりがな辞書
 ## 進め方
 
 - 新しいページや大きな構成変更は、作る前に方針（構成・分量・切り口・図解要素など）を利用者に確認する。いきなり全部を作らず、試作で確認してから広げる。
-- 日本史の区分詳説は5区分（原始・古代、中世、近世、近代、現代）を作る予定。中世が完成済みの見本なので、残りは中世と同じ構成・文体でそろえる。
+- 日本史の区分詳説は5区分（原始・古代、中世、近世、近代、現代）がそろっている。どれも同じ構成・文体・CSS・JS なので、1ページの書き方を変えたら、他の4ページにも同じ変更を入れる。
 
 ## 文体
 
@@ -68,6 +72,8 @@ tools/ruby-dict.txt           ふりがな辞書
 
 - 各ページは外部ファイルに依存しない1枚の HTML にする（フォントのみ Google Fonts の Shippori Mincho と Zen Kaku Gothic New）。
 - 色は `:root` のトークンで定義し、ダークモードにも対応させる（既存ページの指定をそのまま使う）。区分ごとの色は流れ図の `--g1`〜`--g5` に合わせる（中世は `--g2`）。
+- 近代は区分色が藍（`--ai` と同じ）なので、補助色 `--ai` を緑（流れ図の `--g3`）に替えている。
+- 現代の「なぜ次の時代へ」は、続く時代がないため「いま問われていること」にしている。
 - 印刷は想定しない。
 
 ## 確認
