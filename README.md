@@ -19,6 +19,8 @@ japanese-history/       日本史の流れ図
   index.html
   medieval/             中世の詳説
     index.html
+tools/                  ふりがなを付けるスクリプトと辞書
+CLAUDE.md               資料作成のルール（文体・構成・ふりがな）
 ```
 
 ## 資料の追加方法
