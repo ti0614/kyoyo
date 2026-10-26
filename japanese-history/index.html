@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="旧石器から令和まで、各時代の要点と次の時代へ移った理由を一本の時間軸でつないだ図解。">
+<title>日本史の流れ図</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 縦の時間軸（左に年代の背骨）＋時代カード。各カードの末尾に「次の時代へつながる理由」を矢印で置く */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
+  --ai:#24476b;          /* 藍：アクセント */
+  --g1:#7a6a3c; --g2:#7b3b3b; --g3:#2f5d4e; --g4:#24476b; --g5:#5a4a78; /* 時代区分 */
+  --g1bg:#ece6d6; --g2bg:#efdcd9; --g3bg:#d9e8e1; --g4bg:#dbe4ee; --g5bg:#e4def0;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fb4dc;
+  --g1:#d6c08a; --g2:#e3a29a; --g3:#8fcfb6; --g4:#8fb4dc; --g5:#bba9e0;
+  --g1bg:#2b2719; --g2bg:#2f1f1e; --g3bg:#1a2b25; --g4bg:#1b2533; --g5bg:#251f33; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fb4dc;
+  --g1:#d6c08a; --g2:#e3a29a; --g3:#8fcfb6; --g4:#8fb4dc; --g5:#bba9e0;
+  --g1bg:#2b2719; --g2bg:#2f1f1e; --g3bg:#1a2b25; --g4bg:#1b2533; --g5bg:#251f33; color-scheme:dark}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:2.2rem;font-weight:800}
+.lead{color:var(--muted);margin:8px 0 0;max-width:40em}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+a{color:inherit}
+
+/* 大きな流れ */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.node{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;min-width:0}
+.node b{font-family:var(--display);font-size:1.05rem}
+.node .who{font-size:.85rem;color:var(--muted)}
+.node .yr{font-size:.75rem;color:var(--c);font-weight:700;font-variant-numeric:tabular-nums}
+@media (min-width:681px){.node:not(:last-child)::after{content:"▶";position:absolute;right:-9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted);z-index:1}}
+@media (max-width:680px){.flow{grid-template-columns:1fr}.node{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:4px 12px}}
+
+/* 目次チップ */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chips a{text-decoration:none;font-size:.85rem;padding:3px 10px;border:1px solid var(--line);background:var(--surface);border-radius:2px}
+.chips a:hover,.chips a:focus-visible{border-color:var(--ai);color:var(--ai);outline:none}
+
+/* タイムライン */
+.group{display:flex;flex-direction:column;gap:0}
+.ghead{display:flex;align-items:baseline;gap:12px;padding:8px 12px;background:var(--gbg);color:var(--c);margin-bottom:16px}
+.ghead h2{font-size:1.35rem}
+.ghead span{font-size:.85rem;color:var(--muted)}
+.era{display:grid;grid-template-columns:96px 1fr;gap:0 20px;scroll-margin-top:16px}
+.spine{border-right:2px solid var(--c);text-align:right;padding-right:14px;position:relative;font-variant-numeric:tabular-nums}
+.spine::after{content:"";position:absolute;right:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+.spine .from{font-size:.8rem;color:var(--muted);line-height:1.4;padding-top:6px;display:block}
+.card{padding-bottom:28px;min-width:0}
+.card h3{font-size:1.4rem;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card h3 small{font-family:var(--body);font-size:.8rem;color:var(--muted);font-weight:500}
+.card p.sum{margin:4px 0 10px}
+.ev{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.ev li{display:grid;grid-template-columns:4.6em 1fr;gap:8px}
+.ev .y{color:var(--c);font-weight:700;font-variant-numeric:tabular-nums;font-size:.9rem}
+.next{margin-top:12px;padding:8px 12px;background:var(--surface);border:1px dashed var(--line);font-size:.9rem;display:grid;grid-template-columns:auto 1fr;gap:10px}
+.next::before{content:"なぜ次へ";font-size:.72rem;letter-spacing:.08em;font-weight:700;color:var(--ai);white-space:nowrap;padding-top:2px}
+@media (max-width:520px){.era{grid-template-columns:64px 1fr;gap:0 14px}.spine{padding-right:10px}.card h3{font-size:1.2rem}}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.g1{--c:var(--g1);--gbg:var(--g1bg)}.g2{--c:var(--g2);--gbg:var(--g2bg)}.g3{--c:var(--g3);--gbg:var(--g3bg)}.g4{--c:var(--g4);--gbg:var(--g4bg)}.g5{--c:var(--g5);--gbg:var(--g5bg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p style="margin:0;font-size:.85rem"><a href="../">← kyoyo 目次へ</a></p>
+<header>
+  <div class="label">学び直しのための通史</div>
+  <h1>日本史の流れ図</h1>
+  <p class="lead">旧石器時代から令和まで。各時代の要点、主な出来事、そして「なぜ次の時代に移ったのか」を一本の線でつないでいます。</p>
+</header>
+
+<section>
+  <div class="label">大きな流れ：誰が国を動かしたか</div>
+  <div class="flow" style="margin-top:10px">
+    <div class="node g1"><span class="yr">〜12世紀</span><b>原始・古代</b><span class="who">ムラ → 王権 → 天皇と貴族の律令国家</span></div>
+    <div class="node g2"><span class="yr">1185〜1573</span><b>中世</b><span class="who">武士が政権を握り、分権化が進む</span></div>
+    <div class="node g3"><span class="yr">1573〜1868</span><b>近世</b><span class="who">天下統一と幕藩体制による安定</span></div>
+    <div class="node g4"><span class="yr">1868〜1945</span><b>近代</b><span class="who">中央集権の近代国家と対外膨張</span></div>
+    <div class="node g5"><span class="yr">1945〜</span><b>現代</b><span class="who">国民主権の民主国家と経済大国化</span></div>
+  </div>
+  <nav class="chips" aria-label="時代へ移動">
+    <a href="#jomon">縄文</a><a href="#yayoi">弥生</a><a href="#kofun">古墳</a><a href="#asuka">飛鳥</a><a href="#nara">奈良</a><a href="#heian">平安</a><a href="#kamakura">鎌倉</a><a href="#muromachi">室町</a><a href="#azuchi">安土桃山</a><a href="#edo">江戸</a><a href="#meiji">明治</a><a href="#taisho">大正</a><a href="#showa1">昭和戦前</a><a href="#showa2">戦後昭和</a><a href="#heisei">平成・令和</a>
+  </nav>
+</section>
+
+<!-- 原始・古代 -->
+<section class="group g1">
+  <div class="ghead"><h2>原始・古代</h2><span>狩猟採集から律令国家、貴族の世へ</span></div>
+
+  <article class="era" id="jomon"><div class="spine"><span class="from">約3.8万年前<br>〜前4世紀頃</span></div><div class="card">
+    <h3>旧石器・縄文<small>狩猟採集の社会</small></h3>
+    <p class="sum">大陸と陸続きの時代に人が渡来。氷期が終わると土器を使い、竪穴住居で定住を始める。大きな身分差のない社会。</p>
+    <ul class="ev"><li><span class="y">約1.6万年前</span><span>縄文土器の使用が始まる</span></li><li><span class="y">前3900頃</span><span>三内丸山遺跡（青森）の大集落</span></li></ul>
+    <div class="next">大陸から稲作と金属器が伝わり、食料を蓄えられるようになる。</div>
+  </div></article>
+
+  <article class="era" id="yayoi"><div class="spine"><span class="from">前4世紀頃<br>〜3世紀中頃</span></div><div class="card">
+    <h3>弥生<small>稲作とクニの誕生</small></h3>
+    <p class="sum">水田稲作が広がり、蓄えをめぐって貧富の差と争いが生まれる。小さな「クニ」が分立し、中国の王朝に使いを送る。</p>
+    <ul class="ev"><li><span class="y">57</span><span>奴国王が後漢から金印を受ける</span></li><li><span class="y">239</span><span>邪馬台国の卑弥呼が魏に使いを送る</span></li></ul>
+    <div class="next">有力なクニが連合し、近畿を中心とする広域の王権がまとまる。</div>
+  </div></article>
+
+  <article class="era" id="kofun"><div class="spine"><span class="from">3世紀中頃<br>〜7世紀</span></div><div class="card">
+    <h3>古墳<small>ヤマト政権</small></h3>
+    <p class="sum">大王（のちの天皇）と豪族の連合政権が成立。巨大な前方後円墳がその力を示す。渡来人が技術・漢字・仏教をもたらす。</p>
+    <ul class="ev"><li><span class="y">5世紀</span><span>大仙陵古墳（仁徳天皇陵）が築かれる</span></li><li><span class="y">538</span><span>百済から仏教が伝わる（552説も）</span></li></ul>
+    <div class="next">豪族同士の争いと、隋・唐という強大な帝国の出現が、天皇中心の国づくりを急がせる。</div>
+  </div></article>
+
+  <article class="era" id="asuka"><div class="spine"><span class="from">592<br>〜710</span></div><div class="card">
+    <h3>飛鳥<small>天皇中心の国家づくり</small></h3>
+    <p class="sum">聖徳太子と蘇我氏が制度を整え、大化の改新で豪族の土地と人を国のものとする方針が出る。唐を手本に律令が完成する。</p>
+    <ul class="ev"><li><span class="y">604</span><span>十七条の憲法</span></li><li><span class="y">645</span><span>乙巳の変 → 大化の改新</span></li><li><span class="y">672</span><span>壬申の乱で天武天皇が勝利</span></li><li><span class="y">701</span><span>大宝律令</span></li></ul>
+    <div class="next">律令を運用する本格的な都として平城京がつくられる。</div>
+  </div></article>
+
+  <article class="era" id="nara"><div class="spine"><span class="from">710<br>〜794</span></div><div class="card">
+    <h3>奈良<small>律令国家と仏教</small></h3>
+    <p class="sum">公地公民と班田収授で国を運営。疫病や反乱が続き、聖武天皇は仏教の力で国を守ろうと大仏をつくる。</p>
+    <ul class="ev"><li><span class="y">743</span><span>墾田永年私財法（土地の私有を認める）</span></li><li><span class="y">752</span><span>東大寺大仏の開眼</span></li></ul>
+    <div class="next">私有地（荘園）が広がって律令の土台が崩れ始め、寺院勢力の政治介入も強まる。桓武天皇は都を移して立て直しを図る。</div>
+  </div></article>
+
+  <article class="era" id="heian"><div class="spine"><span class="from">794<br>〜1185</span></div><div class="card">
+    <h3>平安<small>貴族の世から武士の台頭へ</small></h3>
+    <p class="sum">藤原氏が天皇の外戚として実権を握る摂関政治。かな文字と国風文化が花開く。のちに上皇の院政に移り、地方では武士が力をつける。</p>
+    <ul class="ev"><li><span class="y">1016</span><span>藤原道長が摂政に</span></li><li><span class="y">1086</span><span>白河上皇の院政</span></li><li><span class="y">1167</span><span>平清盛が太政大臣に</span></li><li><span class="y">1185</span><span>壇ノ浦の戦いで平氏滅亡</span></li></ul>
+    <div class="next">朝廷の争いを武力で決めた武士が、自ら政権を持つ段階に入る。</div>
+  </div></article>
+</section>
+
+<!-- 中世 -->
+<section class="group g2">
+  <div class="ghead"><h2>中世</h2><span>武士の政権と分権の時代</span></div>
+
+  <article class="era" id="kamakura"><div class="spine"><span class="from">1185<br>〜1333</span></div><div class="card">
+    <h3>鎌倉<small>最初の武家政権</small></h3>
+    <p class="sum">源頼朝が幕府を開き、将軍と御家人が「御恩と奉公」で結ばれる。頼朝の死後は北条氏が執権として実権を握る。</p>
+    <ul class="ev"><li><span class="y">1221</span><span>承久の乱で幕府が朝廷に勝つ</span></li><li><span class="y">1232</span><span>御成敗式目（武士の法）</span></li><li><span class="y">1274・81</span><span>元寇（モンゴルの襲来）</span></li></ul>
+    <div class="next">元寇で恩賞を得られなかった御家人が困窮し、幕府への不満が高まる。後醍醐天皇と足利尊氏らが幕府を倒す。</div>
+  </div></article>
+
+  <article class="era" id="muromachi"><div class="spine"><span class="from">1336<br>〜1573</span></div><div class="card">
+    <h3>室町<small>南北朝から戦国へ</small></h3>
+    <p class="sum">建武の新政は武士の支持を失い、足利尊氏が幕府を開く。義満の頃に最盛期を迎え、明との貿易や金閣・能などの文化が栄える。</p>
+    <ul class="ev"><li><span class="y">1392</span><span>南北朝の合一</span></li><li><span class="y">1404</span><span>勘合貿易の開始</span></li><li><span class="y">1467</span><span>応仁の乱 → 戦国時代へ</span></li><li><span class="y">1543</span><span>鉄砲伝来</span></li></ul>
+    <div class="next">幕府の権威が失われ、各地の戦国大名が実力で争う。鉄砲を使いこなした大名が統一へ向かう。</div>
+  </div></article>
+</section>
+
+<!-- 近世 -->
+<section class="group g3">
+  <div class="ghead"><h2>近世</h2><span>天下統一と長い平和</span></div>
+
+  <article class="era" id="azuchi"><div class="spine"><span class="from">1573<br>〜1603</span></div><div class="card">
+    <h3>安土桃山<small>天下統一</small></h3>
+    <p class="sum">織田信長が室町幕府を滅ぼし、楽市楽座で商業を活性化。豊臣秀吉が全国を統一し、検地と刀狩で武士と農民を分ける。</p>
+    <ul class="ev"><li><span class="y">1575</span><span>長篠の戦い</span></li><li><span class="y">1582</span><span>本能寺の変</span></li><li><span class="y">1590</span><span>秀吉の全国統一</span></li><li><span class="y">1600</span><span>関ヶ原の戦い</span></li></ul>
+    <div class="next">秀吉の死後、関ヶ原に勝った徳川家康が全国の大名を従える。</div>
+  </div></article>
+
+  <article class="era" id="edo"><div class="spine"><span class="from">1603<br>〜1868</span></div><div class="card">
+    <h3>江戸<small>幕藩体制の260年</small></h3>
+    <p class="sum">幕府と藩が全国を分けて治める。参勤交代と身分制で秩序を保ち、対外関係は限定（いわゆる鎖国）。町人文化と商品経済が発達する。</p>
+    <ul class="ev"><li><span class="y">1635</span><span>参勤交代の制度化</span></li><li><span class="y">1639</span><span>ポルトガル船の来航禁止</span></li><li><span class="y">18〜19世紀</span><span>享保・寛政・天保の改革</span></li><li><span class="y">1853</span><span>ペリー来航 → 開国</span></li></ul>
+    <div class="next">財政難と欧米の圧力に幕府が対応しきれず、薩摩・長州を中心に倒幕へ。1867年に大政奉還。</div>
+  </div></article>
+</section>
+
+<!-- 近代 -->
+<section class="group g4">
+  <div class="ghead"><h2>近代</h2><span>近代国家の建設と戦争</span></div>
+
+  <article class="era" id="meiji"><div class="spine"><span class="from">1868<br>〜1912</span></div><div class="card">
+    <h3>明治<small>明治維新と富国強兵</small></h3>
+    <p class="sum">藩をなくして中央集権化し、身分制を廃止。欧米に追いつくため産業と軍備を育て、憲法と議会を持つ立憲国家になる。</p>
+    <ul class="ev"><li><span class="y">1871</span><span>廃藩置県</span></li><li><span class="y">1889</span><span>大日本帝国憲法の発布</span></li><li><span class="y">1894</span><span>日清戦争</span></li><li><span class="y">1904</span><span>日露戦争</span></li></ul>
+    <div class="next">列強の一員となり、国民の政治参加を求める声が強まる。</div>
+  </div></article>
+
+  <article class="era" id="taisho"><div class="spine"><span class="from">1912<br>〜1926</span></div><div class="card">
+    <h3>大正<small>大正デモクラシー</small></h3>
+    <p class="sum">政党内閣が生まれ、民主主義的な風潮が広がる。第一次世界大戦で好景気になるが、戦後は不況と関東大震災に見舞われる。</p>
+    <ul class="ev"><li><span class="y">1914</span><span>第一次世界大戦に参戦</span></li><li><span class="y">1918</span><span>原敬の本格的政党内閣</span></li><li><span class="y">1923</span><span>関東大震災</span></li><li><span class="y">1925</span><span>普通選挙法・治安維持法</span></li></ul>
+    <div class="next">世界恐慌で経済が行き詰まり、政党への失望とともに軍部の発言力が増す。</div>
+  </div></article>
+
+  <article class="era" id="showa1"><div class="spine"><span class="from">1926<br>〜1945</span></div><div class="card">
+    <h3>昭和（戦前・戦中）<small>軍国主義と戦争</small></h3>
+    <p class="sum">満州事変から中国との全面戦争へ。国際的に孤立し、ドイツ・イタリアと結んでアメリカなどと開戦。敗戦に至る。</p>
+    <ul class="ev"><li><span class="y">1931</span><span>満州事変</span></li><li><span class="y">1936</span><span>二・二六事件</span></li><li><span class="y">1937</span><span>日中戦争</span></li><li><span class="y">1941</span><span>太平洋戦争</span></li><li><span class="y">1945</span><span>原爆投下、ポツダム宣言受諾</span></li></ul>
+    <div class="next">敗戦により連合国の占領下で国のしくみが根本から作り直される。</div>
+  </div></article>
+</section>
+
+<!-- 現代 -->
+<section class="group g5">
+  <div class="ghead"><h2>現代</h2><span>民主国家と経済大国</span></div>
+
+  <article class="era" id="showa2"><div class="spine"><span class="from">1945<br>〜1989</span></div><div class="card">
+    <h3>昭和（戦後）<small>復興と高度経済成長</small></h3>
+    <p class="sum">GHQのもとで民主化が進み、国民主権・平和主義の新憲法ができる。独立回復後は高度経済成長で世界有数の経済大国になる。</p>
+    <ul class="ev"><li><span class="y">1947</span><span>日本国憲法の施行</span></li><li><span class="y">1951</span><span>サンフランシスコ平和条約</span></li><li><span class="y">1964</span><span>東京オリンピック</span></li><li><span class="y">1973</span><span>石油危機で高度成長が終わる</span></li><li><span class="y">1980年代後半</span><span>バブル経済</span></li></ul>
+    <div class="next">バブルの膨張と崩壊が、次の長い低成長の出発点になる。</div>
+  </div></article>
+
+  <article class="era" id="heisei"><div class="spine"><span class="from">1989<br>〜現在</span></div><div class="card">
+    <h3>平成・令和<small>低成長と大災害の時代</small></h3>
+    <p class="sum">バブル崩壊後の長い停滞、少子高齢化、グローバル化とデジタル化。大きな災害を何度も経験する。</p>
+    <ul class="ev"><li><span class="y">1991頃</span><span>バブル崩壊</span></li><li><span class="y">1995</span><span>阪神・淡路大震災</span></li><li><span class="y">2011</span><span>東日本大震災</span></li><li><span class="y">2019</span><span>令和に改元</span></li><li><span class="y">2020</span><span>新型コロナの流行</span></li></ul>
+    <div class="next">人口減少社会でどう豊かさを保つかが、いま進行中の問いになっている。</div>
+  </div></article>
+</section>
+
+<p class="foot">年代は主な通説によります。時代の始まりと終わりには諸説あり（例：鎌倉幕府の成立は1185年説・1192年説など）、ここでは学校教育で広く使われる区切りを採っています。</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="大人の学び直しのための図解資料集。">
+<title>kyoyo 教養図解</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 1カラムの目次。ジャンルごとに資料を並べる */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc; --ai:#24476b;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40; --ai:#8fb4dc; color-scheme:dark}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;
+  padding:48px max(16px,env(safe-area-inset-right,0px)) 64px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+h1,h2{font-family:var(--display);margin:0;line-height:1.35;text-wrap:balance}
+h1{font-size:2.4rem;font-weight:800}
+h1 small{font-size:1rem;color:var(--muted);font-weight:600;margin-left:8px}
+.lead{color:var(--muted);margin:6px 0 0}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.list a{display:grid;gap:2px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit}
+.list a:hover,.list a:focus-visible{border-color:var(--ai);outline:none}
+.list b{font-family:var(--display);font-size:1.2rem;color:var(--ai)}
+.list span{font-size:.9rem;color:var(--muted)}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>kyoyo<small>教養図解</small></h1>
+  <p class="lead">大人の学び直しのために、ひとつのテーマの全体像を一枚の図にまとめた資料集です。</p>
+</header>
+
+<section>
+  <div class="label">歴史</div>
+  <ul class="list">
+    <li><a href="japanese-history/"><b>日本史の流れ図</b><span>旧石器から令和まで、各時代の要点と「なぜ次の時代へ移ったか」を一本の時間軸で。</span></a></li>
+  </ul>
+</section>
+
+<p class="foot">資料は順次追加していきます。</p>
+</div>
+</body>
+</html>
