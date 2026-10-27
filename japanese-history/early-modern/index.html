@@ -120,8 +120,6 @@ b{color:var(--c)}
   .chapter{padding-right:calc(var(--side) + var(--gap))}
   .chapter > .chead{margin-right:calc(-1 * (var(--side) + var(--gap)))}
   .note{float:right;clear:right;width:var(--side);margin:0 calc(-1 * (var(--side) + var(--gap))) 14px 0}
-  .note.years summary{cursor:default}
-  .note.years summary::after{content:none}
   .why,.next-era{max-width:780px}
 }
 
@@ -556,7 +554,7 @@ b rt{color:var(--c);opacity:.8}
 <script>
 (function(){
   // 補足（図・人物・年表）：狭い画面ではすべて折りたたむ。
-  // 広い画面では年表を常に開き、図と人物は章ごとに本文の高さに収まる分だけ開く（背の高い図 → 人物 の順に閉じていく）
+  // 広い画面では年表を最初から開き（読者は開け閉めできる）、図と人物は章ごとに本文の高さに収まる分だけ開く（背の高い図 → 人物 の順に閉じていく）
   var wide=matchMedia('(min-width:1180px)');
   function fit(){
     document.querySelectorAll('.chapter').forEach(function(ch){
@@ -574,10 +572,6 @@ b rt{color:var(--c);opacity:.8}
         .forEach(function(d){ if(over()) d.open=false; });
     });
   }
-  // 広い画面では年表を閉じさせない
-  document.addEventListener('click',function(e){
-    if(wide.matches && e.target.closest('details.years > summary')) e.preventDefault();
-  });
   // 狭い画面どうしのリサイズでは、読者が開いた補足を閉じ直さない
   var lastWide=null, timer;
   function refit(){ if(wide.matches||lastWide!==false) fit(); lastWide=wide.matches; }
