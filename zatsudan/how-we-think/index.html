@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>人は何で考えているのか</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* layout: 1カラムの短い雑談メモ。流れ → キーワード → 残った問い */
+:root{
+  --paper:#eef0ee;
+  --surface:#f8f9f7;
+  --ink:#1d2326;
+  --muted:#5d686b;
+  --line:#c9cfcc;
+  --accent:#24476b;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#15191b;--surface:#1d2326;--ink:#e4e8e6;--muted:#9aa5a7;
+    --line:#343d40;--accent:#8fb4dc;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15191b;--surface:#1d2326;--ink:#e4e8e6;--muted:#9aa5a7;
+  --line:#343d40;--accent:#8fb4dc;color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.85;font-size:16px}
+main{max-width:680px;margin:0 auto;padding:48px 20px 64px;display:flex;flex-direction:column;gap:44px}
+h1,h2{font-family:var(--display);font-weight:800;text-wrap:balance;line-height:1.4;margin:0}
+h1{font-size:clamp(1.8rem,6vw,2.4rem)}
+h2{font-size:1.25rem}
+p{margin:0}
+header{display:flex;flex-direction:column;gap:12px}
+.meta{color:var(--muted);font-size:.85rem}
+section{display:flex;flex-direction:column;gap:14px}
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:s}
+.flow > li{counter-increment:s;display:grid;grid-template-columns:2.2em 1fr;gap:4px 8px}
+.flow > li::before{content:counter(s,decimal-leading-zero);color:var(--accent);font-weight:700;font-size:.85rem;padding-top:.15em}
+.flow > li + li{border-top:1px solid var(--line);padding-top:18px}
+.flow li > div{display:flex;flex-direction:column;gap:10px}
+.flow b{display:block;font-family:var(--display);font-size:1.1rem}
+.q{border-left:3px solid var(--accent);padding:2px 0 2px 12px;font-weight:700}
+.pts{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px;color:var(--ink)}
+.pts li{font-size:.95rem}
+.kw{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.kw details{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.kw summary{cursor:pointer;padding:10px 14px;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.kw summary::-webkit-details-marker{display:none}
+.kw summary::after{content:"＋";color:var(--accent);flex-shrink:0}
+.kw details[open] summary::after{content:"－"}
+.kw summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+.kw details p{padding:0 14px 12px;font-size:.9rem;color:var(--muted);line-height:1.75}
+.qs{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.back{font-size:.85rem;color:var(--accent);text-decoration:none}
+.back:hover,.back:focus-visible{text-decoration:underline}
+footer{color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <a class="back" href="../../">← kyoyo 目次</a>
+  <p class="meta">雑談メモ ・ 2026年10月27日</p>
+  <h1>人は何で考えているのか</h1>
+  <p>唐辛子と鳥の話から、思考と感覚・身体・感情・言語の関係へ。</p>
+</header>
+
+<section>
+  <ol class="flow">
+    <li><div>
+      <b>感覚と現実</b>
+      <p class="q">鳥は唐辛子の辛さを感じないの？</p>
+      <ul class="pts">
+        <li>感じない。カプサイシンが結合する受容体TRPV1の形が哺乳類と違う。</li>
+        <li>種を噛み砕く哺乳類を遠ざけ、丸飲みして運ぶ鳥には食べさせる。唐辛子の生存戦略。</li>
+      </ul>
+      <p class="q">熱さを感じない人も、熱湯でやけどはする。カプサイシンも感じなければ問題ない、とは限らないのでは？</p>
+      <ul class="pts">
+        <li>熱湯は感じなくても組織を壊す。痛みは損傷を知らせる警報にすぎない。</li>
+        <li>カプサイシンの「焼ける感じ」は受容体が出す誤った信号で、組織は焼けていない。炎症もTRPV1経由なので、鳥では起きにくい。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>言葉にする</b>
+      <p class="q">さっきの自分の発言を、もっと自然な日本語にしたい。</p>
+      <ul class="pts">
+        <li>元の文は「問題ないというわけでは無いことはない」と否定が重なり、意味が逆に取られかねなかった。</li>
+        <li>「感じないから問題ない、とは限らないのでは？」とすると伝わる。</li>
+        <li>詰まったら、結論を一言で言う、否定を肯定に直す、声に出す。</li>
+      </ul>
+      <p class="q">そもそも、人は思考するとき言語にどれくらい頼っているのか？</p>
+      <ul class="pts">
+        <li>失語症の人も計算や論理はこなせる。数学や推論中、脳の言語領域はあまり働かない。</li>
+        <li>言語はエンジンというより、思考を整理して固定する道具に近い。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>イメージと身体</b>
+      <p class="q">アインシュタインの「イメージを動かす」とは？鍛えられる？</p>
+      <ul class="pts">
+        <li>頭の中で場面を動かす思考実験。光を追いかけたら、落下するエレベーターの中では、など。</li>
+        <li>空間的なイメージ力は訓練で伸びる。図を描く、頭の中で物を回す、手を動かす。</li>
+      </ul>
+      <p class="q">そのイメージは完全に経験に依存する？</p>
+      <ul class="pts">
+        <li>器は生まれつきある程度ある（乳児の物理的予測、脳の場所細胞）。中身は経験しだい。</li>
+      </ul>
+      <p class="q">では、その器も脳を含めた身体に依存しているのでは？</p>
+      <ul class="pts">
+        <li>そう考えられる。空間が3次元なのは、3次元の世界で重力を受けて動く身体だから。</li>
+        <li>個人の経験が中身を、種の経験が器（身体の設計）を作る、という二層構造。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>感情</b>
+      <p class="q">感情は、種が経験から培った思考のショートカットでは？ ただ、思考と感情の順序は逆かもしれない。</p>
+      <ul class="pts">
+        <li>ダマシオのソマティック・マーカー仮説に近い。感情の部位を損傷した患者は、論理は保たれたまま決断ができなくなった。</li>
+        <li>順序は、感情が先（ザイアンス）、思考が先（ラザルス）、身体が先（ジェームズ＝ランゲ）と諸説ある。</li>
+        <li>今は、身体→解釈→感情→思考…と回るループと見る考え方が多い。</li>
+      </ul>
+      <p class="q">学者を学者にしている検証や論証の作業は、イメージより言語的な思考に近いよね？</p>
+      <ul class="pts">
+        <li>おおむねそう。ひらめきはイメージや感情から、検証と伝達は言語や数式から。</li>
+        <li>ただ両者は段階ごとに交代するのではなく、主役を入れ替えながら一緒に働く。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>言語とは</b>
+      <p class="q">プログラミング言語や数学も言語だと思っていた。広く捉えすぎ？</p>
+      <ul class="pts">
+        <li>情報科学では標準的な捉え方。規則で並べた記号列の集まりを「言語」と呼ぶ（形式言語理論）。</li>
+        <li>言語学では自然言語に限ることが多い。自然に生まれ変化する、あいまいで文脈に頼る、言外の意味がある。</li>
+        <li>脳もコードや数式は、自然言語とは別のネットワークで処理しているらしい。広く捉えつつ、性格の違いは区別しておくとよい。</li>
+      </ul>
+    </div></li>
+  </ol>
+</section>
+
+<section>
+  <h2>キーワード</h2>
+  <ul class="kw">
+    <li><details><summary>TRPV1</summary><p>痛みや熱（約43℃以上）を感じる受容体。カプサイシンもここに結合して「熱い」という信号を出す。鳥のTRPV1はカプサイシンにほとんど反応しない。</p></details></li>
+    <li><details><summary>ソマティック・マーカー仮説</summary><p>過去の経験が身体反応（胸騒ぎなど）と結びつき、選択肢を瞬時に「良い・悪い」と色づけして意思決定を助ける、という仮説。</p></details></li>
+    <li><details><summary>アントニオ・ダマシオ『デカルトの誤り』</summary><p>ソマティック・マーカー仮説を提唱した本。理性と感情を切り離したデカルト的な考え方を、脳損傷患者の事例から批判した。</p></details></li>
+    <li><details><summary>身体化された認知</summary><p>思考は脳だけでなく、身体の構造や動き、環境とのやりとりに根ざしているという考え方。「気分が上がる」のような身体的な比喩もその表れとされる。</p></details></li>
+    <li><details><summary>心的回転</summary><p>頭の中で図形や物体を回転させる能力。回す角度が大きいほど時間がかかることが実験で示され、イメージが空間的に処理されている証拠とされる。</p></details></li>
+    <li><details><summary>コア知識（スペルキ）</summary><p>人には物体・数・空間などについて生まれつきの基本的な知識の仕組みがある、という説。乳児が物理法則に反する出来事に驚く実験などが根拠。</p></details></li>
+    <li><details><summary>場所細胞・格子細胞</summary><p>脳の海馬と周辺にある、自分がいる位置を表す神経細胞。発見者は2014年のノーベル生理学・医学賞を受賞した。</p></details></li>
+    <li><details><summary>ジェームズ＝ランゲ説</summary><p>「泣くから悲しい」。身体の反応が先に起き、それを脳が感じ取ったものが感情だとする説。</p></details></li>
+    <li><details><summary>評価理論</summary><p>状況を「自分にとって脅威か、得か」などと評価した結果として感情が生まれるとする説。ラザルスらが代表。</p></details></li>
+    <li><details><summary>形式言語理論</summary><p>記号の並べ方の規則（文法）によって「言語」を数学的に定義し、その性質を調べる理論。プログラミング言語の設計の土台。</p></details></li>
+    <li><details><summary>チョムスキー階層</summary><p>形式言語を、生成する文法の強さで4段階に分けた分類。正規言語・文脈自由言語などがあり、それぞれ対応する計算モデルがある。</p></details></li>
+    <li><details><summary>言語ネットワーク（フェドレンコ）</summary><p>自然言語の処理に特化した脳の領域群。数学や論理、コードの読解ではあまり働かないことを示した研究で知られる。</p></details></li>
+  </ul>
+</section>
+
+<section>
+  <h2>課題</h2>
+  <ul class="qs">
+    <li>身体を持たないAIは、どうやって「考えて」いるのか（次回のテーマ）</li>
+    <li>言葉にならない直感は、どこまで信頼してよいのか</li>
+    <li>種の経験が作った器を、個人の経験で作り替えることはできるのか</li>
+  </ul>
+</section>
+
+<footer>Claudeとの雑談から作成</footer>
+</main>
+</body>
+</html>
