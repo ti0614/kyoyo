@@ -14,6 +14,7 @@
 | 歴史 | 近世の日本史（詳説） | `japanese-history/early-modern/` |
 | 歴史 | 近代の日本史（詳説） | `japanese-history/modern/` |
 | 歴史 | 現代の日本史（詳説） | `japanese-history/contemporary/` |
+| 雑談 | 人は何で考えているのか | `zatsudan/how-we-think/` |
 
 ## 構成
 
@@ -26,6 +27,8 @@ japanese-history/       日本史の流れ図
   early-modern/         近世の詳説
   modern/               近代の詳説
   contemporary/         現代の詳説
+zatsudan/               雑談メモ
+  how-we-think/         人は何で考えているのか
 tools/                  ふりがなを付けるスクリプトと辞書
 CLAUDE.md               資料作成のルール（文体・構成・ふりがな）
 ```
