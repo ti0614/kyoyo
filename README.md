@@ -1,6 +1,6 @@
 # kyoyo 教養図解
 
-大人の学び直しのための図解資料集です。GitHub Pagesで公開しています。
+ひとつのテーマの全体像を図解した資料集です。GitHub Pagesで公開しています。
 
 公開URL: https://ti0614.github.io/kyoyo/
 
