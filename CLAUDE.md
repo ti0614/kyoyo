@@ -12,7 +12,8 @@ japanese-history/modern/      区分詳説：近代
 japanese-history/contemporary/ 区分詳説：現代（2020年代前半まで）
 western-philosophy/index.html 西洋哲学史 ― 問いの系譜（全時代の通史）
 tools/ruby.py                 ふりがなを付けるスクリプト
-tools/ruby-dict.txt           ふりがな辞書
+tools/ruby-dict.txt           ふりがな辞書（日本史）
+tools/ruby-dict-western-philosophy.txt ふりがな辞書（西洋哲学史）
 ```
 
 ## 進め方
@@ -77,6 +78,10 @@ tools/ruby-dict.txt           ふりがな辞書
 - 手で `<ruby>` を書かない。本文を書いたあと、足りない語を `tools/ruby-dict.txt` に追加してから、次を実行する。何度実行しても結果は同じ。
   ```
   python3 tools/ruby.py japanese-history/<区分>/index.html
+  ```
+- 西洋哲学史は、辞書を `tools/ruby-dict-western-philosophy.txt` に分けている（日本史の辞書の語が哲学のページに当たらないように。逆も同じ）。問いのカード（`article.step`）1つずつを単位とし、カード上の小見出し（`.tag`）には付けない。人名はカタカナなので付けず、読みにくい用語だけに付ける。
+  ```
+  python3 tools/ruby.py western-philosophy/index.html
   ```
 - 右下のボタンで、すべてのふりがなの表示を切り替えられる（設定はブラウザに保存）。新しいページにも同じボタンと CSS を入れる。
 
