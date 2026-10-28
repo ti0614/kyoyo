@@ -10,6 +10,7 @@ japanese-history/medieval/    区分詳説：中世（構成の見本）
 japanese-history/early-modern/ 区分詳説：近世
 japanese-history/modern/      区分詳説：近代
 japanese-history/contemporary/ 区分詳説：現代（2020年代前半まで）
+western-philosophy/index.html 西洋哲学史 ― 問いの系譜（全時代の通史）
 tools/ruby.py                 ふりがなを付けるスクリプト
 tools/ruby-dict.txt           ふりがな辞書
 ```

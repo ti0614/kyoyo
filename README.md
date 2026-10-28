@@ -14,6 +14,7 @@
 | 歴史 | 近世の日本史（詳説） | `japanese-history/early-modern/` |
 | 歴史 | 近代の日本史（詳説） | `japanese-history/modern/` |
 | 歴史 | 現代の日本史（詳説） | `japanese-history/contemporary/` |
+| 哲学 | 西洋哲学史 ― 問いの系譜 | `western-philosophy/` |
 | 雑談 | 人は何で考えているのか | `zatsudan/how-we-think/` |
 
 ## 構成
@@ -27,6 +28,7 @@ japanese-history/       日本史の流れ図
   early-modern/         近世の詳説
   modern/               近代の詳説
   contemporary/         現代の詳説
+western-philosophy/     西洋哲学史 ― 問いの系譜
 zatsudan/               雑談メモ
   how-we-think/         人は何で考えているのか
 tools/                  ふりがなを付けるスクリプトと辞書
