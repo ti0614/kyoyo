@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="高校数学の全体像を、各分野が何を知りたくて、どう考えるのかという問いでまとめる。数と式、関数、図形、微分積分、確率と統計。">
+<title>高校数学 ― 考え方の地図</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 冒頭に分野の全体図と科目との対応表。本体は分野ごとに「問い → 考え方 → 使い道 → つながり」を縦につなぐ（西洋哲学史のページと同じ型） */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
+  --t1:#7a6a3c; --t2:#2f5d4e; --t3:#24476b; --t4:#5a4a78; --t5:#7b3b3b; /* 分野：数と式・関数・図形・微分積分・確率と統計 */
+  --t1bg:#ece6d6; --t2bg:#d9e8e1; --t3bg:#dbe4ee; --t4bg:#e4def0; --t5bg:#efdcd9;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40;
+  --t1:#d6c08a; --t2:#8fcfb6; --t3:#8fb4dc; --t4:#bba9e0; --t5:#e3a29a;
+  --t1bg:#2b2719; --t2bg:#1a2b25; --t3bg:#1b2533; --t4bg:#251f33; --t5bg:#2f1f1e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40;
+  --t1:#d6c08a; --t2:#8fcfb6; --t3:#8fb4dc; --t4:#bba9e0; --t5:#e3a29a;
+  --t1bg:#2b2719; --t2bg:#1a2b25; --t3bg:#1b2533; --t4bg:#251f33; --t5bg:#2f1f1e; color-scheme:dark}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:2.2rem;font-weight:800}
+.lead{color:var(--muted);margin:8px 0 0;max-width:40em}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+a{color:inherit}
+.t1{--c:var(--t1);--cbg:var(--t1bg)}.t2{--c:var(--t2);--cbg:var(--t2bg)}.t3{--c:var(--t3);--cbg:var(--t3bg)}.t4{--c:var(--t4);--cbg:var(--t4bg)}.t5{--c:var(--t5);--cbg:var(--t5bg)}
+
+/* 冒頭の全体図 */
+.fig-h{font-size:1.3rem}
+.fig-lead{margin:4px 0 12px;font-size:.92rem;color:var(--muted)}
+.areas{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.node{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;text-decoration:none;min-width:0}
+a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
+.node .no{font-size:.75rem;color:var(--c);font-weight:700}
+.node b{font-family:var(--display);font-size:1.05rem;line-height:1.4}
+.node .q{font-size:.85rem;color:var(--muted)}
+.links{margin:12px 0 0;padding:10px 14px;background:var(--surface);border:1px dashed var(--line);font-size:.88rem;list-style:none;display:grid;gap:4px}
+.links li{display:grid;grid-template-columns:auto 1fr;gap:10px}
+.links .ar{font-weight:700;white-space:nowrap}
+@media (max-width:680px){.areas{grid-template-columns:1fr}}
+
+/* 科目との対応表 */
+.map{width:100%;border-collapse:collapse;font-size:.84rem;line-height:1.6;background:var(--surface)}
+.map th,.map td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.map thead th{font-size:.78rem;color:var(--muted);font-weight:700;white-space:nowrap}
+.map tbody th{border-left:4px solid var(--c);color:var(--c);font-family:var(--display);white-space:nowrap}
+.map td:empty::after{content:"―";color:var(--line)}
+.map-note{font-size:.8rem;color:var(--muted);margin-top:6px}
+.scroll{overflow-x:auto}
+@media (max-width:680px){
+  .map thead{display:none}
+  .map,.map tbody,.map tr,.map th,.map td{display:block;border:0}
+  .map tr{border:1px solid var(--line);border-left:4px solid var(--c);margin-bottom:8px;padding:6px 10px}
+  .map tbody th{border:0;padding:0 0 4px}
+  .map td{padding:1px 0}
+  .map td:empty{display:none}
+  .map td::before{content:attr(data-s);display:inline-block;min-width:4.6em;font-size:.75rem;font-weight:700;color:var(--muted)}
+}
+
+/* 分野 */
+.stage{display:flex;flex-direction:column;scroll-margin-top:16px}
+.shead{padding:10px 14px;background:var(--cbg);border-left:4px solid var(--c);margin-bottom:18px}
+.shead h2{font-size:1.35rem;color:var(--c);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.shead h2 small{font-family:var(--body);font-size:.8rem;color:var(--muted);font-weight:500}
+.shead p{margin:4px 0 0;font-size:.92rem}
+.shead strong{color:var(--c)}
+
+/* 問いのカード */
+.step{display:grid;grid-template-columns:96px 1fr;gap:0 20px}
+.spine{border-right:2px solid var(--c);text-align:right;padding-right:14px;position:relative;font-size:.8rem;color:var(--muted);line-height:1.4;padding-top:6px}
+.spine::after{content:"";position:absolute;right:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+.card{padding-bottom:28px;min-width:0}
+.tag{font-size:.8rem;font-weight:700;color:var(--c)}
+.card h3{font-size:1.3rem;margin:2px 0 6px;text-wrap:wrap}
+.ans{margin:0}
+.ans b{color:var(--c)}
+.use{margin:10px 0 0;font-size:.9rem;display:grid;grid-template-columns:auto 1fr;gap:10px}
+.use::before{content:"使い道";font-size:.72rem;letter-spacing:.06em;font-weight:700;color:var(--paper);background:var(--c);padding:0 6px;border-radius:2px;white-space:nowrap;align-self:start;margin-top:3px;line-height:1.6}
+.left{margin-top:12px;padding:8px 12px;background:var(--surface);border:1px dashed var(--line);font-size:.9rem;display:grid;grid-template-columns:auto 1fr;gap:10px}
+.left::before{content:"つながり";font-size:.72rem;letter-spacing:.06em;font-weight:700;color:var(--c);white-space:nowrap;padding-top:2px}
+.left.now::before{content:"いま"}
+
+/* 図 */
+.fig{margin:14px 0 4px;border:1px solid var(--line);background:var(--surface);padding:12px 14px}
+.fig .label{display:block;margin-bottom:6px}
+.fig svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}
+.fig svg text{font-family:var(--body);font-size:11px;fill:var(--muted)}
+.fig .ax{stroke:var(--muted);stroke-width:1}
+.fig .cv{stroke:var(--c);stroke-width:2.2;fill:none}
+.fig .gd{stroke:var(--muted);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+.fig .tn{stroke:var(--ink);stroke-width:1.6}
+.fig .tnl{fill:var(--ink)}
+.fig .pt{fill:var(--c)}
+.fig .pt2{fill:var(--paper);stroke:var(--c);stroke-width:2}
+.fig .rc{fill:var(--cbg);stroke:var(--c);stroke-width:.8}
+.fig .note{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+
+@media (max-width:520px){.step{grid-template-columns:1fr}.spine{display:none}
+  .card{border-left:2px solid var(--c);padding-left:16px;position:relative;padding-bottom:24px}
+  .card::before{content:"";position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+  .when{display:inline;margin-left:8px;font-weight:500;color:var(--muted)}
+  .card h3{font-size:1.15rem}.left,.use{grid-template-columns:1fr;gap:2px}.use::before{justify-self:start}}
+.when{display:none}
+@media (max-width:520px){.when{display:inline}}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.foot p{margin:0 0 4px}
+
+/* ふりがな（各カードで初出のみ）。読みが長くても漢字の間が空かないよう、rt は語の中央上に重ねて置く */
+ruby{position:relative;display:inline}
+rt{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);white-space:nowrap;line-height:1;margin-bottom:.1em;font-family:var(--body);font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:0;text-indent:0}
+b rt{color:var(--c);opacity:.8}
+.no-ruby rt{display:none}
+/* 行間の狭い図・短文では、ふりがなを含む行だけ行間を広げて上の行に重ならないようにする */
+:root:not(.no-ruby) .wrap :is(.left,.use,.fig .note):has(ruby){line-height:2.2}
+.furi{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:10;
+  font:inherit;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
+.furi span{color:var(--t3);margin-left:6px}
+.furi:hover,.furi:focus-visible{border-color:var(--t3);outline:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p style="margin:0;font-size:.85rem"><a href="../">← kyoyo 目次へ</a></p>
+<header>
+  <div class="label">全体図</div>
+  <h1><span style="white-space:nowrap">高校数学</span> <span style="white-space:nowrap">― 考え方の地図</span></h1>
+  <p class="lead">ここでは、高校数学を公式の一覧としてではなく、「何を知りたくて、どう考えるのか」という問いの集まりとしてまとめる。それぞれの分野がどんな問いに答え、何の役に立ち、ほかの分野とどうつながるのかを示す。</p>
+</header>
+
+<section>
+  <h2 class="fig-h">五つの分野</h2>
+  <p class="fig-lead">高校数学は、大きく五つの分野に分けて見ることができる。式と論理が土台になり、その上で変化（関数と微分積分）、形（図形）、不確かさ（確率と統計）を、それぞれ数で扱う。</p>
+  <div class="areas">
+    <a class="node t1" href="#number"><span class="no">1</span><b>数と式</b><span class="q">文字を使って、いつでも成り立つことを表す</span></a>
+    <a class="node t2" href="#function"><span class="no">2</span><b>関数</b><span class="q">一方が変わると、もう一方がどう変わるかをとらえる</span></a>
+    <a class="node t3" href="#figure"><span class="no">3</span><b>図形</b><span class="q">形の問題を、論理と計算で解く</span></a>
+    <a class="node t4" href="#calculus"><span class="no">4</span><b>微分積分</b><span class="q">瞬間の変化をとらえ、それを積み上げる</span></a>
+    <a class="node t5" href="#probability"><span class="no">5</span><b>確率と統計</b><span class="q">偶然の起こりやすさと、データの傾向を数で表す</span></a>
+  </div>
+  <ul class="links" aria-label="分野どうしの主なつながり">
+    <li><span class="ar">関数 → 微分積分</span><span>関数の変化の様子を、瞬間ごとに調べるのが微分である。</span></li>
+    <li><span class="ar">図形 ⇄ 関数</span><span>座標を使うと、図形は式で表され、式はグラフという形で見える。</span></li>
+    <li><span class="ar">数列 → 極限 → 微分積分</span><span>飛び飛びの変化を限りなく細かくすると、連続した変化の扱いにつながる。</span></li>
+    <li><span class="ar">積分 → 統計</span><span>統計で使う確率は、分布を表す曲線の下の面積として、積分で表される。</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2 class="fig-h">科目との対応</h2>
+  <p class="fig-lead">学校で学ぶ科目（数学Ⅰ・Ⅱ・Ⅲ・A・B・C）と、五つの分野との対応を示す。一つの分野が、いくつもの科目にまたがっている。</p>
+  <div class="scroll"><table class="map">
+    <thead><tr><th scope="col">分野</th><th scope="col">数学Ⅰ</th><th scope="col">数学A</th><th scope="col">数学Ⅱ</th><th scope="col">数学B</th><th scope="col">数学Ⅲ</th><th scope="col">数学C</th></tr></thead>
+    <tbody>
+      <tr class="t1"><th scope="row">数と式</th><td data-s="数学Ⅰ">数と式</td><td data-s="数学A">数学と人間の活動（整数など）</td><td data-s="数学Ⅱ">いろいろな式</td><td data-s="数学B">数学的帰納法（数列の単元で学ぶ）</td><td data-s="数学Ⅲ"></td><td data-s="数学C"></td></tr>
+      <tr class="t2"><th scope="row">関数</th><td data-s="数学Ⅰ">二次関数</td><td data-s="数学A"></td><td data-s="数学Ⅱ">指数関数・対数関数、三角関数</td><td data-s="数学B"></td><td data-s="数学Ⅲ"></td><td data-s="数学C"></td></tr>
+      <tr class="t3"><th scope="row">図形</th><td data-s="数学Ⅰ">図形と計量</td><td data-s="数学A">図形の性質</td><td data-s="数学Ⅱ">図形と方程式</td><td data-s="数学B"></td><td data-s="数学Ⅲ"></td><td data-s="数学C">ベクトル、平面上の曲線と複素数平面</td></tr>
+      <tr class="t4"><th scope="row">微分積分</th><td data-s="数学Ⅰ"></td><td data-s="数学A"></td><td data-s="数学Ⅱ">微分・積分の考え</td><td data-s="数学B">数列</td><td data-s="数学Ⅲ">極限、微分法、積分法</td><td data-s="数学C"></td></tr>
+      <tr class="t5"><th scope="row">確率と統計</th><td data-s="数学Ⅰ">データの分析</td><td data-s="数学A">場合の数と確率</td><td data-s="数学Ⅱ"></td><td data-s="数学B">統計的な推測</td><td data-s="数学Ⅲ"></td><td data-s="数学C"></td></tr>
+    </tbody>
+  </table></div>
+  <p class="map-note">単元名は現行の学習指導要領による。数学B・Cには、ここに挙げたほかに、数学を社会の問題や表現に生かす単元（数学と社会生活、数学的な表現の工夫）もある。</p>
+</section>
+
+<section class="stage t1" id="number">
+  <div class="shead"><h2>数と式<small>数学Ⅰ・A・Ⅱ・B</small></h2><p><strong>文字で一般に考える。</strong>具体的な数の計算を離れ、文字と論理を使って「いつでも成り立つこと」を扱う。すべての分野の土台になる。</p></div>
+  <article class="step"><div class="spine">数学Ⅰ・Ⅱ</div><div class="card">
+    <div class="tag">文字式と方程式<span class="when">数学Ⅰ・Ⅱ</span></div>
+    <h3>数の代わりに文字を使うと、何ができるのか。</h3>
+    <p class="ans">数の代わりに<b>文字</b>を使うと、無数の計算を一つの式で表せる。展開や<b>因数分解</b>は、同じ式を目的に合わせて形を変える技術である。どんな値を入れても成り立つ式（<b><ruby>恒等式<rt>こうとうしき</rt></ruby></b>）と、特定の値のときだけ成り立つ式（<b>方程式</b>）を区別することが、式を読む第一歩になる。</p>
+    <p class="use"><span class="tx">表計算ソフトの数式やプログラムは、文字式の考え方そのものである。</span></p>
+    <div class="left"><span class="tx">文字を使えば、整数についても「いつでも成り立つこと」を調べられる。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学A</div><div class="card">
+    <div class="tag">整数の性質<span class="when">数学A</span></div>
+    <h3>割り算の余りから、何がわかるのか。</h3>
+    <p class="ans">整数だけを扱うときは、割り切れるかどうか、余りがいくつかが手がかりになる。たとえば、2で割った余りで整数を分ければ偶数と奇数になり、7で割った余りを使えば曜日を計算できる。<b>素因数分解</b>は、整数をそれ以上分けられない部品（素数）のかけ算に分ける。2つの数の最大公約数は、余りをとる割り算をくり返す<b>ユークリッドの<ruby>互除法<rt>ごじょほう</rt></ruby></b>によって、素因数分解をしなくても求められる。</p>
+    <p class="use"><span class="tx">大きな数の素因数分解がきわめて難しいことは、インターネットで使われる暗号（RSA暗号）の安全性を支えている。</span></p>
+    <div class="left"><span class="tx">整数どうしの割り算から分数が生まれ、数の範囲はさらにその先へ広がっていく。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅰ・Ⅱ</div><div class="card">
+    <div class="tag">数の広がり<span class="when">数学Ⅰ・Ⅱ</span></div>
+    <h3>解けない方程式に、どうすれば答えを与えられるのか。</h3>
+    <p class="ans">数は、必要に応じて範囲を広げてきた。整数の比（分数）で表せない数（<b>無理数</b>）まで含めたものが<b>実数</b>である（数学Ⅰ）。さらに、2乗すると−1になる数 <i>i</i>（<b><ruby>虚数<rt>きょすう</rt></ruby></b>単位）を認めると、数は<b>複素数</b>へ広がり、実数を係数とする二次方程式は、いつでも解をもつようになる（数学Ⅱ）。</p>
+    <p class="use"><span class="tx">複素数は、電気工学で交流の回路や波を計算するときに、欠かせない道具になっている。</span></p>
+    <div class="left"><span class="tx">数の範囲を広げても成り立つことを確かめるには、正しいと言い切るための証明の技術が欠かせない。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅰ・Ⅱ・B</div><div class="card">
+    <div class="tag">論理と証明<span class="when">数学Ⅰ・Ⅱ・B</span></div>
+    <h3>正しいと、どうすれば言い切れるのか。</h3>
+    <p class="ans">数学では、例をいくつ確かめても証明にはならない。「pならばq」という<b><ruby>命題<rt>めいだい</rt></ruby></b>を、すでに認められたことから筋道立てて導く必要がある。結論を否定して矛盾を導く<b><ruby>背理法<rt>はいりほう</rt></ruby></b>（√2が無理数であることの証明が代表例）や、すべての自然数について一度に示す<b>数学的<ruby>帰納法<rt>きのうほう</rt></ruby></b>は、例を並べても届かない「すべて」を扱うための方法である。</p>
+    <p class="use"><span class="tx">前提から結論までの筋道を確かめる考え方は、プログラムの正しさを確かめることにも通じる。</span></p>
+    <div class="left"><span class="tx">式と論理を土台に、次は「変化」を数で扱う。</span></div>
+  </div></article>
+</section>
+
+<section class="stage t2" id="function">
+  <div class="shead"><h2>関数<small>数学Ⅰ・Ⅱ・Ⅲ</small></h2><p><strong>変化と対応をとらえる。</strong>一方を決めるともう一方が決まる関係（関数）を、式とグラフの両方から見る。</p></div>
+  <article class="step"><div class="spine">数学Ⅰ</div><div class="card">
+    <div class="tag">二次関数<span class="when">数学Ⅰ</span></div>
+    <h3>一方が変わると、もう一方はどう変わるのか。</h3>
+    <p class="ans"><i>x</i> の値を決めると <i>y</i> の値がただ一つ決まるとき、<i>y</i> は <i>x</i> の<b>関数</b>であるという。式をグラフに描けば、変化の様子が目に見えるようになる。二次関数 <i>y</i> = <i>ax</i><sup>2</sup> + <i>bx</i> + <i>c</i> のグラフは<b>放物線</b>になり、式の形を変える（平方完成）と、頂点、つまり最大値や最小値がわかる。</p>
+    <p class="use"><span class="tx">投げたボールの軌道や、利益が最も大きくなる価格の見当づけなど、「ちょうどよい値」を探す問題に使われる。</span></p>
+    <div class="left"><span class="tx">変化には、一定の倍率で増えていくものや、同じ形をくり返すものもある。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅱ</div><div class="card">
+    <div class="tag">指数関数と対数関数<span class="when">数学Ⅱ</span></div>
+    <h3>一定の倍率で増えていくものを、どう扱うのか。</h3>
+    <p class="ans">一定の時間ごとに同じ倍率で増える量は<b>指数関数</b>で表され、はじめはゆっくりでも、やがて急激に大きくなる。その逆に、「何乗すればその数になるか」を答えるのが<b>対数</b>である。対数を使うと、かけ算を足し算に置き換えられ、桁違いに大きな数も扱いやすい小さな数で表せる。</p>
+    <p class="use"><span class="tx"><ruby>複利<rt>ふくり</rt></ruby>の計算や放射性物質の半減期は指数関数で、地震のマグニチュードや音の大きさ（デシベル）は対数で表される。</span></p>
+    <div class="left"><span class="tx">増え続ける変化に対して、同じ形をくり返す変化を表すのが三角関数である。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅰ・Ⅱ</div><div class="card">
+    <div class="tag">三角関数<span class="when">数学Ⅰ・Ⅱ</span></div>
+    <h3>くり返す変化を、どう表すのか。</h3>
+    <p class="ans">直角三角形の辺の比を角度で表したものが<b>三角比</b>（sin・cos・tan）である。数学Ⅰでは、これを円の上の点の位置として読みかえ、鈍角まで使えるようにする。数学Ⅱでは、さらに360°を超える角や負の角にまで広げ、<b>三角関数</b>として扱う。点が円を回り続けると、その高さは同じ波の形をくり返す。</p>
+    <div class="fig"><span class="label">図　円の回転から波へ</span><svg viewBox="0 0 340 140" role="img" aria-label="円の上を回る点の高さが、波の形をくり返すことを示す図">
+<line class="ax" x1="10" y1="70" x2="110" y2="70"/><line class="ax" x1="60" y1="20" x2="60" y2="120"/>
+<circle class="cv" cx="60" cy="70" r="44"/>
+<line class="cv" x1="60" y1="70" x2="88.3" y2="36.3"/>
+<line class="gd" x1="88.3" y1="36.3" x2="88.3" y2="70"/>
+<line class="gd" x1="88.3" y1="36.3" x2="157.8" y2="36.3"/>
+<circle class="pt" cx="88.3" cy="36.3" r="4"/><circle class="pt" cx="157.8" cy="36.3" r="4"/>
+<line class="ax" x1="130" y1="70" x2="334" y2="70"/>
+<path class="cv" d="M130.0,70.0 L132.0,67.2 L134.0,64.5 L136.0,61.8 L138.0,59.1 L140.0,56.4 L142.0,53.8 L144.0,51.3 L146.0,48.8 L148.0,46.4 L150.0,44.1 L152.0,42.0 L154.0,39.9 L156.0,37.9 L158.0,36.1 L160.0,34.4 L162.0,32.8 L164.0,31.4 L166.0,30.2 L168.0,29.1 L170.0,28.2 L172.0,27.4 L174.0,26.8 L176.0,26.3 L178.0,26.1 L180.0,26.0 L182.0,26.1 L184.0,26.3 L186.0,26.8 L188.0,27.4 L190.0,28.2 L192.0,29.1 L194.0,30.2 L196.0,31.4 L198.0,32.8 L200.0,34.4 L202.0,36.1 L204.0,37.9 L206.0,39.9 L208.0,42.0 L210.0,44.1 L212.0,46.4 L214.0,48.8 L216.0,51.3 L218.0,53.8 L220.0,56.4 L222.0,59.1 L224.0,61.8 L226.0,64.5 L228.0,67.2 L230.0,70.0 L232.0,72.8 L234.0,75.5 L236.0,78.2 L238.0,80.9 L240.0,83.6 L242.0,86.2 L244.0,88.7 L246.0,91.2 L248.0,93.6 L250.0,95.9 L252.0,98.0 L254.0,100.1 L256.0,102.1 L258.0,103.9 L260.0,105.6 L262.0,107.2 L264.0,108.6 L266.0,109.8 L268.0,110.9 L270.0,111.8 L272.0,112.6 L274.0,113.2 L276.0,113.7 L278.0,113.9 L280.0,114.0 L282.0,113.9 L284.0,113.7 L286.0,113.2 L288.0,112.6 L290.0,111.8 L292.0,110.9 L294.0,109.8 L296.0,108.6 L298.0,107.2 L300.0,105.6 L302.0,103.9 L304.0,102.1 L306.0,100.1 L308.0,98.0 L310.0,95.9 L312.0,93.6 L314.0,91.2 L316.0,88.7 L318.0,86.2 L320.0,83.6 L322.0,80.9 L324.0,78.2 L326.0,75.5 L328.0,72.8 L330.0,70.0"/>
+<text x="60" y="136" text-anchor="middle">円の上を回る点</text><text x="230.0" y="136" text-anchor="middle">点の高さ（sin）の移り変わり</text>
+</svg><p class="note">点が円を1周するたびに、高さは同じ波を1回描く。</p></div>
+    <p class="use"><span class="tx">音、光、交流の電気など、波として伝わるものの計算は、三角関数をもとにしている。</span></p>
+    <div class="left"><span class="tx">三角比は、もともと三角形の辺と角を結びつける道具でもある。次は、形そのものを扱う。</span></div>
+  </div></article>
+</section>
+
+<section class="stage t3" id="figure">
+  <div class="shead"><h2>図形<small>数学Ⅰ・A・Ⅱ・C</small></h2><p><strong>形の問題を、論理と計算で解く。</strong>図形の性質を論理で示すところから始まり、座標やベクトルを使って、形の問題を計算で解けるようにしていく。</p></div>
+  <article class="step"><div class="spine">数学A</div><div class="card">
+    <div class="tag">図形の性質<span class="when">数学A</span></div>
+    <h3>図形の性質を、どうすれば確かに示せるのか。</h3>
+    <p class="ans">古代ギリシアの<b>ユークリッド</b>は『<ruby>原論<rt>げんろん</rt></ruby>』で、少数の前提（<ruby>公理<rt>こうり</rt></ruby>・公準）から図形の性質を次々に証明してみせた。高校では、三角形の内心や外心、円と直線の関係などを、この方法で示す。見た目に頼らず、言葉と論理で確かめるところに意味がある。</p>
+    <p class="use"><span class="tx">三角形の外心は3つの頂点から等しい距離にある点なので、3つの町から等しい距離にある場所を探すときの考え方になる。</span></p>
+    <div class="left"><span class="tx">一方、実際の長さや角度を求めるには、計算の道具が要る。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅰ</div><div class="card">
+    <div class="tag">図形と計量<span class="when">数学Ⅰ</span></div>
+    <h3>直接測れない長さや角度を、どう求めるのか。</h3>
+    <p class="ans">三角比を使うと、角度と一部の辺の長さから、残りの辺の長さを計算できる。どんな三角形にも使える<b><ruby>正弦定理<rt>せいげんていり</rt></ruby></b>と<b><ruby>余弦定理<rt>よげんていり</rt></ruby></b>によって、二辺とその間の角のように必要な条件がわかれば、三角形の残りの辺や角は計算で求められる。</p>
+    <p class="use"><span class="tx">山の高さや川の幅、離れた2地点の距離を、直接測らずに求める測量の基本である。</span></p>
+    <div class="left"><span class="tx">図形を計算で扱う方法は、座標の考えによって大きく広がる。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅱ</div><div class="card">
+    <div class="tag">図形と方程式<span class="when">数学Ⅱ</span></div>
+    <h3>図形を、どうすれば式で表せるのか。</h3>
+    <p class="ans">17世紀に<b>デカルト</b>らが広めた<b>座標</b>の考えでは、平面上の点を数の組 (<i>x</i>, <i>y</i>) で表す。すると直線や円は方程式で表され、2つの図形が交わる点を求める問題は、連立方程式を解く問題に変わる。図形の問題が、式の計算で解けるようになったのである。また、不等式を使えば、条件を満たす範囲を平面上の領域として表せる。</p>
+    <p class="use"><span class="tx">コンピュータ・グラフィックスや地図上の位置の計算は、図形を座標で扱うことから始まる。</span></p>
+    <div class="left"><span class="tx">座標は便利だが、軸の取り方に左右される。向きと大きさそのものを扱う道具がベクトルである。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学C</div><div class="card">
+    <div class="tag">ベクトル<span class="when">数学C</span></div>
+    <h3>向きと大きさをもつ量を、どう計算するのか。</h3>
+    <p class="ans"><b>ベクトル</b>は、向きと大きさをもつ量を矢印で表したものである。矢印をつなげば足し算ができ、何倍かすれば伸び縮みする。2つのベクトルの<b><ruby>内積<rt>ないせき</rt></ruby></b>を使うと、長さや角度も計算できる。平面でも空間でも同じ方法で扱えるところが強みである。</p>
+    <p class="use"><span class="tx">力や速度の合成、3Dゲームでの物体の位置や動きの計算に使われる。</span></p>
+    <div class="left"><span class="tx">平面上の点は、ベクトルのほかに、複素数としても表せる。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学C</div><div class="card">
+    <div class="tag">平面上の曲線と複素数平面<span class="when">数学C</span></div>
+    <h3>回転や曲線を、どう式で扱うのか。</h3>
+    <p class="ans">複素数 <i>a</i> + <i>bi</i> を平面上の点 (<i>a</i>, <i>b</i>) とみると（<b>複素数平面</b>）、複素数のかけ算は「回転と拡大」を表すことになる。また、<b>放物線</b>・<b><ruby>楕円<rt>だえん</rt></ruby></b>・<b><ruby>双曲線<rt>そうきょくせん</rt></ruby></b>は、点の距離についての条件で決まる曲線である。たとえば楕円は、2つの定点（<b>焦点</b>）からの距離の和が一定である点の集まりで、この条件を座標で書き表せば、楕円の方程式が得られる。</p>
+    <p class="use"><span class="tx">惑星は、太陽を焦点の一つとする楕円の軌道を描く。パラボラアンテナは、放物線の性質を使って電波を一点に集める。</span></p>
+    <div class="left"><span class="tx">関数と図形の両方を使って、変化そのものをとらえるのが微分積分である。</span></div>
+  </div></article>
+</section>
+
+<section class="stage t4" id="calculus">
+  <div class="shead"><h2>微分積分<small>数学Ⅱ・B・Ⅲ</small></h2><p><strong>瞬間の変化をとらえ、それを積み上げる。</strong>飛び飛びの変化（数列）から始め、限りなく近づくという考え（極限）を使って、瞬間の変化（微分）とその積み重ね（積分）を扱う。数学Ⅱで考え方を学び、数学Ⅲで本格的に扱う。</p></div>
+  <article class="step"><div class="spine">数学B</div><div class="card">
+    <div class="tag">数列<span class="when">数学B</span></div>
+    <h3>飛び飛びに変わる量を、どう扱うのか。</h3>
+    <p class="ans">数を順に並べたものを<b>数列</b>という。同じ数を足していく<b>等差数列</b>と、同じ数をかけていく<b>等比数列</b>が基本で、その和を求める公式がある。前の項から次の項を決める規則（<b><ruby>漸化式<rt>ぜんかしき</rt></ruby></b>）で数列を表すこともでき、その規則からわかる性質は、数学的<ruby>帰納法<rt>きのうほう</rt></ruby>で確かめる。</p>
+    <p class="use"><span class="tx">ローンの返済額の計算や、人口の変化の見通しを立てるときに使われる。</span></p>
+    <div class="left"><span class="tx">項を限りなく続けていくとどうなるかを問うのが、極限である。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅲ</div><div class="card">
+    <div class="tag">極限<span class="when">数学Ⅲ</span></div>
+    <h3>限りなく近づくとは、どういうことか。</h3>
+    <p class="ans">1、1/2、1/4、… と限りなく続く数列は、0にいくらでも近づいていく。このように近づいていく先の値を<b>極限</b>という。1/2 + 1/4 + 1/8 + … のように無限に足し続けても、和が1という決まった値になることがある（<b>無限<ruby>級数<rt>きゅうすう</rt></ruby></b>）。「無限」を、近づき方として扱えるようにしたのが極限の考えである。</p>
+    <p class="use"><span class="tx">円周率は、円にぴったり入る正多角形の辺の数を限りなく増やしていく考え方で、古くから求められてきた。</span></p>
+    <div class="left"><span class="tx">微分も積分も、この極限の考えの上に成り立っている。極限を使うと、「ある瞬間の速さ」を定めることができる。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅱ・Ⅲ</div><div class="card">
+    <div class="tag">微分<span class="when">数学Ⅱ・Ⅲ</span></div>
+    <h3>ある瞬間の変化の速さを、どうとらえるのか。</h3>
+    <p class="ans">平均の速さは「進んだ距離÷かかった時間」で求められるが、ある瞬間の速さは、この割り算だけでは求められない。そこで、時間の幅を限りなく小さくしたときの極限として、瞬間の変化の割合を定める。これが<b>微分</b>であり、グラフでは<b>接線</b>の傾きにあたる。微分すれば、関数がどこで増え、どこで減り、どこで最大・最小になるかがわかる。数学Ⅲでは、微分しても形が変わらない特別な指数関数を扱い、その底を <i>e</i> と書く。微分は、17世紀に<b>ニュートン</b>と<b>ライプニッツ</b>が、それぞれ独立に体系化した。</p>
+    <div class="fig"><span class="label">図　平均の変化から瞬間の変化へ</span><svg viewBox="0 0 260 150" role="img" aria-label="2点を結ぶ直線の傾き（平均の変化）が、2点を近づけると接線の傾き（瞬間の変化）になることを示す図">
+<line class="ax" x1="20" y1="138" x2="250" y2="138"/><line class="ax" x1="30" y1="144" x2="30" y2="8"/>
+<path class="cv" d="M30.0,128.0 L32.0,128.0 L34.0,128.0 L36.0,127.9 L38.0,127.8 L40.0,127.7 L42.0,127.6 L44.0,127.5 L46.0,127.3 L48.0,127.1 L50.0,126.9 L52.0,126.6 L54.0,126.4 L56.0,126.1 L58.0,125.8 L60.0,125.5 L62.0,125.1 L64.0,124.8 L66.0,124.4 L68.0,124.0 L70.0,123.5 L72.0,123.1 L74.0,122.6 L76.0,122.1 L78.0,121.5 L80.0,121.0 L82.0,120.4 L84.0,119.8 L86.0,119.2 L88.0,118.6 L90.0,117.9 L92.0,117.2 L94.0,116.5 L96.0,115.8 L98.0,115.1 L100.0,114.3 L102.0,113.5 L104.0,112.7 L106.0,111.8 L108.0,111.0 L110.0,110.1 L112.0,109.2 L114.0,108.2 L116.0,107.3 L118.0,106.3 L120.0,105.3 L122.0,104.3 L124.0,103.3 L126.0,102.2 L128.0,101.1 L130.0,100.0 L132.0,98.9 L134.0,97.7 L136.0,96.5 L138.0,95.3 L140.0,94.1 L142.0,92.9 L144.0,91.6 L146.0,90.3 L148.0,89.0 L150.0,87.7 L152.0,86.3 L154.0,84.9 L156.0,83.5 L158.0,82.1 L160.0,80.7 L162.0,79.2 L164.0,77.7 L166.0,76.2 L168.0,74.7 L170.0,73.1 L172.0,71.5 L174.0,69.9 L176.0,68.3 L178.0,66.7 L180.0,65.0 L182.0,63.3 L184.0,61.6 L186.0,59.9 L188.0,58.1 L190.0,56.3 L192.0,54.5 L194.0,52.7 L196.0,50.8 L198.0,49.0 L200.0,47.1 L202.0,45.2 L204.0,43.2 L206.0,41.3 L208.0,39.3 L210.0,37.3 L212.0,35.3 L214.0,33.2 L216.0,31.1 L218.0,29.0 L220.0,26.9 L222.0,24.8 L224.0,22.6 L226.0,20.4 L228.0,18.2 L230.0,16.0"/>
+<line class="gd" x1="65" y1="139.7" x2="210" y2="44.3"/>
+<line class="tn" x1="35" y1="143.7" x2="225" y2="58.6"/>
+<circle class="pt" cx="110" cy="110.1" r="4"/><circle class="pt2" cx="185" cy="60.7" r="4"/>
+<text x="108" y="100.1" text-anchor="end">P</text><text x="175" y="54.7" text-anchor="end">Q</text>
+<text x="228" y="62.6" class="tnl">接線</text>
+</svg><p class="note">点線は、2点P・Qを結ぶ直線で、その傾きが平均の変化の割合である。QをPに限りなく近づけると、直線は接線（実線）に近づき、その傾きが点Pでの瞬間の変化の割合になる。</p></div>
+    <p class="use"><span class="tx">速度や加速度の計算、費用が最も小さくなる条件の検討など、「変化の割合」が関わる問題全般に使われる。</span></p>
+    <div class="left"><span class="tx">微分が変化を細かく分けて見るのに対し、細かく分けたものを積み上げるのが積分である。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅱ・Ⅲ</div><div class="card">
+    <div class="tag">積分<span class="when">数学Ⅱ・Ⅲ</span></div>
+    <h3>細かく分けたものを、どう積み上げるのか。</h3>
+    <p class="ans">曲線で囲まれた図形の面積は、そのままでは求めにくい。そこで図形を細い長方形に分けて面積を足し合わせ、幅を限りなく細くした極限として面積を定める。これが<b>積分</b>である。しかも、面積を表す関数を微分すると、もとの関数に戻ることがわかっている（<b>微分積分学の基本定理</b>）。そのため、面積を求める問題が、微分の逆をたどる計算で解けるようになった。</p>
+    <div class="fig"><span class="label">図　細かく分けて積み上げる</span><svg viewBox="0 0 260 150" role="img" aria-label="曲線の下の図形を細い長方形に分け、その面積を足し合わせる様子を示す図">
+<rect class="rc" x="50" y="96.9" width="16" height="38.1"/><rect class="rc" x="66" y="85.0" width="16" height="50.0"/><rect class="rc" x="82" y="75.0" width="16" height="60.0"/><rect class="rc" x="98" y="67.2" width="16" height="67.8"/><rect class="rc" x="114" y="62.2" width="16" height="72.8"/><rect class="rc" x="130" y="60.1" width="16" height="74.9"/><rect class="rc" x="146" y="61.0" width="16" height="74.0"/><rect class="rc" x="162" y="64.9" width="16" height="70.1"/><rect class="rc" x="178" y="71.7" width="16" height="63.3"/><rect class="rc" x="194" y="80.9" width="16" height="54.1"/>
+<line class="ax" x1="20" y1="135" x2="250" y2="135"/><line class="ax" x1="30" y1="140" x2="30" y2="5"/>
+<path class="cv" d="M30.0,120.0 L32.0,118.3 L34.0,116.6 L36.0,114.9 L38.0,113.2 L40.0,111.5 L42.0,109.9 L44.0,108.2 L46.0,106.5 L48.0,104.9 L50.0,103.3 L52.0,101.6 L54.0,100.0 L56.0,98.4 L58.0,96.9 L60.0,95.3 L62.0,93.8 L64.0,92.3 L66.0,90.8 L68.0,89.3 L70.0,87.9 L72.0,86.4 L74.0,85.0 L76.0,83.7 L78.0,82.3 L80.0,81.0 L82.0,79.8 L84.0,78.5 L86.0,77.3 L88.0,76.1 L90.0,75.0 L92.0,73.9 L94.0,72.8 L96.0,71.8 L98.0,70.8 L100.0,69.9 L102.0,68.9 L104.0,68.1 L106.0,67.2 L108.0,66.5 L110.0,65.7 L112.0,65.0 L114.0,64.4 L116.0,63.7 L118.0,63.2 L120.0,62.7 L122.0,62.2 L124.0,61.7 L126.0,61.4 L128.0,61.0 L130.0,60.7 L132.0,60.5 L134.0,60.3 L136.0,60.2 L138.0,60.1 L140.0,60.0 L142.0,60.0 L144.0,60.1 L146.0,60.1 L148.0,60.3 L150.0,60.5 L152.0,60.7 L154.0,61.0 L156.0,61.3 L158.0,61.7 L160.0,62.1 L162.0,62.6 L164.0,63.1 L166.0,63.7 L168.0,64.3 L170.0,64.9 L172.0,65.6 L174.0,66.4 L176.0,67.2 L178.0,68.0 L180.0,68.8 L182.0,69.7 L184.0,70.7 L186.0,71.7 L188.0,72.7 L190.0,73.8 L192.0,74.9 L194.0,76.0 L196.0,77.2 L198.0,78.4 L200.0,79.6 L202.0,80.9 L204.0,82.2 L206.0,83.5 L208.0,84.9 L210.0,86.3 L212.0,87.7 L214.0,89.1 L216.0,90.6 L218.0,92.1 L220.0,93.6 L222.0,95.1 L224.0,96.7 L226.0,98.3 L228.0,99.9 L230.0,101.5 L232.0,103.1 L234.0,104.7"/>
+<line class="gd" x1="50" y1="103.3" x2="50" y2="135"/><line class="gd" x1="210" y1="86.3" x2="210" y2="135"/>
+</svg><p class="note">長方形の幅を限りなく細くすると、その面積の合計は、曲線の下の面積に近づいていく。</p></div>
+    <p class="use"><span class="tx">面積や体積のほか、刻々と変わる速さから進んだ道のりを求めるなど、変わり続ける量の合計を求めるときに使われる。</span></p>
+    <div class="left"><span class="tx">積分は、確率や統計で「起こりやすさ」の合計を求める道具にもなる。</span></div>
+  </div></article>
+</section>
+
+<section class="stage t5" id="probability">
+  <div class="shead"><h2>確率と統計<small>数学Ⅰ・A・B</small></h2><p><strong>不確かさを数で扱う。</strong>起こりうる場合を正しく数え、偶然の起こりやすさを確率で表す。さらに、データから傾向を読みとり、一部から全体を推し量る。</p></div>
+  <article class="step"><div class="spine">数学A</div><div class="card">
+    <div class="tag">場合の数<span class="when">数学A</span></div>
+    <h3>漏れなく、重なりなく数えるには、どうするのか。</h3>
+    <p class="ans">起こりうる場合を正しく数えることが、確率の出発点になる。並べ方を数える<b>順列</b>と、選び方を数える<b>組合せ</b>を区別し、<ruby>樹形図<rt>じゅけいず</rt></ruby>やかけ算の考え（積の法則）を使って、漏れも重なりもないように数える。</p>
+    <p class="use"><span class="tx">くじの当たりの組み合わせや、パスワードが何通りありうるかを見積もるときに使われる。</span></p>
+    <div class="left"><span class="tx">数え方がわかると、偶然の起こりやすさを数で表せるようになる。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学A</div><div class="card">
+    <div class="tag">確率<span class="when">数学A</span></div>
+    <h3>偶然の起こりやすさを、どう数で表すのか。</h3>
+    <p class="ans">どの場合も同じ程度に起こりやすいとき、ある事柄の<b>確率</b>は「その事柄が起こる場合の数÷起こりうるすべての場合の数」で表される。ある条件のもとでの確率（<b>条件付き確率</b>）や、平均してどれだけの値が得られるかを表す<b>期待値</b>も扱う。</p>
+    <p class="use"><span class="tx">保険料の設定や、くじが得か損かの判断、検査で陽性と出たときに本当にそうである確率の見積もりなどに使われる。</span></p>
+    <div class="left"><span class="tx">現実の世界では、確率が前もってわかっていることは少なく、データから推し量ることになる。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学Ⅰ</div><div class="card">
+    <div class="tag">データの分析<span class="when">数学Ⅰ</span></div>
+    <h3>たくさんのデータを、どう要約するのか。</h3>
+    <p class="ans">データの中心を表す<b>平均値</b>や<b>中央値</b>、ばらつきを表す<b>分散</b>や<b><ruby>標準偏差<rt>ひょうじゅんへんさ</rt></ruby></b>を求める。2つの量の関係は、散布図と<b>相関係数</b>で表す。ただし、相関があることは、一方が他方の原因であることを意味しない。さらに、得られた結果が偶然で説明できるかどうかを考える<b>仮説検定</b>の考え方にも触れる。</p>
+    <p class="use"><span class="tx">成績の分布、気温の移り変わり、商品の売れ行きなど、データを読みとるときの基本である。</span></p>
+    <div class="left"><span class="tx">手元のデータが全体の一部にすぎないとき、全体について何が言えるかが問題になる。</span></div>
+  </div></article>
+  <article class="step"><div class="spine">数学B</div><div class="card">
+    <div class="tag">統計的な推測<span class="when">数学B</span></div>
+    <h3>一部のデータから、全体についてどこまで言えるのか。</h3>
+    <p class="ans">調べたい全体（<b><ruby>母集団<rt>ぼしゅうだん</rt></ruby></b>）から一部（<b><ruby>標本<rt>ひょうほん</rt></ruby></b>）を<ruby>無作為<rt>むさくい</rt></ruby>に選ぶと、標本の平均がどれくらいばらつくかを確率で見積もれる。そのときに中心的な役割を果たすのが、平均の近くに多く集まり、左右対称な山の形になる<b>正規分布</b>である。これをもとに、全体の平均がどの範囲にありそうかを幅をもって推し量ったり（<b>推定</b>）、ある仮説がデータと矛盾しないかを判断したり（<b>仮説検定</b>）する。正規分布の確率は、曲線の下の面積、つまり積分で表される。</p>
+    <p class="use"><span class="tx">世論調査や視聴率、新しい薬の効果の確認は、この考え方にもとづいている。</span></p>
+    <div class="left now"><span class="tx">大量のデータから学ぶ機械学習も、確率と統計、ベクトル、微分を組み合わせてできている。</span></div>
+  </div></article>
+</section>
+
+<div class="foot">
+  <p>科目と単元の名前は、2022年度に高校に入学した生徒から実施されている学習指導要領による。学校や教科書によって、学ぶ順序や扱いの詳しさは異なる。</p>
+  <p>五つの分野への分け方は、考え方のまとまりで整理した、ここでの見方である。たとえば三角比は図形の道具でもあり、関数の出発点でもあるように、一つの単元がいくつもの分野にまたがることも多い。</p>
+</div>
+</div>
+<button class="furi" type="button" aria-pressed="true">ふりがな<span>あり</span></button>
+<script>
+(function(){
+  // ふりがなの表示切り替え（設定はブラウザに保存。ほかのページと共通）
+  var KEY='kyoyo-ruby', root=document.documentElement, btn=document.querySelector('.furi');
+  function apply(on){
+    root.classList.toggle('no-ruby',!on);
+    btn.setAttribute('aria-pressed',String(on));
+    btn.lastChild.textContent=on?'あり':'なし';
+  }
+  var on=true;
+  try{on=localStorage.getItem(KEY)!=='off'}catch(e){}
+  apply(on);
+  btn.addEventListener('click',function(){
+    on=!on; apply(on); nudge();
+    try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}
+  });
+
+  // 長い読みが行の端で画面からはみ出す場合は、内側へずらす
+  function nudge(){
+    var edge=8, w=document.documentElement.clientWidth;
+    document.querySelectorAll('rt').forEach(function(rt){
+      rt.style.transform='';
+      var r=rt.getBoundingClientRect();
+      if(!r.width) return;
+      var dx=r.right>w-edge ? r.right-(w-edge) : r.left<edge ? r.left-edge : 0;
+      if(dx) rt.style.transform='translateX(calc(-50% - '+dx+'px))';
+    });
+  }
+  nudge();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(nudge);
+  addEventListener('resize',function(){ clearTimeout(nudge.t); nudge.t=setTimeout(nudge,250); });
+})();
+</script>
+</body>
+</html>
