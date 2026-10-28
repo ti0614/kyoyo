@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="西洋哲学の歩みを、問いの受け渡しとしてたどる系譜。何を手がかりに考えるかが、世界・神・意識・言葉と移っていく。">
+<meta name="description" content="西洋哲学の歩みを、問いの受け渡しとしてたどる系譜。考える手がかりが、世界・神・意識・言葉と移っていく。">
 <title>西洋哲学史 ― 問いの系譜</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
-/* Layout: 冒頭に「何を手がかりに考えるか」の段階図（下段に倫理と社会の問いの糸）。本体は段階ごとに「問い → 答え → 残された問題」を縦につなぐ。要所に「対立と応答」の図を挟む */
+/* Layout: 冒頭に「考える手がかりの移り変わり」の段階図。本体は段階ごとに「問い → 答え → 残された問題」を縦につなぐ。要所に「対立と応答」の図を挟む */
 :root{
   --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
   --s1:#7a6a3c; --s2:#5a4a78; --s3:#2f5d4e; --s4:#24476b; --tr:#6e6259; /* 段階：世界・神・意識・言葉、移り目 */
@@ -35,7 +35,7 @@ a{color:inherit}
 .s1{--c:var(--s1);--cbg:var(--s1bg)}.s2{--c:var(--s2);--cbg:var(--s2bg)}.s3{--c:var(--s3);--cbg:var(--s3bg)}.s4{--c:var(--s4);--cbg:var(--s4bg)}.tr{--c:var(--tr);--cbg:var(--trbg)}
 
 /* 冒頭の段階図 */
-.stages{display:grid;grid-template-columns:1fr 1fr 1fr .8fr 1.25fr;gap:8px;margin-top:10px}
+.stages{display:grid;grid-template-columns:1fr 1fr 1fr .8fr 1.25fr;gap:8px}
 .col{display:flex;min-width:0}
 .node{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;flex:1;text-decoration:none}
 a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
@@ -43,7 +43,8 @@ a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
 .node b{font-family:var(--display);font-size:1.05rem;line-height:1.4}
 .node .q{font-size:.85rem;color:var(--muted)}
 .node .br{font-size:.82rem;color:var(--muted);border-left:2px solid var(--c);padding-left:8px;line-height:1.5}
-.cap{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+.fig-h{font-size:1.3rem}
+.fig-lead{margin:4px 0 12px;font-size:.92rem;color:var(--muted)}
 @media (min-width:681px){.col:not(:last-child) .node::after{content:"▶";position:absolute;right:-9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted);z-index:1}}
 @media (max-width:680px){.stages{grid-template-columns:1fr}}
 
@@ -102,7 +103,8 @@ a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
 </header>
 
 <section>
-  <div class="label">大きな流れ：何を手がかりに考えるか</div>
+  <h2 class="fig-h">考える手がかりの移り変わり</h2>
+  <p class="fig-lead">哲学は、どんなテーマを考えるときにも、何かを手がかりにしてきた。その手がかりは、世界から神へ、神から意識へ、意識から言葉へと移っていく。</p>
   <div class="stages">
     <div class="col s1"><a class="node" href="#world"><span class="era-name">古代</span><b>世界</b><span class="q">世界は何からできているか → どう生きるか</span></a></div>
     <div class="col s2"><a class="node" href="#god"><span class="era-name">中世</span><b>神</b><span class="q">信仰と理性をどう結びつけるか</span></a></div>
@@ -110,7 +112,6 @@ a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
     <div class="col tr"><a class="node" href="#turn"><span class="era-name">19世紀</span><b>移り目</b><span class="q">体系の完成と、それへの反発</span></a></div>
     <div class="col s4"><a class="node" href="#language"><span class="era-name">現代</span><b>言葉</b><span class="br">英語圏：言葉は何を語りうるか</span><span class="br">大陸：言葉や構造は人をどうかたちづくるか</span></a></div>
   </div>
-  <p class="cap">どんなテーマを考えるときにも、何を手がかりにしたか。その移り変わりを示す。</p>
 </section>
 
 <section class="stage s1" id="world">
@@ -263,8 +264,8 @@ a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
 </section>
 
 <div class="foot">
-  <p>時代の区分は書物によって異なる。ここでは、哲学が何を手がかりに考えたかの移り変わりを骨組みとし、古代・中世・近代・現代の名前は目印として添える。19世紀は、近代の後半とする見方と、現代思想の源流とする見方があるため、ここでは移り目として扱う。</p>
-  <p>何を手がかりに考えるかの移り変わりは、17世紀ごろの「認識論的転回」と20世紀の「言語論的転回」を区切りとする、広く使われる整理に従う。どの時代にも、ほかのものを手がかりに考える哲学者はいる。また、倫理や社会のあり方のように、どの時代にも問われ続けているテーマもある。</p>
+  <p>時代の区分は書物によって異なる。ここでは、考える手がかりの移り変わりを骨組みとし、古代・中世・近代・現代の名前は目印として添える。19世紀は、近代の後半とする見方と、現代思想の源流とする見方があるため、ここでは移り目として扱う。</p>
+  <p>考える手がかりの移り変わりは、17世紀ごろの「認識論的転回」と20世紀の「言語論的転回」を区切りとする、広く使われる整理に従う。どの時代にも、ほかのものを手がかりに考える哲学者はいる。また、倫理や社会のあり方のように、どの時代にも問われ続けているテーマもある。</p>
 </div>
 </div>
 </body>
