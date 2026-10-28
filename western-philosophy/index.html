@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
-/* Layout: 冒頭に「考える手がかりの移り変わり」の段階図。本体は段階ごとに「問い → 答え → 残された問題」を縦につなぐ。要所に「二つの立場」の図を挟む */
+/* Layout: 冒頭に「考える手がかりの移り変わり」の段階図。本体は段階ごとに「問い → 答え → 次の問いへ」を縦につなぐ。要所に「二つの立場」の図を挟む */
 :root{
   --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
   --s1:#7a6a3c; --s2:#5a4a78; --s3:#2f5d4e; --s4:#24476b; --tr:#6e6259; /* 段階：世界・神・意識・言葉、過渡期 */
@@ -67,7 +67,7 @@ a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
 .ans{margin:0}
 .ans b{color:var(--c)}
 .left{margin-top:12px;padding:8px 12px;background:var(--surface);border:1px dashed var(--line);font-size:.9rem;display:grid;grid-template-columns:auto 1fr;gap:10px}
-.left::before{content:"残された問題 ↓";font-size:.72rem;letter-spacing:.06em;font-weight:700;color:var(--c);white-space:nowrap;padding-top:2px}
+.left::before{content:"次の問いへ ↓";font-size:.72rem;letter-spacing:.06em;font-weight:700;color:var(--c);white-space:nowrap;padding-top:2px}
 .left.now::before{content:"いまの問い"}
 
 /* 二つの立場 */
@@ -153,7 +153,7 @@ a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
     <h3>信仰と理性は、どう結びつくのか。</h3>
     <p class="ans"><b>アウグスティヌス</b>は、ギリシア哲学を用いてキリスト教の教えを理論として整え、人は神の恵み（恩寵）によって救われると説く。</p>
     
-    <div class="left">イスラーム世界を経て戻ってきたギリシアの学問を、信仰とどう両立させるのか。</div>
+    <div class="left">西ヨーロッパでは、ギリシアの学問の多くが数百年のあいだ読まれなくなる。イスラーム世界で受け継がれ、のちに戻ってきたその学問を、信仰とどう両立させるのか。</div>
   </div></article>
   <article class="step"><div class="spine">11〜13世紀</div><div class="card">
     <div class="tag">スコラ哲学<span class="when">11〜13世紀</span></div>
