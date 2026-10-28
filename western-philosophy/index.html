@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="西洋哲学の歩みを、問いの受け渡しとしてたどる系譜。何を手がかりに考えるかが、世界・神・意識・言葉と移っていく。">
+<title>西洋哲学史 ― 問いの系譜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 冒頭に「何を手がかりに考えるか」の段階図（下段に倫理と社会の問いの糸）。本体は段階ごとに「問い → 答え → 残された問題」を縦につなぐ。要所に「対立と応答」の図を挟む */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
+  --s1:#7a6a3c; --s2:#5a4a78; --s3:#2f5d4e; --s4:#24476b; --tr:#6e6259; /* 段階：世界・神・意識・言葉、移り目 */
+  --s1bg:#ece6d6; --s2bg:#e4def0; --s3bg:#d9e8e1; --s4bg:#dbe4ee; --trbg:#e6e2dd;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40;
+  --s1:#d6c08a; --s2:#bba9e0; --s3:#8fcfb6; --s4:#8fb4dc; --tr:#c4b6a8;
+  --s1bg:#2b2719; --s2bg:#251f33; --s3bg:#1a2b25; --s4bg:#1b2533; --trbg:#272320; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40;
+  --s1:#d6c08a; --s2:#bba9e0; --s3:#8fcfb6; --s4:#8fb4dc; --tr:#c4b6a8;
+  --s1bg:#2b2719; --s2bg:#251f33; --s3bg:#1a2b25; --s4bg:#1b2533; --trbg:#272320; color-scheme:dark}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:2.2rem;font-weight:800}
+.lead{color:var(--muted);margin:8px 0 0;max-width:40em}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+a{color:inherit}
+.s1{--c:var(--s1);--cbg:var(--s1bg)}.s2{--c:var(--s2);--cbg:var(--s2bg)}.s3{--c:var(--s3);--cbg:var(--s3bg)}.s4{--c:var(--s4);--cbg:var(--s4bg)}.tr{--c:var(--tr);--cbg:var(--trbg)}
+
+/* 冒頭の段階図 */
+.stages{display:grid;grid-template-columns:1fr 1fr 1fr .8fr 1.25fr;gap:8px;margin-top:10px}
+.col{display:flex;min-width:0}
+.node{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);padding:12px;display:flex;flex-direction:column;gap:4px;position:relative;flex:1;text-decoration:none}
+a.node:hover,a.node:focus-visible{border-color:var(--c);outline:none}
+.node .era-name{font-size:.75rem;color:var(--c);font-weight:700}
+.node b{font-family:var(--display);font-size:1.05rem;line-height:1.4}
+.node .q{font-size:.85rem;color:var(--muted)}
+.node .br{font-size:.82rem;color:var(--muted);border-left:2px solid var(--c);padding-left:8px;line-height:1.5}
+.cap{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+@media (min-width:681px){.col:not(:last-child) .node::after{content:"▶";position:absolute;right:-9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted);z-index:1}}
+@media (max-width:680px){.stages{grid-template-columns:1fr}}
+
+/* 段階 */
+.stage{display:flex;flex-direction:column;scroll-margin-top:16px}
+.shead{padding:10px 14px;background:var(--cbg);border-left:4px solid var(--c);margin-bottom:18px}
+.shead h2{font-size:1.35rem;color:var(--c);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.shead h2 small{font-family:var(--body);font-size:.8rem;color:var(--muted);font-weight:500}
+.shead p{margin:4px 0 0;font-size:.92rem}
+.shead strong{color:var(--c)}
+.lane{font-size:.8rem;font-weight:700;color:var(--c);letter-spacing:.08em;margin:4px 0 12px 116px}
+
+/* 問いのリレー */
+.step{display:grid;grid-template-columns:96px 1fr;gap:0 20px}
+.spine{border-right:2px solid var(--c);text-align:right;padding-right:14px;position:relative;font-size:.8rem;color:var(--muted);line-height:1.4;padding-top:6px}
+.spine::after{content:"";position:absolute;right:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+.card{padding-bottom:28px;min-width:0}
+.tag{font-size:.8rem;font-weight:700;color:var(--c)}
+.card h3{font-size:1.3rem;margin:2px 0 6px;text-wrap:wrap}
+.ans{margin:0}
+.ans b{color:var(--c)}
+.left{margin-top:12px;padding:8px 12px;background:var(--surface);border:1px dashed var(--line);font-size:.9rem;display:grid;grid-template-columns:auto 1fr;gap:10px}
+.left::before{content:"残された問題 ↓";font-size:.72rem;letter-spacing:.06em;font-weight:700;color:var(--c);white-space:nowrap;padding-top:2px}
+.left.now::before{content:"いまの問い"}
+
+/* 対立と応答 */
+.vs{margin-top:14px;border:1px solid var(--line);background:var(--surface);padding:12px 14px}
+.vs .label{display:block;margin-bottom:8px}
+.vs .ttl{font-family:var(--display);font-weight:600;font-size:1.02rem;margin:0 0 8px}
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+.side{border-top:3px solid var(--c);background:var(--paper);padding:8px 10px;font-size:.88rem;line-height:1.6}
+.side b{display:block;font-family:var(--display);font-size:.98rem}
+.side .pb{display:block;margin-top:6px;font-size:.82rem;color:var(--muted)}
+.mid{align-self:center;font-size:.8rem;color:var(--muted);font-weight:700;writing-mode:horizontal-tb}
+.down{text-align:center;color:var(--muted);font-size:.85rem;margin:6px 0}
+.one{border-top:3px solid var(--c);background:var(--paper);padding:8px 10px;font-size:.88rem}
+.one b{font-family:var(--display);font-size:.98rem;margin-right:8px}
+.vs .note{font-size:.8rem;color:var(--muted);margin:10px 0 0}
+.when{display:none}
+@media (max-width:520px){.step{grid-template-columns:1fr}.spine{display:none}
+  .card{border-left:2px solid var(--c);padding-left:16px;position:relative;padding-bottom:24px}
+  .card::before{content:"";position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--c)}
+  .when{display:inline;margin-left:8px;font-weight:500;color:var(--muted)}
+  .card h3{font-size:1.15rem}.left{grid-template-columns:1fr;gap:2px}.pair{grid-template-columns:1fr}.mid{text-align:center}.lane{margin-left:0}}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.foot p{margin:0 0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p style="margin:0;font-size:.85rem"><a href="../">← kyoyo 目次へ</a></p>
+<header>
+  <div class="label">通史</div>
+  <h1><span style="white-space:nowrap">西洋哲学史</span> <span style="white-space:nowrap">― 問いの系譜</span></h1>
+  <p class="lead">ここでは、西洋哲学の歩みを「問いの受け渡し」としてまとめる。それぞれの時代の哲学者たちがどう答え、どんな問題を次に残したかを一本の流れでつなぐ。哲学史の見方は一つではなく、これはその一つである。</p>
+</header>
+
+<section>
+  <div class="label">大きな流れ：何を手がかりに考えるか</div>
+  <div class="stages">
+    <div class="col s1"><a class="node" href="#world"><span class="era-name">古代</span><b>世界</b><span class="q">世界は何からできているか → どう生きるか</span></a></div>
+    <div class="col s2"><a class="node" href="#god"><span class="era-name">中世</span><b>神</b><span class="q">信仰と理性をどう結びつけるか</span></a></div>
+    <div class="col s3"><a class="node" href="#mind"><span class="era-name">近代</span><b>意識</b><span class="q">人は何を確実に知りうるか</span></a></div>
+    <div class="col tr"><a class="node" href="#turn"><span class="era-name">19世紀</span><b>移り目</b><span class="q">体系の完成と、それへの反発</span></a></div>
+    <div class="col s4"><a class="node" href="#language"><span class="era-name">現代</span><b>言葉</b><span class="br">英語圏：言葉は何を語りうるか</span><span class="br">大陸：言葉や構造は人をどうかたちづくるか</span></a></div>
+  </div>
+  <p class="cap">どんなテーマを考えるときにも、何を手がかりにしたか。その移り変わりを示す。</p>
+</section>
+
+<section class="stage s1" id="world">
+  <div class="shead"><h2>世界<small>古代：前6世紀〜後3世紀</small></h2><p><strong>世界そのものを手がかりに考える。</strong>目の前の世界がどうなっているかを直接問い、やがて人の生き方へ関心が移る。</p></div>
+  <article class="step"><div class="spine">前6〜前5世紀</div><div class="card">
+    <div class="tag">自然哲学<span class="when">前6〜前5世紀</span></div>
+    <h3>世界は何からできているのか。</h3>
+    <p class="ans">神話に頼らず、自然の原理（アルケー）を理性で説明しようとする。<b>タレス</b>は水、<b>デモクリトス</b>は原子を原理とする。</p>
+    
+    <div class="left">民主政のアテナイで、関心は自然から人間へ移る。</div>
+  </div></article>
+  <article class="step"><div class="spine">前5世紀</div><div class="card">
+    <div class="tag">ソクラテス<span class="when">前5世紀</span></div>
+    <h3>善く生きるとはどういうことか。</h3>
+    <p class="ans"><b>ソクラテス</b>は対話を通じて相手の思い込みを明らかにし、自分が知らないと自覚すること（無知の知）から、魂をよくすることを求める。</p>
+    
+    <div class="left">人や国によって変わらない正しさは、どこにあるのか。</div>
+  </div></article>
+  <article class="step"><div class="spine">前4世紀</div><div class="card">
+    <div class="tag">プラトンとアリストテレス<span class="when">前4世紀</span></div>
+    <h3>変わらない真の実在は、どこにあるのか。</h3>
+    <p class="ans"><b>プラトン</b>と弟子の<b>アリストテレス</b>が、本質のありかをめぐって異なる答えを出す。アリストテレスは、論理学から政治学までを一つの体系にまとめる。</p>
+    <div class="vs"><span class="label">対立と応答</span><p class="ttl">師と弟子：本質はどこにあるか</p><div class="pair"><div class="side"><b>プラトン</b>本当にあるのは、感覚を超えた永遠のイデアである。</div><span class="mid">×</span><div class="side"><b>アリストテレス</b>本質（形相）は、個々の物の中にある。</div></div><p class="note">アリストテレスは師を批判しながらも、変わらない本質をとらえるという課題は受け継いでいる。</p></div>
+    <div class="left">ポリスが自立を失い、個人の心の平安が問われる。</div>
+  </div></article>
+  <article class="step"><div class="spine">前3〜後3世紀</div><div class="card">
+    <div class="tag">ヘレニズムとローマ<span class="when">前3〜後3世紀</span></div>
+    <h3>不安な時代に、どうすれば心の平安を得られるのか。</h3>
+    <p class="ans"><b>エピクロス</b>は心の静けさを、ストア派は理性に従って感情に動かされないことを、幸福とする。</p>
+    
+    <div class="left">ローマ帝国にキリスト教が広がる。</div>
+  </div></article>
+</section>
+
+<section class="stage s2" id="god">
+  <div class="shead"><h2>神<small>中世：4〜16世紀</small></h2><p><strong>神を手がかりに考える。</strong>神への信仰を前提に、理性がどこまで神と世界を知りうるかを問う。</p></div>
+  <article class="step"><div class="spine">4〜5世紀</div><div class="card">
+    <div class="tag">教父哲学<span class="when">4〜5世紀</span></div>
+    <h3>信仰と理性は、どう結びつくのか。</h3>
+    <p class="ans"><b>アウグスティヌス</b>は、ギリシア哲学を用いてキリスト教の教えを理論として整え、人は神の恵み（恩寵）によって救われると説く。</p>
+    
+    <div class="left">ギリシアの学問はイスラーム世界で受け継がれ、のちに西ヨーロッパへ戻る。</div>
+  </div></article>
+  <article class="step"><div class="spine">11〜13世紀</div><div class="card">
+    <div class="tag">スコラ哲学<span class="when">11〜13世紀</span></div>
+    <h3>神の存在は、理性で証明できるのか。</h3>
+    <p class="ans">アリストテレスの著作が伝わり、<b>トマス・アクィナス</b>は、理性の真理と信仰の真理は矛盾しないとして、両者を一つの体系にまとめる。</p>
+    
+    <div class="left">「人間」や「善」のような普遍は、本当に実在するのか。</div>
+  </div></article>
+  <article class="step"><div class="spine">14〜16世紀</div><div class="card">
+    <div class="tag">唯名論とルネサンス<span class="when">14〜16世紀</span></div>
+    <h3>人間は、自分の力でどこまで知りうるのか。</h3>
+    <p class="ans"><b>オッカム</b>は普遍を名前にすぎないとし、信仰と理性を切り離す。ルネサンス、宗教改革、地動説が、教会の権威を揺るがす。</p>
+    
+    <div class="left">確実な知の土台を、どこに据え直せばよいのか。</div>
+  </div></article>
+</section>
+
+<section class="stage s3" id="mind">
+  <div class="shead"><h2>意識<small>近代：17〜18世紀</small></h2><p><strong>自分の意識を手がかりに考える。</strong>世界を問う前に、それを知る意識を確かめる。</p></div>
+  <article class="step"><div class="spine">17世紀</div><div class="card">
+    <div class="tag">大陸合理論<span class="when">17世紀</span></div>
+    <h3>疑いようのない確実な知は、どこから始められるのか。</h3>
+    <p class="ans"><b>デカルト</b>は、すべてを疑っても、疑っている自分の存在だけは疑えないとし（「我思う、ゆえに我あり」）、そこから知を組み立て直す。</p>
+    
+    <div class="left">理性だけで、本当に世界を知りうるのか。</div>
+  </div></article>
+  <article class="step"><div class="spine">17〜18世紀</div><div class="card">
+    <div class="tag">イギリス経験論<span class="when">17〜18世紀</span></div>
+    <h3>知識は、どこから来るのか。</h3>
+    <p class="ans"><b>ロック</b>は、心は生まれたときは白紙で、知識はすべて経験から来るとする。<b>ヒューム</b>は、原因と結果の結びつきさえ習慣にすぎないとする。</p>
+    
+    <div class="left">科学の確実さそのものが揺らぐ。</div>
+  </div></article>
+  <article class="step"><div class="spine">17〜18世紀</div><div class="card">
+    <div class="tag">社会契約論<span class="when">17〜18世紀</span></div>
+    <h3>国家が人々を従わせる正しさは、どこから来るのか。</h3>
+    <p class="ans">国家は人々の合意（社会契約）によってつくられると考える。<b>ホッブズ</b>、<b>ロック</b>、<b>ルソー</b>の考えは、市民革命を支える。</p>
+    
+    <div class="left">理性そのものには、何ができ、何ができないのか。</div>
+  </div></article>
+  <article class="step"><div class="spine">18世紀後半</div><div class="card">
+    <div class="tag">カント<span class="when">18世紀後半</span></div>
+    <h3>人間の理性には、何ができて何ができないのか。</h3>
+    <p class="ans"><b>カント</b>は、経験の素材を人間の側の枠組みが整理して認識が成り立つと考える（コペルニクス的転回）。その代わり、物そのもの（物自体）は知りえないとする。</p>
+    <div class="vs"><span class="label">対立と応答</span><p class="ttl">カントが受け取った二つの問題</p><div class="pair"><div class="side"><b>合理論（デカルトら）</b>理性だけで確実な知を導ける。<span class="pb">だが、経験で確かめられないことまで決めつけてしまう。</span></div><span class="mid">×</span><div class="side"><b>経験論（ロック、ヒュームら）</b>知識はすべて経験から来る。<span class="pb">だが、因果のような必然の結びつきに根拠がなくなる。</span></div></div><p class="note">この二分は、カントを到達点とみた後の時代の整理である。</p></div>
+    <div class="left">知る主観と世界とが、分かれたまま残る。</div>
+  </div></article>
+</section>
+
+<section class="stage tr" id="turn">
+  <div class="shead"><h2>移り目<small>19世紀</small></h2><p><strong>意識から言葉へ、手がかりが移っていく途中である。</strong>理性の体系が完成し、同時にそれへの反発が起こる。</p></div>
+  <article class="step"><div class="spine">19世紀前半</div><div class="card">
+    <div class="tag">ドイツ観念論<span class="when">19世紀前半</span></div>
+    <h3>主観と世界の分裂は、乗り越えられるのか。</h3>
+    <p class="ans"><b>ヘーゲル</b>は、精神が対立と統一をくり返して高まる過程（弁証法）として、世界と歴史の全体を一つの体系にまとめる。</p>
+    <div class="vs"><span class="label">対立と応答</span><p class="ttl">体系への反発</p><div class="one"><b>ヘーゲル</b>世界と歴史の全体を一つの体系で説明する。</div><div class="down">↙ ↘</div><div class="pair"><div class="side"><b>マルクス</b>歴史を動かすのは、精神ではなく経済である。</div><span class="mid"></span><div class="side"><b>キルケゴール</b>体系は、「この私」がどう生きるかに答えない。</div></div></div>
+    <div class="left">その体系は、現実の社会や個人を見落としていないか。</div>
+  </div></article>
+  <article class="step"><div class="spine">19世紀</div><div class="card">
+    <div class="tag">マルクスと功利主義<span class="when">19世紀</span></div>
+    <h3>産業化した社会の不平等を、どうすればなくせるのか。</h3>
+    <p class="ans"><b>マルクス</b>は歴史を経済と階級闘争からとらえる。<b>ミル</b>らの功利主義は「最大多数の最大幸福」を基準とする。</p>
+    
+    <div class="left">理性や進歩への信頼そのものが、疑われ始める。</div>
+  </div></article>
+  <article class="step"><div class="spine">19世紀</div><div class="card">
+    <div class="tag">理性への疑い<span class="when">19世紀</span></div>
+    <h3>理性で割り切れない人間の生を、どうとらえるのか。</h3>
+    <p class="ans"><b>キルケゴール</b>は「この私」がどう生きるかを問う。<b>ニーチェ</b>は「神は死んだ」と述べ、自ら価値を生み出す生き方を説く。</p>
+    
+    <div class="left">確かな土台を失い、問いの立て方から見直しが迫られる。</div>
+  </div></article>
+</section>
+
+<section class="stage s4" id="language">
+  <div class="shead"><h2>言葉<small>現代：20世紀〜</small></h2><p><strong>言葉を手がかりに考える。</strong>言葉や、言葉がかたちづくる構造から問い直す（言語論的転回）。</p></div>
+  <div class="vs" style="margin:0 0 20px"><span class="label">分かれ道</span><p class="ttl">二つの流れ</p><div class="pair"><div class="side"><b>ヨーロッパ大陸：現象学から構造主義へ</b>意識の現れ方から出発し、やがて言葉や構造に目を向ける。</div><span class="mid"></span><div class="side"><b>英語圏：分析哲学</b>言葉を論理で分析し、哲学の問題を解きほぐす。</div></div><p class="note">長く互いに距離を置いてきたが、20世紀の終わりからは交流も進んでいる。</p></div>
+  <div class="lane">ヨーロッパ大陸の流れ</div>
+  <article class="step"><div class="spine">20世紀前半</div><div class="card">
+    <div class="tag">現象学と実存主義<span class="when">20世紀前半</span></div>
+    <h3>意識に現れるところから、人間の存在をどう問うのか。</h3>
+    <p class="ans"><b>フッサール</b>は物が意識にどう現れるかを記述する現象学を始め、<b>ハイデガー</b>や<b>サルトル</b>が人間の存在を問う。</p>
+    
+    <div class="left">意識や主体から出発すること自体は、正しいのか。</div>
+  </div></article>
+  <article class="step"><div class="spine">20世紀後半</div><div class="card">
+    <div class="tag">構造主義<span class="when">20世紀後半</span></div>
+    <h3>人間は、本当に自分の意思で考えているのか。</h3>
+    <p class="ans"><b>レヴィ＝ストロース</b>は、人の考えが本人の気づかない構造に支えられていることを示す。<b>フーコー</b>や<b>デリダ</b>がその見方を広げる。</p>
+    <div class="vs"><span class="label">対立と応答</span><p class="ttl">人間は自由な主体か</p><div class="pair"><div class="side"><b>サルトル（実存主義）</b>人間は自ら選んで、自分をつくる。</div><span class="mid">×</span><div class="side"><b>レヴィ＝ストロース（構造主義）</b>人の考えは、本人の気づかない構造に支えられている。</div></div><p class="note">この論争は、どちらかの勝ちで決着したわけではない。</p></div>
+    <div class="left">それでも、共に生きるためのルールをどう語るのか。</div>
+  </div></article>
+  <div class="lane">英語圏の流れ</div>
+  <article class="step"><div class="spine">20世紀前半</div><div class="card">
+    <div class="tag">分析哲学<span class="when">20世紀前半</span></div>
+    <h3>言葉は何を意味し、何を語りうるのか。</h3>
+    <p class="ans"><b>フレーゲ</b>や<b>ウィトゲンシュタイン</b>は、言葉の意味を論理で分析し、哲学の問題を言葉の使い方から解きほぐそうとする。</p>
+    
+    <div class="left">倫理や社会の大きな問いに、もう一度取り組めるのか。</div>
+  </div></article>
+  <article class="step"><div class="spine">20世紀後半〜</div><div class="card">
+    <div class="tag">正義論<span class="when">20世紀後半〜</span></div>
+    <h3>考えの異なる人々が共に生きる社会の、正しいルールとは何か。</h3>
+    <p class="ans"><b>ロールズ</b>は、自分の立場を知らない状態で人々が選ぶはずの原則として、公正な社会のルールを示し、大きな論争を呼ぶ。</p>
+    
+    <div class="left now">AIや生命科学の進展で、心とは何か、人間とは何かが改めて問われている。</div>
+  </div></article>
+</section>
+
+<div class="foot">
+  <p>時代の区分は書物によって異なる。ここでは、哲学が何を手がかりに考えたかの移り変わりを骨組みとし、古代・中世・近代・現代の名前は目印として添える。19世紀は、近代の後半とする見方と、現代思想の源流とする見方があるため、ここでは移り目として扱う。</p>
+  <p>何を手がかりに考えるかの移り変わりは、17世紀ごろの「認識論的転回」と20世紀の「言語論的転回」を区切りとする、広く使われる整理に従う。どの時代にも、ほかのものを手がかりに考える哲学者はいる。また、倫理や社会のあり方のように、どの時代にも問われ続けているテーマもある。</p>
+</div>
+</div>
+</body>
+</html>
