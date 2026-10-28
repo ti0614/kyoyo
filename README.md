@@ -15,6 +15,7 @@
 | 歴史 | 近代の日本史（詳説） | `japanese-history/modern/` |
 | 歴史 | 現代の日本史（詳説） | `japanese-history/contemporary/` |
 | 哲学 | 西洋哲学史 ― 問いの系譜 | `western-philosophy/` |
+| 数学 | 高校数学 ― 考え方の地図 | `high-school-math/` |
 | 雑談 | 人は何で考えているのか | `zatsudan/how-we-think/` |
 
 ## 構成
@@ -29,9 +30,11 @@ japanese-history/       日本史の流れ図
   modern/               近代の詳説
   contemporary/         現代の詳説
 western-philosophy/     西洋哲学史 ― 問いの系譜
+high-school-math/       高校数学 ― 考え方の地図
 zatsudan/               雑談メモ
   how-we-think/         人は何で考えているのか
 tools/                  ふりがなを付けるスクリプトと辞書
+.claude/agents/         確認役のサブエージェント（事実確認・内容確認）
 CLAUDE.md               資料作成のルール（文体・構成・ふりがな）
 ```
 

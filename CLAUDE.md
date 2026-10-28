@@ -11,9 +11,12 @@ japanese-history/early-modern/ 区分詳説：近世
 japanese-history/modern/      区分詳説：近代
 japanese-history/contemporary/ 区分詳説：現代（2020年代前半まで）
 western-philosophy/index.html 西洋哲学史 ― 問いの系譜（全時代の通史）
+high-school-math/index.html   高校数学 ― 考え方の地図（全分野の全体図）
 tools/ruby.py                 ふりがなを付けるスクリプト
 tools/ruby-dict.txt           ふりがな辞書（日本史）
 tools/ruby-dict-western-philosophy.txt ふりがな辞書（西洋哲学史）
+tools/ruby-dict-high-school-math.txt   ふりがな辞書（高校数学）
+.claude/agents/               確認役のサブエージェント（fact-checker：事実確認、content-reviewer：内容と構成）
 ```
 
 ## 進め方
@@ -83,6 +86,7 @@ tools/ruby-dict-western-philosophy.txt ふりがな辞書（西洋哲学史）
   ```
   python3 tools/ruby.py western-philosophy/index.html
   ```
+- 高校数学も同じ方式で、辞書は `tools/ruby-dict-high-school-math.txt`。数学の用語のうち読みにくいもの（漸化式・楕円など）だけに付ける。
 - 右下のボタンで、すべてのふりがなの表示を切り替えられる（設定はブラウザに保存）。新しいページにも同じボタンと CSS を入れる。
 
 ## デザイン
@@ -95,5 +99,6 @@ tools/ruby-dict-western-philosophy.txt ふりがな辞書（西洋哲学史）
 
 ## 確認
 
+- ページを書いたら、`.claude/agents/` の確認役（fact-checker と content-reviewer）に、別々に確認させる。書いた本人の見直しでは、抜けや思い込みに気づきにくいためである。指摘は鵜呑みにせず、採るかどうかを判断して直す。
 - コミット前に、Playwright でスマホ幅（375px）と PC 幅（1280px）のスクリーンショットを撮って確認する。あわせて、横スクロールが出ないこと、JS のエラーがないことを確かめる。スクリーンショットはリポジトリの外（作業用の一時フォルダ）に保存し、コミットしない。
 - 新しいページを足したら、流れ図からのリンク、`index.html`、`README.md` の資料一覧も更新する。
