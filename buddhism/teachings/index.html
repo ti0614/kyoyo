@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="仏教の教えの中心を、四諦の順に一本の筋道でたどる。苦とは何か、なぜ生まれるのか、どうすれば消えるのか。">
+<title>教えの核心 ― 仏教</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 問い → 流れ（目次）→ 四諦の順に8章（各章に図を1つ）→ まとめの筋道 → 注記 */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
+  --in:#7a6a3c; --th:#a0522d; --ma:#24476b; --vj:#7a2f3c; --jp:#2f5d4e; /* 仏教の全体像と共通 */
+  --inbg:#ece6d6; --thbg:#f1e1d6; --mabg:#dbe4ee; --vjbg:#efdde0; --jpbg:#d9e8e1;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40;
+  --in:#d6c08a; --th:#e8a47c; --ma:#8fb4dc; --vj:#e09aa6; --jp:#8fcfb6;
+  --inbg:#2b2719; --thbg:#2e2119; --mabg:#1b2533; --vjbg:#2e1c20; --jpbg:#1a2b25; color-scheme:dark}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.9;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.4}
+h1{font-size:2.1rem;font-weight:800}
+p{margin:0}
+a{color:inherit}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.lead{color:var(--muted);margin-top:8px}
+.crumb{margin:0;font-size:.85rem;display:flex;gap:14px;flex-wrap:wrap}
+.in{--c:var(--in);--cbg:var(--inbg)}.th{--c:var(--th);--cbg:var(--thbg)}.ma{--c:var(--ma);--cbg:var(--mabg)}.vj{--c:var(--vj);--cbg:var(--vjbg)}.jp{--c:var(--jp);--cbg:var(--jpbg)}
+
+.question{border-left:4px solid var(--in);background:var(--inbg);padding:14px 18px}
+.question p{font-family:var(--display);font-weight:600;font-size:1.35rem;line-height:1.5;margin-top:2px}
+
+/* 流れ（目次） */
+.overview{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.overview li{display:grid;grid-template-columns:3.2em 1fr;gap:12px;position:relative;padding:0 0 10px}
+.overview li::before{content:"";position:absolute;left:1.6em;top:1.5em;bottom:-2px;border-left:2px solid var(--line)}
+.overview li:last-child::before{display:none}
+.overview .n{display:grid;place-items:center;height:1.9em;font-family:var(--display);font-weight:600;font-size:.9rem;color:var(--c);background:var(--cbg);border:1px solid var(--c);position:relative;z-index:1}
+.overview a{text-decoration:none;line-height:1.6;padding-top:3px}
+.overview a b{font-family:var(--display);color:var(--c)}
+.overview a span{color:var(--muted);font-size:.9rem;margin-left:8px}
+
+/* 章 */
+.chapter{display:flex;flex-direction:column;gap:14px;scroll-margin-top:16px}
+.chead{border-left:4px solid var(--c);background:var(--cbg);padding:10px 14px}
+.chead .k{font-size:.78rem;font-weight:700;color:var(--c);letter-spacing:.08em}
+.chead h2{font-size:1.4rem;margin-top:.35em}
+.chapter b{color:var(--c)}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:10px;line-height:1.6}
+.fig .cap{font-size:.84rem;color:var(--muted)}
+.fig .ttl{font-family:var(--display);font-weight:600;font-size:1rem}
+.grid{display:grid;gap:8px}
+.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+.cell{background:var(--paper);border-top:3px solid var(--c);padding:8px 10px;font-size:.86rem;display:flex;flex-direction:column;gap:2px}
+.cell strong{font-family:var(--display);font-size:1.05rem;color:var(--c)}
+.cell small{font-size:.75rem;color:var(--muted)}
+.grp-h{font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.chain{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:16px 18px}
+.chain li{position:relative;background:var(--paper);border:1px solid var(--line);padding:6px 6px;text-align:center;font-size:.78rem;line-height:1.4;color:var(--muted)}
+.chain li strong{display:block;font-family:var(--display);font-size:1.05rem;color:var(--ink)}
+.chain li.key{border-color:var(--c);background:var(--cbg)}
+.chain li.key strong{color:var(--c)}
+.chain li:not(:last-child)::after{content:"▶";position:absolute;right:-14px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--muted)}
+.chain li:nth-child(6)::after{content:"";}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.side{background:var(--paper);border-top:3px solid var(--c);padding:10px 12px;font-size:.88rem}
+.side strong{display:block;font-family:var(--display);font-size:1.05rem;color:var(--c)}
+.three{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:8px;align-items:stretch}
+.three .side.mid{border:2px solid var(--c);border-top-width:3px}
+.stack{display:flex;flex-direction:column;gap:8px}
+.stack .row{display:grid;grid-template-columns:7.5em 1fr;gap:12px;background:var(--paper);border-left:3px solid var(--c);padding:8px 12px;font-size:.88rem}
+.stack .row strong{font-family:var(--display);font-size:1.05rem;color:var(--c);line-height:1.35}
+.stack .row strong small{display:block;font-family:var(--body);font-size:.75rem;color:var(--muted);font-weight:500}
+.stack .row ul{margin:0;padding-left:1.1em}
+.stack .arrow{text-align:center;font-size:.8rem;color:var(--muted)}
+.qa{display:flex;flex-direction:column;gap:10px}
+.qa div{background:var(--surface);border:1px solid var(--line);padding:12px 14px}
+.qa dt{font-family:var(--display);font-weight:600;font-size:1.02rem}
+.qa dt::before{content:"問　";color:var(--c)}
+.qa dd{margin:4px 0 0;font-size:.94rem}
+.qa dd::before{content:"答　";font-weight:700;color:var(--c)}
+
+/* まとめ */
+.sum{display:flex;flex-direction:column;gap:10px}
+.sum ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0}
+.sum li{display:grid;grid-template-columns:4.5em 1fr;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.95rem}
+.sum li span{font-family:var(--display);font-weight:600;color:var(--c)}
+.next-page{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.9rem}
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;line-height:1.75}
+.foot p{margin:0 0 4px}
+
+@media (max-width:680px){
+  h1{font-size:1.75rem}.question p{font-size:1.15rem}
+  .g4{grid-template-columns:1fr 1fr}.g3,.g5,.pair,.three{grid-template-columns:1fr}
+  .g5{grid-template-columns:1fr 1fr}
+  .chain{grid-template-columns:1fr 1fr 1fr;gap:14px 18px}
+  .chain li:nth-child(6)::after{content:"▶"}.chain li:nth-child(3n)::after{content:""}
+  .stack .row{grid-template-columns:1fr;gap:2px}
+  .overview a span{display:block;margin-left:0}
+}
+
+/* ふりがな（範囲ごとに初出のみ）。他のページと共通 */
+ruby{position:relative;display:inline}
+rt{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);white-space:nowrap;line-height:1;margin-bottom:.1em;font-family:var(--body);font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:0;text-indent:0}
+b rt{color:var(--c);opacity:.8}
+.no-ruby rt{display:none}
+:root:not(.no-ruby) .wrap :is(.fig,.qa dd,.sum li,.overview a):has(ruby){line-height:2.2}
+.furi{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:10;
+  font:inherit;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
+.furi span{color:var(--ma);margin-left:6px}
+.furi:hover,.furi:focus-visible{border-color:var(--ma);outline:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="crumb"><a href="../../">← kyoyo 目次へ</a><a href="../">仏教の全体像へ</a></p>
+<header>
+  <div class="label">仏教 ― 詳しいページ</div>
+  <h1>教えの核心</h1>
+  <p class="lead">ここでは、仏教の教えの中心を、四諦の順にたどる。苦しみとは何か、なぜ生まれるのか、どうすれば消えるのかを、一本の筋道として読めるようにする。</p>
+</header>
+
+<!--ruby-->
+<div class="question">
+  <div class="label">この教えの問い</div>
+  <p>なぜ、<ruby>執着<rt>しゅうちゃく</rt></ruby>を手放せば苦しみが消えるのか。</p>
+</div>
+<!--/ruby-->
+
+<!--ruby-->
+<nav aria-label="章の流れ">
+  <ol class="overview">
+    <li class="vj"><span class="n">一</span><a href="#c1"><b>苦</b><span>人生は思いどおりにならない</span></a></li>
+    <li class="th"><span class="n">二</span><a href="#c2"><b>苦しみの原因</b><span>求め続ける心がしがみつく</span></a></li>
+    <li class="ma"><span class="n">三</span><a href="#c3"><b><ruby><ruby>無常<rt>むじょう</rt></ruby><rt>むじょう</rt></ruby>と<ruby><ruby>無我<rt>むが</rt></ruby><rt>むが</rt></ruby></b><span>しがみつく先に、変わらないものはない</span></a></li>
+    <li class="ma"><span class="n">四</span><a href="#c4"><b><ruby><ruby>縁起<rt>えんぎ</rt></ruby><rt>えんぎ</rt></ruby></b><span>苦しみが生まれる仕組み</span></a></li>
+    <li class="jp"><span class="n">五</span><a href="#c5"><b><ruby><ruby>涅槃<rt>ねはん</rt></ruby><rt>ねはん</rt></ruby></b><span>火が吹き消された安らぎ</span></a></li>
+    <li class="in"><span class="n">六</span><a href="#c6"><b><ruby><ruby>八正道<rt>はっしょうどう</rt></ruby><rt>はっしょうどう</rt></ruby></b><span>苦しみをなくす八つの実践</span></a></li>
+    <li class="in"><span class="n">七</span><a href="#c7"><b><ruby><ruby>中道<rt>ちゅうどう</rt></ruby><rt>ちゅうどう</rt></ruby></b><span>張りすぎず、緩めすぎず</span></a></li>
+    <li class="in"><span class="n">八</span><a href="#c8"><b>よくある誤解</b><span>「無我」「涅槃」は何を意味しないか</span></a></li>
+  </ol>
+</nav>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="chapter vj" id="c1">
+  <div class="chead"><div class="k">一　<ruby>苦諦<rt>くたい</rt></ruby> ― 診断</div><h2>苦 ― 人生は思いどおりにならない</h2></div>
+  <p>仏教の出発点は、生きることには苦しみがともなうという認識である。ここでいう<b>苦</b>は、痛みや悲しみだけを指すのではない。もとの言葉（ドゥッカ）は「思いどおりにならないこと」を意味する。楽しいことも、いずれ終わる以上は苦の側面をもつとされる。</p>
+  <p><ruby>釈迦<rt>しゃか</rt></ruby>は苦しみを八つに分けて示した。生まれること、老いること、病むこと、死ぬことの四つを四苦という。これに心の苦しみ四つを加えて八苦という。日常の言葉の「<b><ruby>四苦八苦<rt>しくはっく</rt></ruby></b>」は、ここから来ている。</p>
+  <div class="fig">
+    <div class="ttl">四苦八苦</div>
+    <div class="grp-h">四苦 ― 生きる身に避けられない苦しみ</div>
+    <div class="grid g4">
+      <div class="cell"><strong>生</strong>生まれること</div>
+      <div class="cell"><strong>老</strong>老いること</div>
+      <div class="cell"><strong>病</strong>病むこと</div>
+      <div class="cell"><strong>死</strong>死ぬこと</div>
+    </div>
+    <div class="grp-h">さらに四つ ― 心の苦しみ</div>
+    <div class="grid g4">
+      <div class="cell"><strong><ruby>愛別離苦<rt>あいべつりく</rt></ruby></strong>愛する人と別れる</div>
+      <div class="cell"><strong><ruby>怨憎会苦<rt>おんぞうえく</rt></ruby></strong>嫌な相手と会わなければならない</div>
+      <div class="cell"><strong><ruby>求不得苦<rt>ぐふとくく</rt></ruby></strong>求めるものが得られない</div>
+      <div class="cell"><strong><ruby>五蘊盛苦<rt>ごうんじょうく</rt></ruby></strong>心身そのものが苦しみのもとになる</div>
+    </div>
+  </div>
+  <p>これは、人生を悲観せよという教えではない。医者が治療の前に症状を正確に見きわめるように、まず苦しみを直視することが出発点になるためである。</p>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="chapter th" id="c2">
+  <div class="chead"><div class="k">二　<ruby>集諦<rt>じったい</rt></ruby> ― 原因</div><h2>苦しみの原因 ― 求め続ける心がしがみつく</h2></div>
+  <p>では、苦しみはどこから来るのか。<ruby>釈迦<rt>しゃか</rt></ruby>は、その原因を<b><ruby>渇愛<rt>かつあい</rt></ruby></b>に求めた。のどが渇いた人が水を求め続けるように、満たされても、なお求め続ける欲望のことである。渇愛が向かう先は、快楽だけではない。「ずっと存在していたい」という願いや、逆に「消えてしまいたい」という願いも、渇愛に含まれる。</p>
+  <p>こうした心の動きを、仏教では<b><ruby>煩悩<rt>ぼんのう</rt></ruby></b>と呼ぶ。煩悩は百八あるともいわれるが、その根本は<b><ruby>三毒<rt>さんどく</rt></ruby></b>と呼ばれる三つにまとめられる。</p>
+  <div class="fig">
+    <div class="ttl">三毒 ― 煩悩の根本</div>
+    <div class="grid g3">
+      <div class="cell"><strong>貪（とん）</strong>むさぼり。好ましいものを引き寄せようとする</div>
+      <div class="cell"><strong>瞋（じん）</strong>いかり。嫌なものを押しのけようとする</div>
+      <div class="cell"><strong>痴（ち）</strong>おろかさ。ものごとのあり方を正しく知らない</div>
+    </div>
+    <p class="cap">三つめの「痴」が根にあり、そこから「貪」と「瞋」が生まれると考えられている。</p>
+  </div>
+  <p>つまり、苦しみは出来事そのものから生まれるのではない。出来事に対して、心がどうしがみつくかから生まれる。これが仏教の見立てである。</p>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="chapter ma" id="c3">
+  <div class="chead"><div class="k"><ruby>集諦<rt>じったい</rt></ruby>の土台</div><h2><ruby>無常<rt>むじょう</rt></ruby>と<ruby>無我<rt>むが</rt></ruby> ― しがみつく先に、変わらないものはない</h2></div>
+  <p>しがみつくことが、なぜ苦しみになるのか。その答えが<b>無常</b>と<b>無我</b>である。</p>
+  <p>無常とは、すべてのものは移り変わり、同じ状態にとどまらないということである。若さも健康も、人との関係も、いずれは変わる。変わるものを、変わらないものとして握りしめようとする。そのため、手放さざるをえなくなったときに苦しむ。</p>
+  <p>無我とは、変わらない「私」という実体はないということである。仏教では、人を五つの要素の集まり（<b><ruby>五蘊<rt>ごうん</rt></ruby></b>）として説明する。</p>
+  <div class="fig">
+    <div class="ttl">五蘊 ― 人を形づくる五つの要素</div>
+    <div class="grid g5">
+      <div class="cell"><strong>色</strong><small>しき</small>からだ</div>
+      <div class="cell"><strong>受</strong><small>じゅ</small>快・不快を感じる</div>
+      <div class="cell"><strong>想</strong><small>そう</small>思い浮かべる</div>
+      <div class="cell"><strong>行</strong><small>ぎょう</small>意志のはたらき</div>
+      <div class="cell"><strong>識</strong><small>しき</small>見分け、認識する</div>
+    </div>
+    <p class="cap">五つとも移り変わる。どこを探しても、変わらない「私」は見つからない。</p>
+  </div>
+  <p>「私」が固定した実体でないなら、「私のもの」へのこだわりも根拠を失う。この無常・無我に、苦しみの消えた安らぎ（<ruby>涅槃寂静<rt>ねはんじゃくじょう</rt></ruby>）を加えた三つを<b><ruby>三法印<rt>さんぼういん</rt></ruby></b>という。仏教の教えかどうかを見分ける目印とされてきた。</p>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="chapter ma" id="c4">
+  <div class="chead"><div class="k"><ruby>集諦<rt>じったい</rt></ruby>の土台</div><h2><ruby>縁起<rt>えんぎ</rt></ruby> ― 苦しみが生まれる仕組み</h2></div>
+  <p><ruby>無常<rt>むじょう</rt></ruby>と<ruby>無我<rt>むが</rt></ruby>を支えているのが、<b>縁起</b>の考え方である。あらゆるものは、ほかのものとの関係（縁）によって起こる。単独で存在するものはない。<ruby>経典<rt>きょうてん</rt></ruby>では「これがあるとき、かれがある。これが生じるとき、かれが生じる」と表されている。</p>
+  <p>縁起は、苦しみが生まれる仕組みの説明にも使われる。それを十二の段階の連鎖として示したのが<b><ruby>十二縁起<rt>じゅうにえんぎ</rt></ruby></b>である。</p>
+  <div class="fig">
+    <div class="ttl">十二縁起 ― 苦しみが生まれる連鎖</div>
+    <ol class="chain">
+      <li class="key"><strong><ruby>無明<rt>むみょう</rt></ruby></strong>正しく知らない</li>
+      <li><strong>行</strong>ぎょう・心の形成</li>
+      <li><strong>識</strong>しき・認識</li>
+      <li><strong>名色</strong>みょうしき・心と体</li>
+      <li><strong>六処</strong>ろくしょ・感覚の器官</li>
+      <li><strong>触</strong>そく・対象との接触</li>
+      <li><strong>受</strong>じゅ・快不快の感覚</li>
+      <li class="key"><strong>愛</strong>あい・渇き求める</li>
+      <li class="key"><strong>取</strong>しゅ・しがみつく</li>
+      <li><strong>有</strong>う・存在への傾き</li>
+      <li><strong>生</strong>しょう・生まれる</li>
+      <li><strong>老死</strong>ろうし・老いと死</li>
+    </ol>
+    <p class="cap">連鎖のどこかを断てば、その先は起こらない。色の付いた段階が、とくに重視される。</p>
+  </div>
+  <p>連鎖の出発点は、ものごとのあり方を知らないこと（無明）である。そこから感覚が生まれ、快・不快を感じ、それを渇き求め、しがみつく。その結果、生まれては老いて死ぬ苦しみがくり返される。逆にいえば、連鎖のどこかを断てば、その先の苦しみは起こらない。とくに無明を正しい知恵で破ることが、苦しみをなくす鍵とされる。</p>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="chapter jp" id="c5">
+  <div class="chead"><div class="k">三　<ruby>滅諦<rt>めったい</rt></ruby> ― 治癒</div><h2><ruby>涅槃<rt>ねはん</rt></ruby> ― 火が吹き消された安らぎ</h2></div>
+  <p>原因がわかれば、苦しみはなくせる。<ruby>執着<rt>しゅうちゃく</rt></ruby>が消え、苦しみがなくなった安らかな境地を<b>涅槃</b>（ニルヴァーナ）という。もとの言葉は「吹き消すこと」を意味する。燃えさかる<ruby>煩悩<rt>ぼんのう</rt></ruby>の火が、燃料を断たれて静かに消えた状態にたとえられる。</p>
+  <p>古代インドでは、生き物は死んでも生まれ変わり、それを果てしなくくり返すと考えられていた（<b><ruby>輪廻<rt>りんね</rt></ruby></b>）。仏教にとって涅槃は、この輪廻から抜け出すこと（<b><ruby>解脱<rt>げだつ</rt></ruby></b>）でもある。</p>
+  <div class="fig">
+    <div class="ttl">輪廻と解脱</div>
+    <div class="pair">
+      <div class="side vj"><strong><ruby>渇愛<rt>かつあい</rt></ruby>が残る</strong>煩悩の火が燃え続ける。生まれ変わっても、また苦しみをくり返す（輪廻）。</div>
+      <div class="side jp"><strong>渇愛が尽きる</strong>燃料を断たれた火のように、煩悩が静まる。輪廻から抜け出す（解脱・涅槃）。</div>
+    </div>
+  </div>
+  <p><ruby>釈迦<rt>しゃか</rt></ruby>は35歳ごろに悟りを開き、80歳で亡くなるまで教えを説き続けたと伝えられる。涅槃は、死後にだけ訪れるものではない。生きているうちに達しうる心のあり方としても語られている。</p>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="chapter in" id="c6">
+  <div class="chead"><div class="k">四　<ruby>道諦<rt>どうたい</rt></ruby> ― 処方</div><h2><ruby>八正道<rt>はっしょうどう</rt></ruby> ― 苦しみをなくす八つの実践</h2></div>
+  <p>苦しみをなくすための具体的な方法が、<b>八正道</b>である。八つの実践は、<b><ruby>三学<rt>さんがく</rt></ruby></b>と呼ばれる三つの柱にまとめられる。</p>
+  <div class="fig">
+    <div class="ttl">八正道と三学</div>
+    <div class="stack">
+      <div class="row"><strong>戒（かい）<small>行いを整える</small></strong><ul><li>正語：うそや悪口を言わない</li><li>正業：殺生や盗みをしない</li><li>正命：正しい手段で暮らしを立てる</li></ul></div>
+      <div class="arrow">▼ 行いが整うと、心が乱れにくくなる</div>
+      <div class="row"><strong>定（じょう）<small>心を静める</small></strong><ul><li><ruby>正精進<rt>しょうしょうじん</rt></ruby>：よいことに努める</li><li>正念：いまの自分の心と体に気づいている</li><li>正定：心を一つに集中させる</li></ul></div>
+      <div class="arrow">▼ 心が静まると、ありのままに見えてくる</div>
+      <div class="row"><strong>慧（え）<small>正しく見る</small></strong><ul><li>正見：<ruby>四諦<rt>したい</rt></ruby>を理解する</li><li><ruby>正思惟<rt>しょうしゆい</rt></ruby>：欲や怒りにとらわれずに考える</li></ul></div>
+    </div>
+  </div>
+  <p>三つは順に積み重なる。行いが整えば心が乱れにくくなり、心が静まれば、ものごとをありのままに見る知恵が育つ。その知恵が<ruby>無明<rt>むみょう</rt></ruby>を破り、<ruby>十二縁起<rt>じゅうにえんぎ</rt></ruby>の連鎖を断つ。こうして道諦は、<ruby>集諦<rt>じったい</rt></ruby>で見た苦しみの原因に、まっすぐ向き合う処方になっている。なお、正念は、現代のマインドフルネスのもとになった考え方である。</p>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="chapter in" id="c7">
+  <div class="chead"><div class="k"><ruby>八正道<rt>はっしょうどう</rt></ruby>を貫く姿勢</div><h2><ruby>中道<rt>ちゅうどう</rt></ruby> ― 張りすぎず、緩めすぎず</h2></div>
+  <p>八正道を貫く姿勢が、<b>中道</b>である。<ruby>釈迦<rt>しゃか</rt></ruby>は王子として何不自由ない暮らしを送ったのち、29歳で<ruby>出家<rt>しゅっけ</rt></ruby>した。その後、6年にわたって断食などの厳しい苦行を続けたと伝えられる。しかし、体を痛めつけても悟りは得られなかった。そこで苦行を捨てて体力を取り戻し、<b><ruby>菩提樹<rt>ぼだいじゅ</rt></ruby></b>の下で瞑想して悟りを開いたとされる。</p>
+  <div class="fig">
+    <div class="ttl">二つの極端と中道</div>
+    <div class="three">
+      <div class="side th"><strong>快楽にふける</strong>王子の暮らし。欲を満たしても、苦しみは消えない。</div>
+      <div class="side mid in"><strong>中道</strong>両極端を離れ、心身を整えて、ありのままに見る。</div>
+      <div class="side vj"><strong>苦行にふける</strong>6年の断食や荒行。体を痛めつけても、悟りは得られない。</div>
+    </div>
+  </div>
+  <p>悟りの後、釈迦がかつての修行仲間5人に最初に説いたのも、中道と<ruby>四諦<rt>したい</rt></ruby>であった（<b><ruby>初転法輪<rt>しょてんぽうりん</rt></ruby></b>）。また、修行に励みすぎて行き詰まった弟子には、「琴の弦は、張りすぎても緩めすぎても、よい音が出ない」と説いたと伝えられる。</p>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="chapter in" id="c8">
+  <div class="chead"><div class="k">まとめに代えて</div><h2>よくある誤解</h2></div>
+  <p>仏教の言葉は日常語にもなっているため、もとの意味とずれて受け取られることが多い。</p>
+  <dl class="qa">
+    <div><dt>「苦」とは、人生は不幸だという意味か。</dt><dd>思いどおりにならないという性質を指摘したものである。楽しみや喜びを否定するものではない。</dd></div>
+    <div><dt>「<ruby>無我<rt>むが</rt></ruby>」とは、自分など存在しないという意味か。</dt><dd>変わらない実体としての「私」はない、という意味である。人が考え、行い、その結果を受けることまで否定するわけではない。</dd></div>
+    <div><dt>欲は、すべて捨てなければならないのか。</dt><dd>手放すべきは、しがみつく<ruby>渇愛<rt>かつあい</rt></ruby>である。よい方向に努める意欲は、<ruby>八正道<rt>はっしょうどう</rt></ruby>の<ruby>正精進<rt>しょうしょうじん</rt></ruby>として勧められている。</dd></div>
+    <div><dt><ruby>涅槃<rt>ねはん</rt></ruby>とは、死ぬことか。</dt><dd>生きているうちに達しうる安らぎである。<ruby>釈迦<rt>しゃか</rt></ruby>の死を「<ruby>入滅<rt>にゅうめつ</rt></ruby>」や「涅槃に入る」と呼ぶため、混同されやすい。</dd></div>
+    <div><dt>仏教は、世界の始まりや死後の世界を説明するのか。</dt><dd>釈迦は、世界は永遠か、死後に何が残るかといった問いには答えなかったと伝えられる。毒矢に射られた人が、矢を抜く前に、射た者の名や矢の材料を知りたがれば、答えを得る前に死んでしまう。まず苦しみという矢を抜くことが先だ、という考えである（毒矢のたとえ）。</dd></div>
+  </dl>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section class="sum">
+  <h2 style="font-size:1.3rem"><ruby>四諦<rt>したい</rt></ruby>の筋道</h2>
+  <ol>
+    <li class="vj"><span><ruby>苦諦<rt>くたい</rt></ruby></span><p>生きることは、思いどおりにならない苦しみをともなう。</p></li>
+    <li class="th"><span><ruby>集諦<rt>じったい</rt></ruby></span><p>その原因は、求め続けてしがみつく<ruby>渇愛<rt>かつあい</rt></ruby>である。根には、<ruby>無常<rt>むじょう</rt></ruby>・<ruby>無我<rt>むが</rt></ruby>を知らない<ruby>無明<rt>むみょう</rt></ruby>がある。</p></li>
+    <li class="jp"><span><ruby>滅諦<rt>めったい</rt></ruby></span><p>渇愛が尽きれば、苦しみも消える。その安らぎが<ruby>涅槃<rt>ねはん</rt></ruby>である。</p></li>
+    <li class="in"><span><ruby>道諦<rt>どうたい</rt></ruby></span><p>そこへは、<ruby>中道<rt>ちゅうどう</rt></ruby>に立つ<ruby>八正道<rt>はっしょうどう</rt></ruby>で至る。戒・定・慧を積み重ね、知恵で無明を破る。</p></li>
+  </ol>
+  <div class="next-page"><a href="../">← 仏教の全体像へ</a></div>
+</section>
+<!--/ruby-->
+
+<div class="foot">
+  <p>釈迦の出家・悟り・死の年齢（29歳・35歳・80歳）は伝承による。異なる伝えもある。</p>
+  <p>十二縁起は、経典によって段階の数や解釈に違いがあり、後の時代に整えられた面もある。ここでは広く知られる形を示す。</p>
+  <p>八正道を三学に振り分ける方法は、一般的な整理に従う。</p>
+</div>
+</div>
+<button class="furi" type="button" aria-pressed="true">ふりがな<span>あり</span></button>
+<script>
+(function(){
+  // ふりがなの表示切り替え（設定はブラウザに保存。他のページと共通）
+  var KEY='kyoyo-ruby', root=document.documentElement, btn=document.querySelector('.furi');
+  function apply(on){
+    root.classList.toggle('no-ruby',!on);
+    btn.setAttribute('aria-pressed',String(on));
+    btn.lastChild.textContent=on?'あり':'なし';
+  }
+  var on=true;
+  try{on=localStorage.getItem(KEY)!=='off'}catch(e){}
+  apply(on);
+  btn.addEventListener('click',function(){
+    on=!on; apply(on); nudge();
+    try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}
+  });
+
+  // 長い読みが行の端で画面からはみ出す場合は、内側へずらす
+  function nudge(){
+    var edge=8, w=document.documentElement.clientWidth;
+    document.querySelectorAll('rt').forEach(function(rt){
+      rt.style.transform='';
+      var r=rt.getBoundingClientRect();
+      if(!r.width) return;
+      var dx=r.right>w-edge ? r.right-(w-edge) : r.left<edge ? r.left-edge : 0;
+      if(dx) rt.style.transform='translateX(calc(-50% - '+dx+'px))';
+    });
+  }
+  nudge();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(nudge);
+  addEventListener('resize',function(){ clearTimeout(nudge.t); nudge.t=setTimeout(nudge,250); });
+})();
+</script>
+</body>
+</html>
