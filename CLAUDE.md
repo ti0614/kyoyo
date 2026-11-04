@@ -4,7 +4,7 @@
 
 ```
 index.html                    目次
-japanese-history/index.html   日本史の流れ図（全時代の通史）
+japanese-history/index.html   日本史 ― 時代をつなぐ因果（全時代の通史。以下「流れ図」）
 japanese-history/ancient/     区分詳説：原始・古代
 japanese-history/medieval/    区分詳説：中世（構成の見本）
 japanese-history/early-modern/ 区分詳説：近世

@@ -8,7 +8,7 @@
 
 | ジャンル | 資料 | パス |
 | --- | --- | --- |
-| 歴史 | 日本史の流れ図 | `japanese-history/` |
+| 歴史 | 日本史 ― 時代をつなぐ因果 | `japanese-history/` |
 | 歴史 | 原始・古代の日本史（詳説） | `japanese-history/ancient/` |
 | 歴史 | 中世の日本史（詳説） | `japanese-history/medieval/` |
 | 歴史 | 近世の日本史（詳説） | `japanese-history/early-modern/` |
@@ -22,7 +22,7 @@
 
 ```
 index.html              目次ページ
-japanese-history/       日本史の流れ図
+japanese-history/       日本史 ― 時代をつなぐ因果
   index.html
   ancient/              原始・古代の詳説
   medieval/             中世の詳説
