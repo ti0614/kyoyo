@@ -83,6 +83,10 @@ tools/lock.py                 雑談メモを暗号化・復号するスクリ�
   ```
   python3 tools/ruby.py japanese-history/<区分>/index.html
   ```
+- 流れ図（`japanese-history/index.html`）は、時代のカード（`div.card`）1つずつを `<!--ruby-->` と `<!--/ruby-->` で囲んで単位とする。辞書は日本史と共通。
+  ```
+  python3 tools/ruby.py japanese-history/index.html
+  ```
 - 西洋哲学史は、辞書を `tools/ruby-dict-western-philosophy.txt` に分けている（日本史の辞書の語が哲学のページに当たらないように。逆も同じ）。問いのカード（`article.step`）1つずつを単位とし、カード上の小見出し（`.tag`）には付けない。人名はカタカナなので付けず、読みにくい用語だけに付ける。
   ```
   python3 tools/ruby.py western-philosophy/index.html
