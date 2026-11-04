@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="仏教の全体像。苦しみをどうなくすかという教えの骨組み、アジアへの広がりと三つの系統、日本の宗派、神道との関係を図でまとめる。">
+<title>仏教 ― 苦しみをほどく教え</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 全体像のハブページ。問い → 教えの骨組み（四諦）→ 広がりと三系統 → 日本の宗派 → 神道との関係 → 詳しいページへ */
+:root{
+  --paper:#eef0ee; --surface:#f8f9f7; --ink:#1d2326; --muted:#5d686b; --line:#c9cfcc;
+  --in:#7a6a3c; --th:#a0522d; --ma:#24476b; --vj:#7a2f3c; --jp:#2f5d4e; /* インド・上座部・大乗・チベット・日本 */
+  --inbg:#ece6d6; --thbg:#f1e1d6; --mabg:#dbe4ee; --vjbg:#efdde0; --jpbg:#d9e8e1;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15191b; --surface:#1d2326; --ink:#e4e8e6; --muted:#9aa5a7; --line:#343d40;
+  --in:#d6c08a; --th:#e8a47c; --ma:#8fb4dc; --vj:#e09aa6; --jp:#8fcfb6;
+  --inbg:#2b2719; --thbg:#2e2119; --mabg:#1b2533; --vjbg:#2e1c20; --jpbg:#1a2b25; color-scheme:dark}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:2.2rem;font-weight:800}
+h2{font-size:1.4rem}
+h3{font-size:1.05rem}
+p{margin:0}
+a{color:inherit}
+.lead{color:var(--muted);margin-top:8px;max-width:40em}
+.label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.in{--c:var(--in);--cbg:var(--inbg)}.th{--c:var(--th);--cbg:var(--thbg)}.ma{--c:var(--ma);--cbg:var(--mabg)}.vj{--c:var(--vj);--cbg:var(--vjbg)}.jp{--c:var(--jp);--cbg:var(--jpbg)}
+section{display:flex;flex-direction:column;gap:14px;scroll-margin-top:16px}
+.sec-lead{color:var(--muted);font-size:.93rem;max-width:44em}
+.more{align-self:flex-start;font-size:.88rem;font-weight:700;color:var(--c,var(--ma));text-decoration:none;border-bottom:1px solid currentColor}
+.more.soon{color:var(--muted);border-bottom-style:dashed;cursor:default}
+.box{background:var(--surface);border:1px solid var(--line);padding:14px 16px}
+
+/* 問い */
+.question{border-left:4px solid var(--in);background:var(--inbg);padding:14px 18px}
+.question p{font-family:var(--display);font-weight:600;font-size:1.35rem;line-height:1.5;margin-top:2px}
+
+/* 四諦：医者のたとえ */
+.truths{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.truth{position:relative;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--in);padding:12px;display:flex;flex-direction:column;gap:4px}
+.truth .md{font-size:.75rem;font-weight:700;color:var(--in);letter-spacing:.06em}
+.truth b{font-family:var(--display);font-size:1.15rem}
+.truth span{font-size:.88rem;color:var(--muted);line-height:1.6}
+@media (min-width:681px){.truth:not(:last-child)::after{content:"▶";position:absolute;right:-9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted)}}
+.base{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:baseline;font-size:.9rem}
+.base dt{font-family:var(--display);font-weight:600;color:var(--in);white-space:nowrap}
+.base dd{margin:0}
+
+/* 広がり：時間軸の帯 */
+.lanes{display:flex;flex-direction:column;gap:14px}
+.lane{display:grid;grid-template-columns:150px 1fr;gap:4px 16px;align-items:start}
+.lane .nm{font-family:var(--display);font-weight:600;color:var(--c);line-height:1.4}
+.lane .nm small{display:block;font-family:var(--body);font-weight:400;font-size:.78rem;color:var(--muted)}
+.track{position:relative;height:12px;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 20%);margin-top:6px}
+.bar{position:absolute;top:0;bottom:0;background:var(--c);border-radius:2px}
+.bar.fade{background:linear-gradient(90deg,var(--c) 75%,transparent)}
+.ms{grid-column:2;margin:0;padding:0;list-style:none;font-size:.84rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 14px}
+.ms li b{color:var(--ink);font-weight:500}
+.axis{display:grid;grid-template-columns:150px 1fr;gap:16px;font-size:.75rem;color:var(--muted)}
+.axis div{position:relative;height:1.2em}
+.axis div span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.axis div span:first-child{transform:none}.axis div span:last-child{transform:translateX(-100%)}
+
+/* 三系統の比較 */
+.cmp{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--surface)}
+.cmp th,.cmp td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;line-height:1.6}
+.cmp thead th{font-family:var(--display);font-size:1rem;color:var(--c);border-top:4px solid var(--c)}
+.cmp tbody th{font-weight:700;color:var(--muted);font-size:.8rem;white-space:nowrap;width:5.5em}
+.share{font-size:.84rem;color:var(--muted)}
+
+/* 日本の宗派 */
+.eras{display:flex;flex-direction:column;gap:0}
+.era{display:grid;grid-template-columns:96px 1fr;gap:0 20px}
+.era>h3{font-size:1rem;color:var(--jp);text-align:right;border-right:2px solid var(--jp);padding:6px 14px 18px 0;line-height:1.4}
+.era>h3 small{display:block;font-family:var(--body);font-weight:400;font-size:.75rem;color:var(--muted)}
+.era>.row{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;padding-bottom:18px;align-content:start}
+.era>.col{display:flex;flex-direction:column;gap:8px;padding-bottom:18px}
+.sect{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c);padding:8px 10px;font-size:.84rem;line-height:1.55}
+.sect b{display:block;font-family:var(--display);font-size:1rem}
+.sect .who{color:var(--muted)}
+.st1{--c:#8a8a7a}.st2{--c:var(--vj)}.st3{--c:var(--th)}.st4{--c:var(--ma)}.st5{--c:var(--jp)}
+.kamakura{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.kamakura .grp{display:flex;flex-direction:column;gap:6px}
+.kamakura .gh{font-size:.75rem;font-weight:700;color:var(--c);letter-spacing:.06em}
+.hiei{font-size:.84rem;color:var(--muted);border:1px dashed var(--line);padding:6px 10px}
+
+/* 神道との関係 */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stp{position:relative;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--jp);padding:12px;display:flex;flex-direction:column;gap:4px}
+.stp .when{font-size:.75rem;color:var(--jp);font-weight:700}
+.stp b{font-family:var(--display);font-size:1.1rem}
+.stp span{font-size:.86rem;color:var(--muted);line-height:1.6}
+@media (min-width:681px){.stp:not(:last-child)::after{content:"▶";position:absolute;right:-9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted)}}
+
+/* 詳しいページ */
+.pages{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pages a,.pages div{display:grid;gap:2px;height:100%;box-sizing:border-box;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c);text-decoration:none}
+.pages a:hover,.pages a:focus-visible{border-color:var(--c);outline:none}
+.pages b{font-family:var(--display);font-size:1.08rem;color:var(--c)}
+.pages span{font-size:.86rem;color:var(--muted)}
+.pages em{font-style:normal;font-size:.72rem;color:var(--muted);letter-spacing:.06em}
+
+.foot{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.foot p{margin:0 0 4px}
+
+@media (max-width:680px){
+  h1{font-size:1.8rem}.question p{font-size:1.15rem}
+  .truths,.steps{grid-template-columns:1fr}
+  .lane,.axis{grid-template-columns:1fr}.axis>i{display:none}.ms{grid-column:1}
+  .era{grid-template-columns:1fr}.era>h3{text-align:left;border-right:0;border-bottom:2px solid var(--jp);padding:0 0 2px;margin-bottom:8px}.era>h3 small{display:inline;margin-left:6px}
+  .kamakura,.pages{grid-template-columns:1fr}
+  .cmp{font-size:.82rem}.cmp th,.cmp td{padding:6px}
+}
+
+/* ふりがな（範囲ごとに初出のみ）。rt は語の中央上に重ねて置く（他のページと共通） */
+ruby{position:relative;display:inline}
+rt{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);white-space:nowrap;line-height:1;margin-bottom:.1em;font-family:var(--body);font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:0;text-indent:0}
+.no-ruby rt{display:none}
+:root:not(.no-ruby) .wrap :is(.truth span,.base dd,.ms,.cmp td,.sect,.stp span,.pages span,.hiei,.sec-lead):has(ruby){line-height:2.2}
+.furi{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:10;
+  font:inherit;font-size:.8rem;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0 / .12)}
+.furi span{color:var(--ma);margin-left:6px}
+.furi:hover,.furi:focus-visible{border-color:var(--ma);outline:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p style="margin:0;font-size:.85rem"><a href="../">← kyoyo 目次へ</a></p>
+<header>
+  <div class="label">全体像</div>
+  <h1><span style="white-space:nowrap">仏教</span> <span style="white-space:nowrap">― 苦しみをほどく教え</span></h1>
+  <p class="lead">ここでは、仏教の全体像を一枚にまとめる。教えの骨組み、アジアへの広がりと三つの系統、日本の宗派、神道との関係を順に見ていく。それぞれの詳しい話は、末尾の各ページにまとめる。</p>
+</header>
+
+<!--ruby-->
+<div class="question">
+  <div class="label">この教えの問い</div>
+  <p>人の苦しみはどこから生まれ、どうすればなくせるのか。</p>
+</div>
+<!--/ruby-->
+
+<!--ruby-->
+<section id="teaching" class="in">
+  <h2>教えの骨組み ― 四つの真理</h2>
+  <p class="sec-lead">紀元前5世紀ごろのインドで、<b><ruby>釈迦<rt>しゃか</rt></ruby></b>（ゴータマ・シッダールタ）は悟りを開き、「目覚めた人」を意味するブッダと呼ばれた。その教えの中心が<b><ruby>四諦<rt>したい</rt></ruby></b>である。病気を治す医者の手順にたとえられることが多い。</p>
+  <div class="truths">
+    <div class="truth"><span class="md">診断</span><b><ruby>苦諦<rt>くたい</rt></ruby></b><span>生きることは、思いどおりにならない苦しみをともなう。</span></div>
+    <div class="truth"><span class="md">原因</span><b><ruby>集諦<rt>じったい</rt></ruby></b><span>苦しみの原因は、ものごとへの<ruby>執着<rt>しゅうちゃく</rt></ruby>と、尽きない欲望（<ruby>渇愛<rt>かつあい</rt></ruby>）にある。</span></div>
+    <div class="truth"><span class="md">治癒</span><b><ruby>滅諦<rt>めったい</rt></ruby></b><span>執着がなくなれば、苦しみも消える。その安らぎが<ruby>涅槃<rt>ねはん</rt></ruby>である。</span></div>
+    <div class="truth"><span class="md">処方</span><b><ruby>道諦<rt>どうたい</rt></ruby></b><span>そこへ至る道が<ruby>八正道<rt>はっしょうどう</rt></ruby>である。正しい見方・行い・心の集中などの八つの実践からなる。</span></div>
+  </div>
+  <div class="box">
+    <div class="label" style="margin-bottom:6px">執着がなぜ苦しみになるのか ― 土台となる見方</div>
+    <dl class="base" style="margin:0">
+      <dt><ruby>無常<rt>むじょう</rt></ruby></dt><dd>すべてのものは移り変わる。変わるものにしがみつくから苦しむ。</dd>
+      <dt><ruby>無我<rt>むが</rt></ruby></dt><dd>変わらない「私」という実体はない。「私のもの」へのこだわりも根拠を失う。</dd>
+      <dt><ruby>縁起<rt>えんぎ</rt></ruby></dt><dd>あらゆるものは、ほかとの関係の中で成り立っている。単独で存在するものはない。</dd>
+      <dt><ruby>中道<rt>ちゅうどう</rt></ruby></dt><dd>快楽にふけることにも、厳しい苦行にも偏らない。釈迦自身が苦行を捨てて悟ったと伝えられる。</dd>
+    </dl>
+  </div>
+  <a class="more soon" aria-disabled="true">詳しく：教えの核心（準備中）</a>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section id="spread" class="ma">
+  <h2>アジアへの広がりと三つの系統</h2>
+  <p class="sec-lead"><ruby>釈迦<rt>しゃか</rt></ruby>の死後、教団は戒律の解釈などをめぐって多くの<ruby>部派<rt>ぶは</rt></ruby>に分かれた。やがて、南へ伝わった<ruby>上座部<rt>じょうざぶ</rt></ruby>仏教、北へ伝わった<ruby>大乗<rt>だいじょう</rt></ruby>仏教、大乗の後期に生まれた<ruby>密教<rt>みっきょう</rt></ruby>を受け継ぐチベット仏教の三つの流れができる。生まれたインドでは、13世紀ごろまでに仏教はほぼ姿を消した。</p>
+  <div class="lanes" role="img" aria-label="インド、南伝、北伝、チベットの四つの流れを、紀元前500年から現在までの時間軸で示した図">
+    <div class="lane in"><div class="nm">インド<small>生まれた地</small></div><div class="track"><span class="bar fade" style="left:1.5%;width:66.5%"></span></div>
+      <ul class="ms"><li><b>前5世紀ごろ</b> 釈迦が悟る</li><li><b>前3世紀</b> アショーカ王が広める</li><li><b>紀元前後</b> 大乗が興る</li><li><b>7世紀ごろ</b> 密教が生まれる</li><li><b>13世紀</b> ほぼ消える</li></ul></div>
+    <div class="lane th"><div class="nm">上座部仏教<small>南伝</small></div><div class="track"><span class="bar" style="left:10%;width:90%"></span></div>
+      <ul class="ms"><li><b>前3世紀</b> スリランカへ</li><li><b>11〜14世紀</b> ミャンマー・タイ・カンボジア・ラオスへ</li></ul></div>
+    <div class="lane ma"><div class="nm">大乗仏教<small>北伝</small></div><div class="track"><span class="bar" style="left:22%;width:78%"></span></div>
+      <ul class="ms"><li><b>1世紀ごろ</b> 中国へ</li><li><b>4世紀</b> 朝鮮半島へ</li><li><b>6世紀</b> 日本へ</li><li>ベトナムにも広まる</li></ul></div>
+    <div class="lane vj"><div class="nm">チベット仏教<small>密教を受け継ぐ</small></div><div class="track"><span class="bar" style="left:46%;width:54%"></span></div>
+      <ul class="ms"><li><b>7世紀</b> チベットへ</li><li><b>13世紀以降</b> モンゴルへ</li></ul></div>
+    <div class="axis"><i></i><div><span style="left:0">前500</span><span style="left:20%">0</span><span style="left:40%">500</span><span style="left:60%">1000</span><span style="left:80%">1500</span><span style="left:100%">2000年</span></div></div>
+  </div>
+  <div style="overflow-x:auto">
+  <table class="cmp">
+    <thead><tr><th></th><th class="th" scope="col">上座部仏教</th><th class="ma" scope="col">大乗仏教</th><th class="vj" scope="col">チベット仏教</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">目指す姿</th><td><ruby>出家<rt>しゅっけ</rt></ruby>して修行し、自ら悟る<ruby>阿羅漢<rt>あらかん</rt></ruby></td><td>自分だけでなく、すべての人の救いを願う<ruby>菩薩<rt>ぼさつ</rt></ruby></td><td>師から授かる修行で、この身のまま仏になる（<ruby>即身成仏<rt>そくしんじょうぶつ</rt></ruby>）</td></tr>
+      <tr><th scope="row"><ruby>経典<rt>きょうてん</rt></ruby></th><td>パーリ語の経典</td><td>漢訳の経典</td><td>チベット語訳の経典</td></tr>
+      <tr><th scope="row">主な地域</th><td>スリランカ・タイ・ミャンマー</td><td>中国・朝鮮半島・日本・ベトナム</td><td>チベット・モンゴル・ブータン</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="share">世界の仏教徒はおよそ5億人で、半数あまりが大乗、3〜4割が上座部、1割足らずがチベット系とする推計がある。チベット仏教は大乗仏教の一派とみることもできるが、ここでは独自の発展を遂げた流れとして分けて示す。</p>
+  <a class="more soon" aria-disabled="true">詳しく：枝分かれの歴史（準備中）</a>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section id="japan" class="jp">
+  <h2>日本の仏教 ― 宗派の流れ</h2>
+  <p class="sec-lead">日本に仏教が伝わったのは6世紀である。初めは国家を守るための学問として、平安時代には貴族の祈りとして受け入れられた。鎌倉時代になると、誰でも実践できる簡単な道を説く宗派が次々に生まれ、庶民に広まった。今の日本の主な宗派は、ほとんどがこの時期までにそろっている。</p>
+  <div class="eras">
+    <div class="era"><h3>奈良<small>8世紀</small></h3><div class="row">
+      <div class="sect st1"><b><ruby>南都六宗<rt>なんとろくしゅう</rt></ruby></b><ruby>華厳宗<rt>けごんしゅう</rt></ruby>・<ruby>法相宗<rt>ほっそうしゅう</rt></ruby>・<ruby>律宗<rt>りっしゅう</rt></ruby>など。<ruby>経典<rt>きょうてん</rt></ruby>を研究する学問の集まり<span class="who">（東大寺・興福寺など）</span></div></div></div>
+    <div class="era"><h3>平安<small>9世紀〜</small></h3><div class="row">
+      <div class="sect st5"><b><ruby>天台宗<rt>てんだいしゅう</rt></ruby></b><span class="who"><ruby>最澄<rt>さいちょう</rt></ruby></span>　法華経を中心に、さまざまな教えを学ぶ総合の道場（<ruby>比叡山<rt>ひえいざん</rt></ruby>）</div>
+      <div class="sect st2"><b><ruby>真言宗<rt>しんごんしゅう</rt></ruby></b><span class="who"><ruby>空海<rt>くうかい</rt></ruby></span>　日本の<ruby>密教<rt>みっきょう</rt></ruby>。真言と<ruby>曼荼羅<rt>まんだら</rt></ruby>による修行（<ruby>高野山<rt>こうやさん</rt></ruby>・東寺）</div></div></div>
+    <div class="era"><h3>鎌倉<small>12〜13世紀</small></h3><div class="col">
+      <div class="kamakura">
+        <div class="grp st3"><span class="gh"><ruby>念仏<rt>ねんぶつ</rt></ruby> ― <ruby>阿弥陀仏<rt>あみだぶつ</rt></ruby>にすがる</span>
+          <div class="sect st3"><b>浄土宗</b><span class="who"><ruby>法然<rt>ほうねん</rt></ruby></span></div>
+          <div class="sect st3"><b>浄土真宗</b><span class="who"><ruby>親鸞<rt>しんらん</rt></ruby></span></div>
+          <div class="sect st3"><b><ruby>時宗<rt>じしゅう</rt></ruby></b><span class="who"><ruby>一遍<rt>いっぺん</rt></ruby></span></div></div>
+        <div class="grp st4"><span class="gh">禅 ― <ruby>坐禅<rt>ざぜん</rt></ruby>で自ら目覚める</span>
+          <div class="sect st4"><b><ruby>臨済宗<rt>りんざいしゅう</rt></ruby></b><span class="who"><ruby>栄西<rt>えいさい</rt></ruby></span></div>
+          <div class="sect st4"><b><ruby>曹洞宗<rt>そうとうしゅう</rt></ruby></b><span class="who"><ruby>道元<rt>どうげん</rt></ruby></span></div></div>
+        <div class="grp st5"><span class="gh"><ruby>題目<rt>だいもく</rt></ruby> ― 法華経を唱える</span>
+          <div class="sect st5"><b><ruby>日蓮宗<rt>にちれんしゅう</rt></ruby></b><span class="who"><ruby>日蓮<rt>にちれん</rt></ruby></span></div></div>
+      </div>
+      <p class="hiei">法然・親鸞・栄西・道元・日蓮は、いずれも若いころ比叡山で学んでいる。</p></div></div>
+    <div class="era"><h3>江戸<small>17世紀</small></h3><div class="row">
+      <div class="sect st4"><b><ruby>黄檗宗<rt>おうばくしゅう</rt></ruby></b><span class="who"><ruby>隠元<rt>いんげん</rt></ruby></span>　中国の明から伝わった禅</div></div></div>
+  </div>
+  <a class="more soon" aria-disabled="true">詳しく：日本の仏教（準備中）</a>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section id="shinto" class="jp">
+  <h2>神道との関係</h2>
+  <p class="sec-lead">日本にはもともと、自然や祖先を神として祀る信仰（神道）があった。仏教はこれと争うよりも、混ざり合って共存してきた期間のほうが長い。</p>
+  <div class="steps">
+    <div class="stp"><span class="when">6世紀</span><b>受け入れをめぐる対立</b><span>仏教を受け入れる<ruby>蘇我氏<rt>そがし</rt></ruby>と、反対する<ruby>物部氏<rt>もののべし</rt></ruby>が争う。仏は「外国の神」とみられた。</span></div>
+    <div class="stp"><span class="when">奈良〜江戸</span><b><ruby>神仏習合<rt>しんぶつしゅうごう</rt></ruby></b><span>神社に寺（<ruby>神宮寺<rt>じんぐうじ</rt></ruby>）が建つ。日本の神は仏が姿を変えて現れたものだとする<ruby>本地垂迹<rt>ほんじすいじゃく</rt></ruby>説が広まる。</span></div>
+    <div class="stp"><span class="when">1868年</span><b><ruby>神仏分離<rt>しんぶつぶんり</rt></ruby></b><span>明治政府が神社と寺を切り離す。各地で寺や仏像を壊す<ruby>廃仏毀釈<rt>はいぶつきしゃく</rt></ruby>が起こる。</span></div>
+    <div class="stp"><span class="when">現在</span><b>使い分け</b><span>初詣や七五三は神社で、葬儀やお盆は寺で、という役割の分担が定着している。</span></div>
+  </div>
+  <a class="more soon" aria-disabled="true">詳しく：神仏習合と神道（準備中）</a>
+</section>
+<!--/ruby-->
+
+<!--ruby-->
+<section id="pages">
+  <h2>詳しいページ</h2>
+  <ul class="pages">
+    <li class="in"><div><em>準備中</em><b>ブッダの生涯と初期の教団</b><span>王子の<ruby>出家<rt>しゅっけ</rt></ruby>から悟り、教えを広めた旅、死後の教団の分裂まで。</span></div></li>
+    <li class="in"><div><em>準備中</em><b>教えの核心</b><span><ruby>四諦<rt>したい</rt></ruby>・<ruby>八正道<rt>はっしょうどう</rt></ruby>・<ruby>縁起<rt>えんぎ</rt></ruby>・<ruby>無常<rt>むじょう</rt></ruby>・<ruby>無我<rt>むが</rt></ruby>・<ruby>中道<rt>ちゅうどう</rt></ruby>・<ruby>涅槃<rt>ねはん</rt></ruby>を、一つずつ解きほぐす。</span></div></li>
+    <li class="ma"><div><em>準備中</em><b>枝分かれの歴史</b><span>なぜ、どのように分かれたのか。<ruby>上座部<rt>じょうざぶ</rt></ruby>・<ruby>大乗<rt>だいじょう</rt></ruby>・<ruby>密教<rt>みっきょう</rt></ruby>の考え方の違い。</span></div></li>
+    <li class="jp"><div><em>準備中</em><b>日本の仏教</b><span>伝来から鎌倉仏教、江戸の寺請制度、近現代まで。宗派の比較つき。</span></div></li>
+    <li class="jp"><div><em>準備中</em><b><ruby>神仏習合<rt>しんぶつしゅうごう</rt></ruby>と神道</b><span>千年にわたって神と仏はどう結びつき、明治にどう切り離されたか。</span></div></li>
+    <li class="th"><div><em>準備中</em><b>現代の世界の仏教</b><span>アジア各地の今の姿と、欧米に広まった禅やマインドフルネス。</span></div></li>
+  </ul>
+</section>
+<!--/ruby-->
+
+<div class="foot">
+  <p>釈迦の生没年には諸説あり、紀元前6〜5世紀説と紀元前5〜4世紀説が知られる。ここでは「紀元前5世紀ごろ」とする。</p>
+  <p>日本への仏教伝来は、538年とする説と552年とする説がある。</p>
+  <p>宗派の開創年は、何をもって開いたとみるかによって異なるため、時代の区分だけを示す。</p>
+</div>
+</div>
+<button class="furi" type="button" aria-pressed="true">ふりがな<span>あり</span></button>
+<script>
+(function(){
+  // ふりがなの表示切り替え（設定はブラウザに保存。他のページと共通）
+  var KEY='kyoyo-ruby', root=document.documentElement, btn=document.querySelector('.furi');
+  function apply(on){
+    root.classList.toggle('no-ruby',!on);
+    btn.setAttribute('aria-pressed',String(on));
+    btn.lastChild.textContent=on?'あり':'なし';
+  }
+  var on=true;
+  try{on=localStorage.getItem(KEY)!=='off'}catch(e){}
+  apply(on);
+  btn.addEventListener('click',function(){
+    on=!on; apply(on); nudge();
+    try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}
+  });
+
+  // 長い読みが行の端で画面からはみ出す場合は、内側へずらす
+  function nudge(){
+    var edge=8, w=document.documentElement.clientWidth;
+    document.querySelectorAll('rt').forEach(function(rt){
+      rt.style.transform='';
+      var r=rt.getBoundingClientRect();
+      if(!r.width) return;
+      var dx=r.right>w-edge ? r.right-(w-edge) : r.left<edge ? r.left-edge : 0;
+      if(dx) rt.style.transform='translateX(calc(-50% - '+dx+'px))';
+    });
+  }
+  nudge();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(nudge);
+  addEventListener('resize',function(){ clearTimeout(nudge.t); nudge.t=setTimeout(nudge,250); });
+})();
+</script>
+</body>
+</html>

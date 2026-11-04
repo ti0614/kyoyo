@@ -12,7 +12,8 @@
 - 次の単位ごとに、辞書の各グループを最初の1回だけ付ける:
     章の本文（section.chapter から補足を除いた部分） / 補足（details.note）1つずつ /
     冒頭の流れ（ol.overview） / なぜ次の時代へ（section.why） /
-    西洋哲学史の問いのカード（article.step）1つずつ。カード上の小見出し（.tag）には付けない
+    西洋哲学史の問いのカード（article.step）1つずつ。カード上の小見出し（.tag）には付けない /
+    <!--ruby--> と <!--/ruby--> で囲んだ範囲1つずつ（仏教のページなど、決まった構成を持たないページ用）
 - 補足の見出し（summary）には付けない。ただし人物の補足は見出しの名前に付ける。
 """
 import pathlib
@@ -109,6 +110,7 @@ def main(path):
     s = re.sub(r'<ol class="overview">.*?</ol>', lambda m: annotate(m.group(0)), s, flags=re.S)
     s = re.sub(r'<section class="why">.*?</section>', lambda m: annotate(m.group(0)), s, flags=re.S)
     s = re.sub(r'<article class="step">.*?</article>', lambda m: step(m.group(0)), s, flags=re.S)
+    s = re.sub(r'<!--ruby-->.*?<!--/ruby-->', lambda m: annotate(m.group(0)), s, flags=re.S)
     p.write_text(s, encoding='utf-8')
     print(f'{path}: ruby {s.count("<ruby>")}')
 

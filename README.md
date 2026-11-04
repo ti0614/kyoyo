@@ -15,6 +15,7 @@
 | 歴史 | 近代の日本史（詳説） | `japanese-history/modern/` |
 | 歴史 | 現代の日本史（詳説） | `japanese-history/contemporary/` |
 | 哲学 | 西洋哲学史 ― 問いの系譜 | `western-philosophy/` |
+| 宗教 | 仏教 ― 苦しみをほどく教え（全体像） | `buddhism/` |
 | 雑談 | 人は何で考えているのか | `zatsudan/how-we-think/` |
 
 ## 構成
@@ -29,6 +30,7 @@ japanese-history/       日本史の流れ図
   modern/               近代の詳説
   contemporary/         現代の詳説
 western-philosophy/     西洋哲学史 ― 問いの系譜
+buddhism/               仏教の全体像（詳しいページは順次追加）
 zatsudan/               雑談メモ
   how-we-think/         人は何で考えているのか
 tools/                  ふりがなを付けるスクリプトと辞書

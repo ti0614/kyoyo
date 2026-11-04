@@ -14,6 +14,8 @@ western-philosophy/index.html 西洋哲学史 ― 問いの系譜（全時代の
 tools/ruby.py                 ふりがなを付けるスクリプト
 tools/ruby-dict.txt           ふりがな辞書（日本史）
 tools/ruby-dict-western-philosophy.txt ふりがな辞書（西洋哲学史）
+buddhism/index.html           仏教の全体像（ハブ。詳しいページを下に足していく）
+tools/ruby-dict-buddhism.txt  ふりがな辞書（仏教）
 ```
 
 ## 進め方
@@ -82,6 +84,10 @@ tools/ruby-dict-western-philosophy.txt ふりがな辞書（西洋哲学史）
 - 西洋哲学史は、辞書を `tools/ruby-dict-western-philosophy.txt` に分けている（日本史の辞書の語が哲学のページに当たらないように。逆も同じ）。問いのカード（`article.step`）1つずつを単位とし、カード上の小見出し（`.tag`）には付けない。人名はカタカナなので付けず、読みにくい用語だけに付ける。
   ```
   python3 tools/ruby.py western-philosophy/index.html
+  ```
+- 仏教のページは決まった構成を持たないため、ふりがなを付ける範囲を `<!--ruby-->` と `<!--/ruby-->` で囲む。範囲1つずつを単位とする。
+  ```
+  python3 tools/ruby.py buddhism/index.html
   ```
 - 右下のボタンで、すべてのふりがなの表示を切り替えられる（設定はブラウザに保存）。新しいページにも同じボタンと CSS を入れる。
 
