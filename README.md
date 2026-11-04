@@ -16,8 +16,7 @@
 | 歴史 | 現代の日本史（詳説） | `japanese-history/contemporary/` |
 | 哲学 | 西洋哲学史 ― 問いの系譜 | `western-philosophy/` |
 | 宗教 | 仏教 ― 苦しみをほどく教え（全体像） | `buddhism/` |
-| 雑談 | 人は何で考えているのか | `zatsudan/how-we-think/` |
-| 雑談 | 生きる意味はどこから来るのか | `zatsudan/meaning/` |
+| 雑談 | 雑談メモ（パスワードで保護） | `zatsudan/` |
 
 ## 構成
 
@@ -32,10 +31,8 @@ japanese-history/       日本史の流れ図
   contemporary/         現代の詳説
 western-philosophy/     西洋哲学史 ― 問いの系譜
 buddhism/               仏教の全体像（詳しいページは順次追加）
-zatsudan/               雑談メモ
-  how-we-think/         人は何で考えているのか
-  meaning/              生きる意味はどこから来るのか
-tools/                  ふりがなを付けるスクリプトと辞書
+zatsudan/               雑談メモ（パスワードで暗号化。tools/lock.py）
+tools/                  ふりがなを付けるスクリプトと辞書、雑談メモの暗号化スクリプト
 CLAUDE.md               資料作成のルール（文体・構成・ふりがな）
 ```
 
