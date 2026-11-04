@@ -16,6 +16,8 @@ tools/ruby-dict.txt           ふりがな辞書（日本史）
 tools/ruby-dict-western-philosophy.txt ふりがな辞書（西洋哲学史）
 buddhism/index.html           仏教の全体像（ハブ。詳しいページを下に足していく）
 tools/ruby-dict-buddhism.txt  ふりがな辞書（仏教）
+zatsudan/                     雑談メモ（パスワードで暗号化。一覧は zatsudan/index.html）
+tools/lock.py                 雑談メモを暗号化・復号するスクリプト
 ```
 
 ## 進め方
@@ -98,6 +100,20 @@ tools/ruby-dict-buddhism.txt  ふりがな辞書（仏教）
 - 近代は区分色が藍（`--ai` と同じ）なので、補助色 `--ai` を緑（流れ図の `--g3`）に替えている。
 - 現代の「なぜ次の時代へ」は、続く時代がないため「いま問われていること」にしている。
 - 印刷は想定しない。
+
+## 雑談メモ（zatsudan/）
+
+- 雑談メモは公開しない。`zatsudan/` 以下のページ（一覧の `zatsudan/index.html` を含む）は、すべて `tools/lock.py` で暗号化してからコミットする。暗号化していない本文を、コミットにもブランチにも含めない。
+- パスワードは利用者が持っている。リポジトリやコミットメッセージ、プルリクエストには書かない。
+- 新しいメモは、リポジトリの外（作業用の一時フォルダ）で本文を書き、`zatsudan/<名前>/index.html` に置いてすぐ暗号化する。書き方は既存のメモ（復号して確認する）に合わせる。
+- 既存のメモや一覧を直すときは、復号してリポジトリの外で編集し、元の場所に戻して暗号化し直す。
+  ```
+  KYOYO_ZATSUDAN_PASS=... python3 tools/lock.py unlock zatsudan/index.html > /tmp/zatsudan-index.html
+  # 編集して zatsudan/index.html に戻したあと
+  KYOYO_ZATSUDAN_PASS=... python3 tools/lock.py lock zatsudan/index.html
+  ```
+- 目次（`index.html`）と `README.md` には雑談メモの一覧へのリンクだけを置き、個々のメモの題は書かない。
+- 一度暗号化せずに公開したページは、Git の履歴に平文が残っている（2026年11月以前の2本）。
 
 ## 確認
 
