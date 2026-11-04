@@ -17,6 +17,7 @@
 | 哲学 | 西洋哲学史 ― 問いの系譜 | `western-philosophy/` |
 | 宗教 | 仏教 ― 苦しみをほどく教え（全体像） | `buddhism/` |
 | 雑談 | 人は何で考えているのか | `zatsudan/how-we-think/` |
+| 雑談 | 生きる意味はどこから来るのか | `zatsudan/meaning/` |
 
 ## 構成
 
@@ -33,6 +34,7 @@ western-philosophy/     西洋哲学史 ― 問いの系譜
 buddhism/               仏教の全体像（詳しいページは順次追加）
 zatsudan/               雑談メモ
   how-we-think/         人は何で考えているのか
+  meaning/              生きる意味はどこから来るのか
 tools/                  ふりがなを付けるスクリプトと辞書
 CLAUDE.md               資料作成のルール（文体・構成・ふりがな）
 ```

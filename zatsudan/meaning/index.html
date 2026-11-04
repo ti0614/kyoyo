@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生きる意味はどこから来るのか</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* layout: 1カラムの短い雑談メモ。流れ → キーワード → 残った問い */
+:root{
+  --paper:#eef0ee;
+  --surface:#f8f9f7;
+  --ink:#1d2326;
+  --muted:#5d686b;
+  --line:#c9cfcc;
+  --accent:#24476b;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#15191b;--surface:#1d2326;--ink:#e4e8e6;--muted:#9aa5a7;
+    --line:#343d40;--accent:#8fb4dc;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15191b;--surface:#1d2326;--ink:#e4e8e6;--muted:#9aa5a7;
+  --line:#343d40;--accent:#8fb4dc;color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.85;font-size:16px}
+main{max-width:680px;margin:0 auto;padding:48px 20px 64px;display:flex;flex-direction:column;gap:44px}
+h1,h2{font-family:var(--display);font-weight:800;text-wrap:balance;line-height:1.4;margin:0}
+h1{font-size:clamp(1.8rem,6vw,2.4rem)}
+h2{font-size:1.25rem}
+p{margin:0}
+header{display:flex;flex-direction:column;gap:12px}
+.meta{color:var(--muted);font-size:.85rem}
+section{display:flex;flex-direction:column;gap:14px}
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:s}
+.flow > li{counter-increment:s;display:grid;grid-template-columns:2.2em 1fr;gap:4px 8px}
+.flow > li::before{content:counter(s,decimal-leading-zero);color:var(--accent);font-weight:700;font-size:.85rem;padding-top:.15em}
+.flow > li + li{border-top:1px solid var(--line);padding-top:18px}
+.flow li > div{display:flex;flex-direction:column;gap:10px}
+.flow b{display:block;font-family:var(--display);font-size:1.1rem}
+.q{border-left:3px solid var(--accent);padding:2px 0 2px 12px;font-weight:700}
+.pts{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px;color:var(--ink)}
+.pts li{font-size:.95rem}
+.kw{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.kw details{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.kw summary{cursor:pointer;padding:10px 14px;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.kw summary::-webkit-details-marker{display:none}
+.kw summary::after{content:"＋";color:var(--accent);flex-shrink:0}
+.kw details[open] summary::after{content:"－"}
+.kw summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+.kw details p{padding:0 14px 12px;font-size:.9rem;color:var(--muted);line-height:1.75}
+.qs{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.back{font-size:.85rem;color:var(--accent);text-decoration:none}
+.back:hover,.back:focus-visible{text-decoration:underline}
+footer{color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <a class="back" href="../../">← kyoyo 目次</a>
+  <p class="meta">雑談メモ ・ 2026年11月5日</p>
+  <h1>生きる意味はどこから来るのか</h1>
+  <p>『夜と霧』の要約から、ニーチェとの比較、「意味とは何か」まで。</p>
+</header>
+
+<section>
+  <ol class="flow">
+    <li><div>
+      <b>『夜と霧』と著作権</b>
+      <p class="q">本の要約は頼める？ 『夜と霧』とか。</p>
+      <ul class="pts">
+        <li>著者はオーストリアの精神科医フランクル（1905〜1997）。強制収容所を生き延び、その体験を心理学者の目で書いた。原題は『一心理学者の強制収容所体験』（1946年）。</li>
+        <li>収容者の心は、収容直後のショック、感情の麻痺、解放後の苦い失望、の3段階をたどった。</li>
+        <li>極限でも、どういう態度をとるかを選ぶ自由は最後まで残る。未来に目的がある人ほど折れにくかった。</li>
+      </ul>
+      <p class="q">こういう内容を教えて大丈夫？ 著作権は切れている？</p>
+      <ul class="pts">
+        <li>切れていない。日本では原則として死後70年まで保護されるため、2067年ごろまで続く。翻訳文も訳者の著作物として別に保護される。</li>
+        <li>著作権が守るのは文章の表現で、考え方そのものではない。自分の言葉で要点を説明するのはよく、本文を長く書き写すのはよくない。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>ニーチェとのつながり</b>
+      <p class="q">「それでも人生にイエスと言う」は、ニーチェの言葉？</p>
+      <ul class="pts">
+        <li>違う。ブーヘンヴァルト強制収容所で囚人たちが歌った歌（作詞はレーナー＝ベーダ）の一節で、フランクルが別の本の題に使った。</li>
+        <li>ただ、人生を肯定する思想はニーチェにもある。運命愛、永劫回帰、人生に「然り」と言うこと。</li>
+        <li>『夜と霧』は、なぜ生きるかを知る者はほとんどどんな苦境にも耐えられる、というニーチェの言葉（『偶像の黄昏』）を引いている。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>人生の側から問われる</b>
+      <p class="q">人生の側から問われる意味とは、どういうこと？</p>
+      <ul class="pts">
+        <li>「人生に何を期待できるか」ではなく「人生が自分に何を期待しているか」と、問いの向きを逆にする。</li>
+        <li>収容所で生きる望みを失った2人のうち、1人には帰りを待つ子どもが、もう1人には書きかけの研究書があった。代わりのいない自分に気づき、2人は力を取り戻した。</li>
+        <li>ドイツ語の「責任」には「答える」が含まれる。生きることは問いに答えることだ、とフランクルは考えた。</li>
+        <li>答え方は3つある。何かをつくること、何かを体験し誰かを愛すること、避けられない苦しみにどういう態度をとるか。</li>
+      </ul>
+      <p class="q">極限状況でも希望を失わないためのテクニック？</p>
+      <ul class="pts">
+        <li>テクニックというより、物の見方の転換である。</li>
+        <li>「良くなる」という希望とは違う。クリスマスには解放されると信じた囚人の多くが、そうならなかった直後に亡くなったという。</li>
+        <li>結果がどうであれ、今の状況にどう応えるかに意味がある。後年、フランクルはこれを「悲劇の中の楽観主義」と呼んだ。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>楽観的ニヒリズムとの違い</b>
+      <p class="q">ニーチェは楽観的ニヒリズムと言われることもある。悲劇の中の楽観主義とは違う？</p>
+      <ul class="pts">
+        <li>「楽観的ニヒリズム」は近年広まった言い方で、ニーチェ自身の言葉ではない。ニーチェは受動的ニヒリズムと能動的ニヒリズムを分け、ニヒリズムを乗り越えることを目指した。</li>
+        <li>大きな違いは意味の出どころである。ニーチェ的な立場では意味は最初からなく、自分でつくる。フランクルでは意味は状況の中にすでにあり、自分で見つける。</li>
+        <li>苦しみ・罪・死（悲劇の三要素）を含めて人生を肯定する、という点は共通している。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>意味とは何か</b>
+      <p class="q">そもそも、意味って何？</p>
+      <ul class="pts">
+        <li>言葉の意味とは別に、人生や行為の意味がある。ざっくり言えば、それをする理由になるもの、やる価値があると感じられるもの。</li>
+        <li>立場は分かれる。意味は状況の中にある（フランクル）、意味は人間がつくる（ニーチェ、サルトル）、本人が心から惹かれることと客観的な価値が重なるところに生まれる（スーザン・ウルフ）。</li>
+        <li>一つの見方として、意味とは自分と、自分を超えた何かとのつながりだ、とまとめた。</li>
+      </ul>
+      <p class="q">よくわからない。これから確実に死ぬ状況でも、生きる意味はある？</p>
+      <ul class="pts">
+        <li>フランクルの答えは「ある」。死を目前にした若い女性は、窓の外の一本の木を友と呼び、穏やかに最期を過ごしていた。</li>
+        <li>理由は2つ。何もできなくても、死にどう向き合うかは選べる。そして、生きたこと・愛したことは過去として確定し、消えない。</li>
+        <li>ただし、死ねば何も残らないので意味もない、と考える哲学者もいる。答えの分かれる問いである。</li>
+      </ul>
+    </div></li>
+    <li><div>
+      <b>今と未来、自分と他人</b>
+      <p class="q">今と未来、自分と他人。この2つは似ている？</p>
+      <ul class="pts">
+        <li>パーフィットは、未来の自分はある意味で他人に近いと考えた。未来の自分のためのがまんと、他人のためのがまんは、構造がほぼ同じになる。ネーゲルも同じ形の議論をしている。</li>
+        <li>未来の自分を考えるときの脳の働きは、他人を考えるときに似ているという研究がある（ハーシュフィールドら）。</li>
+        <li>フランクルの意味には、外（未来・他人）へのつながりと、今ここの自分の態度の両方がある、と整理できる。</li>
+      </ul>
+      <p class="q">それでは、意味の源泉がどこにあるのか、はっきりしないのでは？</p>
+      <ul class="pts">
+        <li>その通りで、フランクルへの代表的な批判である。</li>
+        <li>フランクルは最後に、意味の源泉を人間には理解しきれない「超意味」に置いた。信仰に近く、根拠は説明されていないと言われる部分である。</li>
+      </ul>
+    </div></li>
+  </ol>
+</section>
+
+<section>
+  <h2>キーワード</h2>
+  <ul class="kw">
+    <li><details><summary>ヴィクトール・フランクル『夜と霧』</summary><p>強制収容所での体験を、精神科医の目で記録した本。日本では霜山徳爾訳と、読みやすい池田香代子訳（新版）がある。</p></details></li>
+    <li><details><summary>ロゴセラピー</summary><p>フランクルが始めた心理療法。人が生きる意味を見つけることを助けて、心の回復を図る。不安をあえて望んでみる「逆説志向」などの技法もある。</p></details></li>
+    <li><details><summary>悲劇の中の楽観主義</summary><p>苦しみ・罪・死という避けられない三つ（悲劇の三要素）があっても、人生には意味があり、肯定できるとする考え方。</p></details></li>
+    <li><details><summary>運命愛（アモール・ファティ）</summary><p>起きたことを嫌々受け入れるのではなく、愛するところまで肯定するというニーチェの考え。</p></details></li>
+    <li><details><summary>永劫回帰</summary><p>この人生がまったく同じかたちで無限にくり返されるとしても、それを望めるか、とニーチェが投げかけた思考の試金石。</p></details></li>
+    <li><details><summary>受動的ニヒリズム・能動的ニヒリズム</summary><p>意味がないと知って無気力になるのが受動的、古い価値を壊して新しい価値をつくる力に変えるのが能動的。ニーチェの区別。</p></details></li>
+    <li><details><summary>超意味</summary><p>人間には理解しきれない、より大きな意味。フランクルが個々の意味の最終的な支えとして置いた考え。</p></details></li>
+    <li><details><summary>スーザン・ウルフの「意味」</summary><p>本人が心から惹かれることと、客観的にも価値があることが重なったところに意味が生まれる、という現代の哲学者の考え。</p></details></li>
+    <li><details><summary>パーフィットの人格の同一性</summary><p>未来の自分とのつながりは程度の問題にすぎない、とする議論。『理由と人格』で展開された。</p></details></li>
+    <li><details><summary>著作権の保護期間</summary><p>日本では原則として著作者の死後70年。翻訳は訳者の著作物として、原作とは別に保護される。保護されるのは表現で、考え方そのものではない。</p></details></li>
+  </ul>
+</section>
+
+<section>
+  <h2>課題</h2>
+  <ul class="qs">
+    <li>意味の源泉はどこにあるのか。「超意味」は根拠になりうるのか</li>
+    <li>意味は「見つける」ものか「つくる」ものか、それとも両方か</li>
+    <li>未来の自分が他人に近いなら、自分を大切にする理由はどう変わるのか</li>
+  </ul>
+</section>
+
+<footer>Claudeとの雑談から作成</footer>
+</main>
+</body>
+</html>
